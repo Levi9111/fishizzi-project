@@ -20,7 +20,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <nav className='bg-brand-primary fixed left-0 right-0 z-20'>
-      <div className='nav-md:flex hidden justify-between items-center max-w-fixedScreen w-full mx-auto py-2'>
+      <div className='nav-md:flex hidden justify-between items-center w-fixedScreen md:max-w-full max-w-[95%] mx-auto py-2'>
         <div className='bg-white h-[60px] flex items-center'>
           <Image src={logo} alt='logo' width={70} height={60} />
         </div>

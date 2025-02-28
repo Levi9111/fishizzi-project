@@ -76,18 +76,19 @@ const Footer = () => {
 
       {/* secondary footer */}
       <div className='border-t-2 border-gray-400 '>
-        <div className='md:max-w-full max-w-[95%] w-fixedScreen mx-auto py-6 flex items-center justify-between'>
+        <div className='md:max-w-full max-w-[95%] w-fixedScreen mx-auto py-6 flex sm:flex-row flex-col items-center justify-between'>
           <div className='flex items-center justify-start gap-3'>
             <p className='text-overlay-white text-md'>Follow Us on: </p>
-            <Link
-              href=''
+            <a
+              target='blank'
+              href='https://www.facebook.com/share/17SY7AX8H7/'
               className='border-[3px] border-overlay-white flex items-center justify-center rounded-full w-8 h-8 p-1 hover:bg-brand-secondary'
             >
               <Facebook className='text-overlay-white ' />
-            </Link>
+            </a>
           </div>
 
-          <p className='text-overlay-white text-md'>
+          <p className='text-overlay-white text-md text-center'>
             &copy; {new Date().getFullYear()} <span className=''>Fishizzy</span>
             . All right reserved.
           </p>
