@@ -14,8 +14,8 @@ const Categories = () => {
   ];
 
   return (
-    <section className='w-fixedScreen mx-auto grid grid-cols-[350px_1fr] gap-3 pb-12'>
-      <div className='space-y-2'>
+    <section className='md:max-w-full max-w-[95%] w-fixedScreen mx-auto md:grid grid-cols-[350px_1fr] gap-3 pb-12'>
+      <div className='md:space-y-2 md:block hidden'>
         {categories.map((category) => (
           <Link
             href={`/products?category=${category}`}

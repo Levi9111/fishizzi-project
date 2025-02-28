@@ -12,7 +12,7 @@ export default {
     extend: {
       colors: {
         brand: {
-          primary: '#1A75BB',
+          primary: '#0D47A1',
           secondary: '#488ECB',
           accent: '#8BC53F',
           yellow: '#FFD814',
@@ -84,6 +84,10 @@ export default {
       },
       animation: {
         scaleX: 'scaleX 200ms ease-in-out',
+      },
+      screens: {
+        'nav-xl': '1050px',
+        'nav-md': '780px',
       },
     },
   },

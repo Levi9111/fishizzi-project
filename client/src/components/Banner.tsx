@@ -25,7 +25,7 @@ const informations = [
 
 const Banner = () => {
   return (
-    <div className='w-fixedScreen mx-auto grid grid-cols-4 gap-5'>
+    <div className='md:max-w-full max-w-[95%] w-fixedScreen mx-auto grid md:grid-cols-4 md:gap-5 gap-2'>
       {informations.map((info) => (
         <div
           className='flex items-center justify-start gap-2 rounded-md shadow-close transition-all duration-300 p-3'

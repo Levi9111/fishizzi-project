@@ -8,6 +8,7 @@ const Communicate = () => {
           <p className='text-md font-semibold'>
             Place your order for any product by giving us a call or reaching out
             on WhatsApp: <span className='underline'>+8801329766940</span>
+            .&nbsp;
           </p>
         </Marquee>
       </div>

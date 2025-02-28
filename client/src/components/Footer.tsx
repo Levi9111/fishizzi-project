@@ -8,33 +8,25 @@ import { Button } from './ui/button';
 const Footer = () => {
   return (
     <footer className='bg-brand-primary'>
-      <div className='w-fixedScreen mx-auto grid grid-cols-[350px_1fr_1fr] gap-10 py-10 text-overlay-white'>
+      <div className='md:max-w-full max-w-[95%] w-fixedScreen mx-auto md:grid md:grid-cols-[350px_1fr_1fr] md:gap-10 md:py-10 text-overlay-white md:my-0 my-3 flex flex-col gap-4'>
         <div className='flex items-start justify-start  flex-col'>
-          <div className='bg-white w-16 h-16 mb-4'>
-            <Image
-              src={logo}
-              alt='logo'
-              width={120}
-              height={120}
-              className='w-full h-full'
-            />
-          </div>
+          <Image src={logo} alt='logo' width={120} height={120} />
           <p className='text-md'>
             Fishizzy is an online shop offering a wid range of dried freshwater
             and saltwater fish.
           </p>
 
-          <p className='mt-4'>
+          <p className='md:mt-4'>
             Contact:{' '}
             <span className='opacity-70 underline hover:text-brand-accent hover:opacity-60 transition-all duration-150'>
-              <Link href=''>000 111 222</Link>
+              <Link href=''>01329766940</Link>
             </span>
           </p>
         </div>
 
-        <div className='px-6'>
+        <div className='md:px-6'>
           <h3 className='font-semibold text-2xl mb-3'>Company</h3>
-          <div className='flex items-start justify-start gap-32'>
+          <div className='flex md:flex-row flex-col items-start justify-start md:gap-32 gap-2'>
             <ul className='text-md space-y-2'>
               <li>
                 <Link href=''>About Us</Link>
@@ -62,7 +54,7 @@ const Footer = () => {
         </div>
 
         {/* newsletter */}
-        <form action='' className='px-6'>
+        <form action='' className='md:px-6'>
           <h3 className='font-semibold text-2xl mb-3'>
             Subscribe to our newsletter
           </h3>
@@ -84,7 +76,7 @@ const Footer = () => {
 
       {/* secondary footer */}
       <div className='border-t-2 border-gray-400 '>
-        <div className='w-fixedScreen mx-auto py-6 flex items-center justify-between'>
+        <div className='md:max-w-full max-w-[95%] w-fixedScreen mx-auto py-6 flex items-center justify-between'>
           <div className='flex items-center justify-start gap-3'>
             <p className='text-overlay-white text-md'>Follow Us on: </p>
             <Link

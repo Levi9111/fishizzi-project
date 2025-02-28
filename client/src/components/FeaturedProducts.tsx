@@ -29,15 +29,15 @@ const products = [
 
 const FeaturedProducts = () => {
   return (
-    <div className='w-fixedScreen mx-auto pb-10'>
-      <div className='flex flex-col items-center justify-center rounded-md shadow-close mt-14 mb-4 w-96 py-6 mx-auto'>
+    <div className='md:max-w-full max-w-[95%] w-fixedScreen mx-auto pb-10'>
+      <div className='flex flex-col items-center justify-center rounded-md shadow-close mt-14 mb-4 max-w-96 w-full py-6 mx-auto'>
         <h3 className='text-center text-3xl  uppercase'>Products</h3>
         <p className='text-center text-xl uppercase '>
           Find your preferred shutki
         </p>
       </div>
 
-      <div className='grid grid-cols-4 gap-6 border-t-2 pt-6'>
+      <div className='grid md:grid-cols-4 gap-6 border-t-2 pt-6'>
         {products.map((product, i) => (
           <div
             className='group hover:shadow-spread shadow-close transition-all duration-300 relative'
@@ -61,7 +61,7 @@ const FeaturedProducts = () => {
                 View Product
               </Link>
             </div>
-            <div className='p-4 relative z-20 bg-white'>
+            <div className='p-4 relative z-10 bg-white'>
               <div className=''>
                 <p className='text-sm'>{product.title}</p>
                 <p className='text-xl font-semibold'>&#2547; {product.price}</p>
