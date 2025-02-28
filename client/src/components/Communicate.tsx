@@ -7,7 +7,12 @@ const Communicate = () => {
         <Marquee pauseOnHover>
           <p className='text-md font-semibold'>
             Place your order for any product by giving us a call or reaching out
-            on WhatsApp: <span className='underline'>+8801329766940</span>
+            on WhatsApp:{' '}
+            <span className='underline'>
+              <a target='_blank' href='https://wa.me/01626974685'>
+                +8801329766940
+              </a>
+            </span>
             .&nbsp;
           </p>
         </Marquee>

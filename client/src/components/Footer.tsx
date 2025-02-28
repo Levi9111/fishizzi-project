@@ -19,7 +19,9 @@ const Footer = () => {
           <p className='md:mt-4'>
             Contact:{' '}
             <span className='opacity-70 underline hover:text-brand-accent hover:opacity-60 transition-all duration-150'>
-              <Link href=''>01329766940</Link>
+              <a target='_blank' href='https://wa.me/01626974685'>
+                +8801329766940
+              </a>
             </span>
           </p>
         </div>
