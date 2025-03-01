@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import validateRequest from '../../middleware/validateRequest';
 import { ProductValidations } from './products.validation';
-import { fileUploader } from '../../../helpers/fileUploader';
+import { fileUploader } from '../../utils/fileUploader';
 import { ProductsControllers } from './products.controller';
 
 const router = Router();

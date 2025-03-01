@@ -7,6 +7,7 @@ import {
   UploadApiResponse,
 } from 'cloudinary';
 
+// Todo: replace secrets
 cloudinary.config({
   cloud_name: 'drh6r56bb',
   api_key: '748277839385856',

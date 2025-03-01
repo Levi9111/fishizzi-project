@@ -2,10 +2,11 @@
 import { Request } from 'express';
 import { TProduct } from './products.interface';
 import { Products } from './products.model';
-import { fileUploader } from '../../../helpers/fileUploader';
+import { fileUploader } from '../../utils/fileUploader';
 import AppError from '../../errors/AppError';
 import { StatusCodes } from 'http-status-codes';
 import QueryBuilder from '../../builder/Querybuilder';
+import { productSearchFields } from './products.constant';
 
 const createProductIntoDB = async (req: Request) => {
   if (req.file) {
@@ -38,7 +39,7 @@ const updateProductIntoDB = async (id: string, payload: Partial<TProduct>) => {
 const getAllProductsFromDB = async (query: Record<string, unknown>) => {
   console.log(query);
   const productQuery = new QueryBuilder(Products.find(), query)
-    .search(['name', 'category'])
+    .search(productSearchFields)
     .filter()
     .sort()
     .fields()
