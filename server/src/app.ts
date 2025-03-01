@@ -12,7 +12,8 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/api/vi', router);
+// application routes
+app.use('/api/v1', router);
 
 const test = (req: Request, res: Response) => {
   const message = 'Fishizzy Web server';
