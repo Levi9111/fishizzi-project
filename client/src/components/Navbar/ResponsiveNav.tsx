@@ -7,9 +7,11 @@ import { Button } from '../ui/button';
 import Link from 'next/link';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { useUser } from '@/ContextProvider/Provider';
 
 const ResponsiveNav = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useUser();
 
   return (
     <div className='nav-md:hidden grid grid-cols-[70px_1fr] gap-2 p-2 relative '>
@@ -33,7 +35,9 @@ const ResponsiveNav = () => {
             <span className='block w-[2px] h-4 rounded-xl bg-overlay-white'></span>
 
             <button>
-              <User />
+              <Link href='/login'>
+                <User />
+              </Link>
             </button>
           </div>
         </div>

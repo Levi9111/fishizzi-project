@@ -63,7 +63,9 @@ const DesktopNav = () => {
         </div>
 
         <button>
-          <User />
+          <Link href='/login'>
+            <User />
+          </Link>
         </button>
         {/* <button>
           <HelpCircle />
