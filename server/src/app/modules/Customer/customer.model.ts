@@ -1,6 +1,5 @@
 import { Schema, model } from 'mongoose';
 import { CustomerModel, TCustomer, TUserName } from './customer.interface';
-import { Gender } from '../Admin/admin.constant';
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -41,7 +40,7 @@ const customerSchema = new Schema<TCustomer, CustomerModel>(
     gender: {
       type: String,
       enum: {
-        values: Gender,
+        values: ['male', 'female'],
         message: '{VALUE} is not a valid gender',
       },
       required: [true, 'Gender is required'],

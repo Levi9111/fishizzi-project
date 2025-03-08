@@ -18,7 +18,7 @@ router.post(
 );
 
 router.patch(
-  '/update-product',
+  '/update-product/:id',
   validateRequest(ProductValidations.updateProductValidationSchema),
   ProductsControllers.updateProduct,
 );
@@ -27,6 +27,6 @@ router.get('/', ProductsControllers.getAllProducts);
 
 router.get('/:id', ProductsControllers.getSingleProduct);
 
-router.patch('/:id', ProductsControllers.deleteProduct);
+router.delete('/:id', ProductsControllers.deleteProduct);
 
 export const ProuductRoutes = router;

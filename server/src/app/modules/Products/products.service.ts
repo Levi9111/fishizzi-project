@@ -37,7 +37,6 @@ const updateProductIntoDB = async (id: string, payload: Partial<TProduct>) => {
 };
 
 const getAllProductsFromDB = async (query: Record<string, unknown>) => {
-  console.log(query);
   const productQuery = new QueryBuilder(Products.find(), query)
     .search(productSearchFields)
     .filter()
@@ -46,7 +45,6 @@ const getAllProductsFromDB = async (query: Record<string, unknown>) => {
     .paginate();
 
   const result = await productQuery?.modelQuery;
-  console.log(result);
   return result;
 };
 
