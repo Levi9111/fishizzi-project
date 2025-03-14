@@ -8,8 +8,8 @@ import { Button } from './ui/button';
 const Footer = () => {
   return (
     <footer className='bg-brand-primary'>
-      <div className='md:max-w-full max-w-[95%] w-fixedScreen mx-auto md:grid md:grid-cols-[350px_1fr_1fr] md:gap-10 md:py-10 text-overlay-white md:my-0 my-3 flex flex-col gap-4'>
-        <div className='flex items-start justify-start  flex-col'>
+      <div className='md:max-w-full max-w-[95%] w-fixedScreen mx-auto md:grid md:grid-cols-3 md:gap-10 md:py-10 text-overlay-white md:my-0 my-3 flex flex-col gap-4'>
+        <div className=''>
           <Image src={logo} alt='logo' width={120} height={120} />
           <p className='text-md'>
             Fishizzy is an online shop offering a wid range of dried freshwater
@@ -25,36 +25,21 @@ const Footer = () => {
             </span>
           </p>
         </div>
-
-        <div className='md:px-6'>
-          <h3 className='font-semibold text-2xl mb-3'>Company</h3>
-          <div className='flex md:flex-row flex-col items-start justify-start md:gap-32 gap-2'>
-            <ul className='text-md space-y-2'>
-              <li>
-                <Link href=''>About Us</Link>
-              </li>
-              <li>
-                <Link href=''>Return Policy</Link>
-              </li>
-              <li>
-                <Link href=''>Refund Policy</Link>
-              </li>
-            </ul>
-
-            <ul className='text-md space-y-2'>
-              <li>
-                <Link href=''>Privacy Policy</Link>
-              </li>
-              <li>
-                <Link href=''>Delivery Policy</Link>
-              </li>
-              <li>
-                <Link href=''>Terms & Conditions</Link>
-              </li>
-            </ul>
+        <div className='md:px-6 flex justify-center'>
+          <div className=''>
+            <h3 className='font-semibold text-2xl mb-3'>Company</h3>
+            <div className='flex md:flex-row flex-col items-start justify-start md:gap-32 gap-2'>
+              <ul className='text-md space-y-2'>
+                <li>
+                  <Link href='about'>About Us</Link>
+                </li>
+                <li>
+                  <Link href='policy'>Policy & Conditions</Link>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-
         {/* newsletter */}
         <form action='' className='md:px-6'>
           <h3 className='font-semibold text-2xl mb-3'>

@@ -1,3 +1,4 @@
+'use client';
 import Image from 'next/image';
 import logo from '../../../public/logo/logo.png';
 
@@ -5,10 +6,12 @@ import { Search, ShoppingCart, Truck, User } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import Link from 'next/link';
+import { useUser } from '@/ContextProvider/Provider';
 
 // TODO: Add HelpCircle functionality later for user support
 // import { HelpCircle } from 'lucide-react';
 const DesktopNav = () => {
+  const { user } = useUser();
   return (
     <div className='nav-md:flex hidden justify-between items-center w-fixedScreen md:max-w-full max-w-[95%] mx-auto py-2'>
       <div className='bg-white h-[60px] flex items-center'>
@@ -61,10 +64,20 @@ const DesktopNav = () => {
         <div className='flex items-center justify-between gap-2 text-overlay-white border border-overlay-white rounded-md px-3 py-[2px] cursor-pointer hover:bg-blue-50 hover:bg-opacity-40 transition-all duration-300'>
           <p className='text-xl'>বাংলা</p>
         </div>
-
         <button>
           <Link href='/login'>
-            <User />
+            {user ? (
+              <Image
+                src={user.image}
+                alt={user.name}
+                width={40}
+                height={40}
+                className='rounded-full'
+                title={user.name}
+              />
+            ) : (
+              <User />
+            )}
           </Link>
         </button>
         {/* <button>

@@ -5,12 +5,12 @@ import { CarouselProducts } from './CarouselProducts';
 
 const Categories = () => {
   const categories = [
-    'category-1',
-    'category-2',
-    'category-3',
-    'category-4',
-    'category-5',
-    'category-6',
+    'Loitta',
+    'Chepa',
+    'Churi',
+    'Domestic dried fish',
+    'Marine dried fish',
+    'Delicious dried fish',
   ];
 
   return (
@@ -18,7 +18,7 @@ const Categories = () => {
       <div className='md:space-y-2 md:block hidden'>
         {categories.map((category) => (
           <Link
-            href={`/products?category=${category}`}
+            href={`/products?category=${category.toLocaleLowerCase()}`}
             className='capitalize flex items-center justify-between text-gray-800 '
             key={category}
           >

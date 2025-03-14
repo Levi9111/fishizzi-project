@@ -1,5 +1,4 @@
 'use client';
-import * as React from 'react';
 import Autoplay from 'embla-carousel-autoplay';
 
 import { Card, CardContent } from '@/components/ui/card';
@@ -11,16 +10,15 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 
-import banner1 from '../../public/images/banner-image/banner-img-1.png';
-import banner2 from '../../public/images/banner-image/banner-img-2.png';
+import banner1 from '../../public/images/banner-image/banner-img-1.jpeg';
+import banner2 from '../../public/images/banner-image/banner-img-2.jpeg';
 import banner3 from '../../public/images/banner-image/banner-img-3.png';
 import Image from 'next/image';
+import { useRef } from 'react';
 
 const imgData = [banner1, banner2, banner3];
 export function CarouselImage() {
-  const plugin = React.useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: true }),
-  );
+  const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
 
   return (
     <Carousel
@@ -32,16 +30,16 @@ export function CarouselImage() {
         {imgData.map((img, index) => (
           <CarouselItem key={index}>
             <Card className='border-0'>
-              <CardContent className='flex items-center justify-center p-0'>
-                <span className='text-4xl font-semibold'>
+              <CardContent className='flex items-center justify-center p-0 w-ful'>
+                <div className='w-full'>
                   <Image
                     src={img}
                     alt='Banner img'
-                    width={1200}
-                    height={200}
-                    className='w-full h-full'
+                    width={1400}
+                    height={400}
+                    className='w-full md:h-[300px]'
                   />
-                </span>
+                </div>
               </CardContent>
             </Card>
           </CarouselItem>

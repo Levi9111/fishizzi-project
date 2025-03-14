@@ -1,28 +1,36 @@
 'use client';
 
+import { TUser } from '@/Interface';
 import { createContext, useContext, useState, ReactNode } from 'react';
-
-interface TUser {
-  id?: string;
-  name: string;
-  email: string;
-  image: string;
-  provider: string;
-}
 
 interface UserContextType {
   user: TUser | null;
-  setUser: (user: TUser) => void;
+  setUser: (user: TUser | null) => void;
   base_url: string;
+  admin_email: string;
+  globalMessage: string;
+  setGlobalMessage: (message: string) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const Provider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<TUser | null>(null);
+  const [globalMessage, setGlobalMessage] = useState('');
   const base_url = process.env.NEXT_PUBLIC_BASE_URL!;
+  const admin_email = process.env.NEXT_PUBLIC_ADMIN_EMAIL!;
+
   return (
-    <UserContext.Provider value={{ user, setUser, base_url }}>
+    <UserContext.Provider
+      value={{
+        user,
+        setUser,
+        base_url,
+        admin_email,
+        globalMessage,
+        setGlobalMessage,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

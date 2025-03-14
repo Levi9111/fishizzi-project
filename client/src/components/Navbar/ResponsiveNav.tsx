@@ -36,7 +36,18 @@ const ResponsiveNav = () => {
 
             <button>
               <Link href='/login'>
-                <User />
+                {user ? (
+                  <Image
+                    src={user.image}
+                    alt={user.name}
+                    width={40}
+                    height={40}
+                    className='rounded-full'
+                    title={user.name}
+                  />
+                ) : (
+                  <User />
+                )}
               </Link>
             </button>
           </div>
