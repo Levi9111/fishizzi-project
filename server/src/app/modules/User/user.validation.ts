@@ -25,7 +25,15 @@ const updateUserValidationSchema = z.object({
   }),
 });
 
+const updateUserAddressValidationSchema = z.object({
+  body: z.object({
+    userId: z.string(),
+    newAddressId: z.string(),
+  }),
+});
+
 export const UserValidations = {
   createUserValidationSchema,
   updateUserValidationSchema,
+  updateUserAddressValidationSchema,
 };

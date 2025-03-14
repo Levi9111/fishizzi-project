@@ -17,6 +17,12 @@ router.patch(
   UserControllers.updateUser,
 );
 
+router.patch(
+  '/update-address',
+  validateRequest(UserValidations.updateUserAddressValidationSchema),
+  UserControllers.updateUserAddress,
+);
+
 router.get('/', UserControllers.getAllUsers);
 
 router.get('/:id', UserControllers.getSingleUser);

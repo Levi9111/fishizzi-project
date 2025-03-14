@@ -72,10 +72,26 @@ const blockUser = catchAsync(async (req, res) => {
   });
 });
 
+const updateUserAddress = catchAsync(async (req, res) => {
+  const { userId, newAddressId } = req.body;
+  const result = await UserServices.updateUserAddressIntoDB(
+    userId,
+    newAddressId,
+  );
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Address added successfully',
+    data: result,
+  });
+});
+
 export const UserControllers = {
   createUser,
   updateUser,
   getAllUsers,
   getSingleUser,
   blockUser,
+  updateUserAddress,
 };

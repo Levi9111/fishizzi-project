@@ -9,7 +9,7 @@ const userSchema = new Schema<TUserData>(
     provider: { type: String, enum: ['facebook', 'google'], required: true },
     status: { type: String, enum: ['active', 'blocked'], default: 'active' },
     phoneNumber: { type: String, required: false },
-    address: { type: [String], default: null },
+    address: { type: [String], default: [] },
   },
   { timestamps: true },
 );

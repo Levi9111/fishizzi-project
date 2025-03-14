@@ -6,6 +6,7 @@ import { TUserData } from './user.interface';
 import { User } from './user.model';
 import QueryBuilder from '../../builder/Querybuilder';
 import { userSearchableFields } from './user.constant';
+import { Types } from 'mongoose';
 
 const createUserIntoDB = async (payload: TUserData) => {
   const result = await User.create(payload);
@@ -69,10 +70,28 @@ const blockUserFromDB = async (id: string) => {
   return result;
 };
 
+const updateUserAddressIntoDB = async (
+  userId: string,
+  newAddressId: Types.ObjectId,
+) => {
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    { $push: { address: newAddressId } },
+    { new: true },
+  );
+
+  if (!updatedUser) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
+  }
+
+  return updatedUser;
+};
+
 export const UserServices = {
   createUserIntoDB,
   updateUserIntoDB,
   getAllUsersFromDB,
   getUserByIdFromDB,
   blockUserFromDB,
+  updateUserAddressIntoDB,
 };
