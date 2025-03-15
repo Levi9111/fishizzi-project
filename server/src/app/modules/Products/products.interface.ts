@@ -1,8 +1,8 @@
 export type TProduct = {
   name: string;
   description: string;
-  price: number;
-  stock: number;
+  price: string;
+  stock: string;
   category: string;
   productImgUrl?: string;
   isDeleted?: boolean;

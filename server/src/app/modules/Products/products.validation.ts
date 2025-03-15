@@ -11,20 +11,13 @@ const createProductValidationSchema = z.object({
 
       description: z.string().trim().optional(),
 
-      price: z
-        .number({
-          invalid_type_error: 'Price must be a number',
-          required_error: 'Price is required',
-        })
-        .positive('Price must be a positive number'),
+      price: z.string({
+        required_error: 'Price is required',
+      }),
 
-      stock: z
-        .number({
-          invalid_type_error: 'Stock must be a number',
-          required_error: 'Stock is required',
-        })
-        .int('Stock must be an integer')
-        .min(0, 'Stock cannot be negative'),
+      stock: z.string({
+        required_error: 'Stock is required',
+      }),
 
       category: z.string().trim().min(1, 'Category is required'),
 
@@ -51,26 +44,9 @@ const updateProductValidationSchema = z.object({
 
       description: z.string().trim().optional(),
 
-      price: z
-        .number({
-          invalid_type_error: 'Price must be a number',
-        })
-        .positive('Price must be a positive number')
-        .optional(),
+      price: z.string({}).optional(),
 
-      stock: z
-        .number({
-          invalid_type_error: 'Stock must be a number',
-        })
-        .int('Stock must be an integer')
-        .min(0, 'Stock cannot be negative')
-        .optional(),
-
-      // productImgUrl: z
-      //   .string()
-      //   .url('Invalid image URL')
-      //   .optional()
-      //   .or(z.literal('')),
+      stock: z.string({}).optional(),
     }),
   }),
 });

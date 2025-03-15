@@ -9,6 +9,7 @@ import QueryBuilder from '../../builder/Querybuilder';
 import { productSearchFields } from './products.constant';
 
 const createProductIntoDB = async (req: Request) => {
+  console.log(req.file);
   if (req.file) {
     const uploadToCloudinary = await fileUploader.uploadToCloudinary(req.file);
     req.body.product.productImgUrl = uploadToCloudinary.secure_url;

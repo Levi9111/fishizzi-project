@@ -16,11 +16,11 @@ const productSchema = new Schema<TProduct>(
       maxlength: [500, 'Description can not be more than 500 characters'],
     },
     price: {
-      type: Number,
+      type: String,
       required: [true, 'Price is required'],
     },
     stock: {
-      type: Number,
+      type: String,
       required: [true, 'Stock is required'],
     },
     category: {
