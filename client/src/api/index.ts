@@ -15,9 +15,20 @@ export const manageUserData = async (
   return data;
 };
 
-export const manageUserAddress = async (
+export const getDataFromDB = async (url: string) => {
+  const res = await fetch(url, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  const data = await res.json();
+
+  return data;
+};
+
+export const postToDB = async (
   url: string,
-  payload: Record<string, unknown>,
+  payload: Record<string, unknown> | FormData,
 ) => {
   const response = await fetch(url, {
     method: 'POST',
@@ -32,7 +43,7 @@ export const manageUserAddress = async (
   return result;
 };
 
-export const updateUserAddress = async (
+export const updateInfoIntoDB = async (
   url: string,
   payload: Record<string, unknown>,
 ) => {

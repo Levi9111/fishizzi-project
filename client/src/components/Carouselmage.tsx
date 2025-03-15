@@ -13,10 +13,13 @@ import {
 import banner1 from '../../public/images/banner-image/banner-img-1.jpeg';
 import banner2 from '../../public/images/banner-image/banner-img-2.jpeg';
 import banner3 from '../../public/images/banner-image/banner-img-3.png';
+import banner4 from '../../public/images/banner-image/banner-img-4.jpeg';
+import banner5 from '../../public/images/banner-image/banner-img-5.jpeg';
+import banner6 from '../../public/images/banner-image/banner-img-6.jpeg';
 import Image from 'next/image';
 import { useRef } from 'react';
 
-const imgData = [banner1, banner2, banner3];
+const imgData = [banner1, banner2, banner3, banner4, banner5, banner6];
 export function CarouselImage() {
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
 

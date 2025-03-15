@@ -5,12 +5,16 @@ import { CarouselProducts } from './CarouselProducts';
 
 const Categories = () => {
   const categories = [
-    'Loitta',
-    'Chepa',
-    'Churi',
     'Domestic dried fish',
     'Marine dried fish',
     'Delicious dried fish',
+    'Premium Dry Fish',
+    'Raw fish',
+    'Balachao',
+    'Fish Chips',
+    'Recipe Book',
+    'Combo package',
+    'Dry Fish Gift Box',
   ];
 
   return (

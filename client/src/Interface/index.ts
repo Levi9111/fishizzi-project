@@ -1,3 +1,16 @@
+export interface Product {
+  name: string;
+  description: string;
+  price: string;
+  stock: string;
+  category: string;
+}
+
+export interface InputChangeEvent
+  extends React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> {
+  target: HTMLInputElement | (HTMLTextAreaElement & EventTarget);
+}
+
 export interface TUser {
   _id: string;
   name: string;

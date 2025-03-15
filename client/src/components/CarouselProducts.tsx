@@ -22,10 +22,11 @@ import image8 from '../../public/images/shutki-images/8.jpg';
 import image9 from '../../public/images/shutki-images/9.jpg';
 import image10 from '../../public/images/shutki-images/10.jpg';
 import image11 from '../../public/images/shutki-images/11.jpg';
-import image12 from '../../public/images/shutki-images/12.jpg';
+import image12 from '../../public/images/shutki-images/12.jpeg';
+
 import image13 from '../../public/images/shutki-images/13.jpg';
-import image14 from '../../public/images/shutki-images/14.jpg';
-import image15 from '../../public/images/shutki-images/15.jpg';
+import image14 from '../../public/images/shutki-images/14.jpeg';
+import image15 from '../../public/images/shutki-images/15.jpeg';
 
 export function CarouselProducts() {
   const plugin = React.useRef(

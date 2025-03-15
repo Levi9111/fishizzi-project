@@ -25,7 +25,7 @@ const Footer = () => {
             </span>
           </p>
         </div>
-        <div className='md:px-6 flex justify-center'>
+        <div className='md:px-6 flex md:justify-center'>
           <div className=''>
             <h3 className='font-semibold text-2xl mb-3'>Company</h3>
             <div className='flex md:flex-row flex-col items-start justify-start md:gap-32 gap-2'>

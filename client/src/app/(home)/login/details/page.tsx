@@ -1,5 +1,5 @@
 'use client';
-import AdminContorlPage from '@/components/LoginComponents/AdminContorlPage';
+import AdminContorlPage from '@/components/AdminComponents/AdminContorlPage';
 import UserDetailsPage from '@/components/LoginComponents/UserDetailsPage';
 import { useUser } from '@/ContextProvider/Provider';
 import { useRouter } from 'next/navigation';
