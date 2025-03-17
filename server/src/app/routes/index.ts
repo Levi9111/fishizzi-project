@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { ProuductRoutes } from '../modules/Products/products.route';
 import { UserRoutes } from '../modules/User/user.route';
 import { AddressRoutes } from '../modules/Address/address.route';
+import { ShoppingCartRoutes } from '../modules/ShoppingCart/shoppingCart.route';
 
 const router = Router();
 
@@ -17,6 +18,10 @@ const moduleRoutes = [
   {
     path: '/address',
     route: AddressRoutes,
+  },
+  {
+    path: '/my-cart',
+    route: ShoppingCartRoutes,
   },
 ];
 

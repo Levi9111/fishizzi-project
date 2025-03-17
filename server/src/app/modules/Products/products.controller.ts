@@ -39,7 +39,7 @@ const getSingleProduct = catchAsync(async (req, res) => {
 const updateProduct = catchAsync(async (req, res) => {
   const result = await ProductsServices.updateProductIntoDB(
     req.params.id,
-    req.body,
+    req.body.product,
   );
 
   sendResponse(res, {

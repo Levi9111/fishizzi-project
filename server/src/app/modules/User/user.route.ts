@@ -27,6 +27,6 @@ router.get('/', UserControllers.getAllUsers);
 
 router.get('/:id', UserControllers.getSingleUser);
 
-router.delete('/:id', UserControllers.blockUser);
+router.put('/:id', UserControllers.blockUser);
 
 export const UserRoutes = router;

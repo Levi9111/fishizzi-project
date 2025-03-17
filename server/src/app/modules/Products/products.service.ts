@@ -23,7 +23,6 @@ const createProductIntoDB = async (req: Request) => {
 
 const updateProductIntoDB = async (id: string, payload: Partial<TProduct>) => {
   const product = await Products.findById(id);
-
   if (!product) {
     throw new AppError(StatusCodes.NOT_FOUND, 'Product not found');
   }
@@ -33,7 +32,6 @@ const updateProductIntoDB = async (id: string, payload: Partial<TProduct>) => {
   }
 
   const result = await product.save();
-
   return result;
 };
 
