@@ -45,3 +45,25 @@ export interface TAddressFormValues {
   policeStation: string;
   address: string;
 }
+
+export interface TCartItemProduct {
+  _id: string;
+  name: string;
+  price: string;
+  stock: string;
+  category: string;
+  id: string;
+  productImgUrl: string;
+}
+
+export interface TCartItemInCart {
+  _id: string;
+  productId: TCartItemProduct;
+  quantity: number;
+}
+
+export interface TCartItem {
+  _id: string;
+  userId: string;
+  itemsInCart: TCartItemInCart[];
+}

@@ -43,7 +43,7 @@ export const postToDB = async (
   return result;
 };
 
-export const updateInfoIntoDB = async (
+export const updateDataIntoDB = async (
   url: string,
   payload: Record<string, unknown>,
 ) => {
@@ -53,6 +53,18 @@ export const updateInfoIntoDB = async (
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(payload),
+  });
+  const result = await response.json();
+
+  return result;
+};
+
+export const deleteDataFromDB = async (url: string) => {
+  const response = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
   const result = await response.json();
 

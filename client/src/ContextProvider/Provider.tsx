@@ -1,11 +1,13 @@
 'use client';
 
-import { TUser } from '@/Interface';
+import { TCartItem, TUser } from '@/Interface';
 import { createContext, useContext, useState, ReactNode } from 'react';
 
 interface UserContextType {
   user: TUser | null;
   setUser: (user: TUser | null) => void;
+  cart: TCartItem | null;
+  setCart: (cart: TCartItem) => void;
   base_url: string;
   admin_email: string;
   globalMessage: string;
@@ -16,6 +18,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const Provider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<TUser | null>(null);
+  const [cart, setCart] = useState<TCartItem | null>(null);
   const [globalMessage, setGlobalMessage] = useState('');
   const base_url = process.env.NEXT_PUBLIC_BASE_URL!;
   const admin_email = process.env.NEXT_PUBLIC_ADMIN_EMAIL!;
@@ -25,7 +28,8 @@ export const Provider = ({ children }: { children: ReactNode }) => {
       value={{
         user,
         setUser,
-
+        cart,
+        setCart,
         base_url,
         admin_email,
         globalMessage,

@@ -1,16 +1,17 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { getDataFromDB } from '@/api';
+import { getDataFromDB, postToDB } from '@/api';
 import { useUser } from '@/ContextProvider/Provider';
 import { TProduct } from '@/Interface';
 import Image from 'next/image';
 import Loader from '@/components/Loader';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { AlertCircle, CheckCircle } from 'lucide-react';
+import { toast } from 'sonner';
 
 const ShopPage = () => {
   const [products, setProducts] = useState<TProduct[]>([]);
-  const { base_url } = useUser();
+  const { user, base_url } = useUser();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -31,11 +32,28 @@ const ShopPage = () => {
 
   if (loading) return <Loader />;
 
-  const handleAddToCart = (product: TProduct) => {
+  const handleAddToCart = async (product: TProduct) => {
     // Handle adding the product to the cart here (e.g., update state or call API)
     try {
       setLoading(true);
+      const result = await postToDB(`${base_url}/my-cart/add-to-cart`, {
+        cart: {
+          userId: user?._id,
+          itemsInCart: [
+            {
+              productId: product._id,
+              quantity: 1,
+            },
+          ],
+        },
+      });
 
+      console.log(result);
+      if (result.success) {
+        toast.success(result.message);
+      } else {
+        toast.warning(result.message);
+      }
       setLoading(false);
     } catch (error) {
       console.error(error);

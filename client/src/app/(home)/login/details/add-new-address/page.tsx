@@ -1,5 +1,5 @@
 'use client';
-import { postToDB, updateInfoIntoDB } from '@/api';
+import { postToDB, updateDataIntoDB } from '@/api';
 import { useUser } from '@/ContextProvider/Provider';
 import { TAddressFormValues } from '@/Interface';
 import { useState } from 'react';
@@ -45,7 +45,7 @@ const AddressPage = () => {
       if (result.success) {
         const newAddressId = result.data._id;
 
-        const updatedResult = await updateInfoIntoDB(
+        const updatedResult = await updateDataIntoDB(
           `${base_url}/users/update-address`,
           {
             userId: user?._id,
