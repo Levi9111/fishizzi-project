@@ -25,6 +25,7 @@ export const Provider = ({ children }: { children: ReactNode }) => {
       value={{
         user,
         setUser,
+
         base_url,
         admin_email,
         globalMessage,

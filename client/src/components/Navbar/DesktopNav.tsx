@@ -84,7 +84,9 @@ const DesktopNav = () => {
           <HelpCircle />
         </button> */}
         <button className='relative'>
-          <ShoppingCart />
+          <Link href='/my-cart'>
+            <ShoppingCart />
+          </Link>
           <span className='absolute -top-1 left-4 rounded-full h-4 w-4  bg-red-500 flex items-center justify-center text-xs'>
             4
           </span>

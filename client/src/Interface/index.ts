@@ -6,6 +6,20 @@ export interface Product {
   category: string;
 }
 
+export interface TProduct extends Product {
+  _id: string;
+  productImgUrl: string;
+  isDeleted: boolean;
+}
+
+export interface UpdateProductInfoProps {
+  formData: Partial<TProduct>;
+  setFormData: (data: Partial<TProduct> | null) => void;
+  setSelectedProduct: (product: TProduct | null) => void;
+  setLoading: (loading: boolean) => void;
+  setProducts: (products: TProduct[]) => void;
+}
+
 export interface InputChangeEvent
   extends React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> {
   target: HTMLInputElement | (HTMLTextAreaElement & EventTarget);
@@ -18,6 +32,7 @@ export interface TUser {
   image: string;
   provider: string;
   address?: string[] | null;
+  status: 'active' | 'blocked';
   phoneNumber?: string;
 }
 
