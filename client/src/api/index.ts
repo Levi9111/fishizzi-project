@@ -59,12 +59,16 @@ export const updateDataIntoDB = async (
   return result;
 };
 
-export const deleteDataFromDB = async (url: string) => {
+export const deleteDataFromDB = async (
+  url: string,
+  productId: Record<string, string>,
+) => {
   const response = await fetch(url, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
     },
+    body: JSON.stringify(productId),
   });
   const result = await response.json();
 

@@ -83,13 +83,16 @@ const ItemsInCart = ({
     try {
       setLoading(true);
       // Delete item from the cart on the server
-      const result = await deleteDataFromDB(
-        `${base_url}/my-cart/remove-items-from-cart/${productId}`,
+      const updatedCart = await deleteDataFromDB(
+        `${base_url}/my-cart/remove-items-from-cart/${user?._id}`,
+        {
+          productId,
+        },
       );
-      console.log(result);
       // After deleting, set the updated cart to state
-      //   setCart(updatedCart);
+      setCart(updatedCart.data);
       setLoading(false);
+      toast.success(updatedCart.message);
     } catch (error) {
       console.error('Error deleting item:', error);
       setLoading(false);
