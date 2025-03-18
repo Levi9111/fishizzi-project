@@ -22,7 +22,7 @@ export const getDataFromDB = async (url: string) => {
   });
 
   const data = await res.json();
-
+  console.log(data);
   return data;
 };
 

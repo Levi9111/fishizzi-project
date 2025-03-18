@@ -1,4 +1,3 @@
-'use client';
 import Image from 'next/image';
 import logo from '../../../public/logo/logo.png';
 import { AlignLeft, Search, ShoppingCart, User, X } from 'lucide-react';
@@ -7,11 +6,16 @@ import { Button } from '../ui/button';
 import Link from 'next/link';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { useUser } from '@/ContextProvider/Provider';
+import { TUser } from '@/Interface';
 
-const ResponsiveNav = () => {
+const ResponsiveNav = ({
+  user,
+  totalItemsInCart,
+}: {
+  user: TUser | null;
+  totalItemsInCart: number;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user } = useUser();
 
   return (
     <div className='nav-md:hidden grid grid-cols-[70px_1fr] gap-2 p-2 relative '>
@@ -30,7 +34,7 @@ const ResponsiveNav = () => {
                 <ShoppingCart />
               </Link>
               <span className='absolute -top-1 left-4 rounded-full h-4 w-4  bg-red-500 flex items-center justify-center text-xs'>
-                4
+                {totalItemsInCart}
               </span>
             </button>
 

@@ -1,17 +1,20 @@
-'use client';
 import Image from 'next/image';
 import logo from '../../../public/logo/logo.png';
-
 import { Search, ShoppingCart, Truck, User } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import Link from 'next/link';
-import { useUser } from '@/ContextProvider/Provider';
+import { TUser } from '@/Interface';
 
 // TODO: Add HelpCircle functionality later for user support
 // import { HelpCircle } from 'lucide-react';
-const DesktopNav = () => {
-  const { user } = useUser();
+const DesktopNav = ({
+  user,
+  totalItemsInCart,
+}: {
+  user: TUser | null;
+  totalItemsInCart: number;
+}) => {
   return (
     <div className='nav-md:flex hidden justify-between items-center w-fixedScreen md:max-w-full max-w-[95%] mx-auto py-2'>
       <div className='bg-white h-[60px] flex items-center'>
@@ -88,7 +91,7 @@ const DesktopNav = () => {
             <ShoppingCart />
           </Link>
           <span className='absolute -top-1 left-4 rounded-full h-4 w-4  bg-red-500 flex items-center justify-center text-xs'>
-            4
+            {totalItemsInCart}
           </span>
         </button>
       </div>

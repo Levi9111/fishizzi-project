@@ -34,7 +34,6 @@ export const authOptions = {
       if (account) {
         token.provider = account.provider;
       }
-      console.log(account);
       return token;
     },
     async session({ session, token }: { session: Session; token: JWT }) {

@@ -1,6 +1,6 @@
 'use client';
 
-import { manageUserData } from '@/api';
+import { getDataFromDB, manageUserData } from '@/api';
 import LoginRedirectPage from '@/components/LoginComponents/LoginRedirectPage';
 import { useUser } from '@/ContextProvider/Provider';
 import { TUser } from '@/Interface';
@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 
 const LoginPage = () => {
   const { data: session } = useSession();
-  const { setGlobalMessage, user, setUser, base_url } = useUser();
+  const { setGlobalMessage, user, base_url, setUser, setCart } = useUser();
   const router = useRouter();
 
   useEffect(() => {
@@ -38,9 +38,19 @@ const LoginPage = () => {
       const data = await manageUserData(url, userData);
       const { success, message, data: userInfo } = data;
       if (success) {
-        setUser(userInfo);
         setGlobalMessage(message);
         router.push('/login/details');
+
+        localStorage.setItem('user', JSON.stringify(userInfo));
+        const storedUser = JSON.parse(localStorage.getItem('user')!);
+        setUser(storedUser);
+
+        const cartInfo = await getDataFromDB(
+          `${base_url}/my-cart/${storedUser?._id}`,
+        );
+        localStorage.setItem('cart', JSON.stringify(cartInfo.data));
+        const storedCartInfo = JSON.parse(localStorage.getItem('cart')!);
+        setCart(storedCartInfo);
       }
     } catch (error) {
       console.error('Error storing user:', error);

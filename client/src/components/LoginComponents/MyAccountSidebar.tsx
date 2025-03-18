@@ -6,6 +6,9 @@ const MyAccountSidebar = () => {
 
   const handleLogout = async () => {
     await signOut({ callbackUrl: '/login' });
+
+    localStorage.removeItem('user');
+    localStorage.removeItem('cart');
     setUser(null);
   };
 
