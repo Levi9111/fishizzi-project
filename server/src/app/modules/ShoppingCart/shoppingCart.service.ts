@@ -129,8 +129,30 @@ const getAllCartItemsFromDB = async (userId: string) => {
 };
 
 // Delete all cart items (empty the cart)
-const deleteAllCartItemsFromDB = async (userId: string) => {
-  const result = await Cart.findOneAndDelete({ userId });
+const deleteAllCartItemsFromDB = async (userId: string, productId: string) => {
+  const cart = await Cart.findOne({ userId });
+  if (!cart) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'Cart not found');
+  }
+
+  const itemIndex = cart.itemsInCart.findIndex(
+    (item) => item.productId.toString() === productId,
+  );
+
+  if (itemIndex === -1) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'Product not found in cart');
+  }
+
+  cart.itemsInCart.splice(itemIndex, 1);
+
+  await cart.save();
+
+  const result = await Cart.findOne({ userId })
+    .populate({
+      path: 'itemsInCart.productId',
+      model: 'Products',
+    })
+    .exec();
   return result;
 };
 

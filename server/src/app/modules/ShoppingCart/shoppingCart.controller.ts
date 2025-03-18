@@ -44,6 +44,7 @@ const getAllCartItems = catchAsync(async (req, res) => {
 const deleteCartItems = catchAsync(async (req, res) => {
   const result = await ShoppingCartServices.deleteAllCartItemsFromDB(
     req.params.id,
+    req.body.productId,
   );
   sendResponse(res, {
     statusCode: StatusCodes.OK,
