@@ -13,7 +13,7 @@ const MyAccountSidebar = () => {
   };
 
   return (
-    <div className='bg-white rounded-md p-2 text-base h-screen mt-5'>
+    <div className='bg-white rounded-md p-2 text-base md:h-screen mt-5'>
       <button
         onClick={handleLogout}
         className='bg-gray-700 hover:bg-gray-900 text-white rounded-lg shadow transition px-3 py-2 w-full'

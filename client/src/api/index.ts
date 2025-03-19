@@ -16,13 +16,13 @@ export const manageUserData = async (
 };
 
 export const getDataFromDB = async (url: string) => {
+  console.log(url);
   const res = await fetch(url, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   });
 
   const data = await res.json();
-  console.log(data);
   return data;
 };
 
@@ -45,15 +45,26 @@ export const postToDB = async (
 
 export const updateDataIntoDB = async (
   url: string,
-  payload: Record<string, unknown>,
+  payload?: Record<string, unknown>,
 ) => {
-  const response = await fetch(url, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  });
+  let response;
+
+  if (payload) {
+    response = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+  } else {
+    response = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }
   const result = await response.json();
 
   return result;
@@ -61,15 +72,27 @@ export const updateDataIntoDB = async (
 
 export const deleteDataFromDB = async (
   url: string,
-  productId: Record<string, string>,
+  productId?: Record<string, string>,
 ) => {
-  const response = await fetch(url, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(productId),
-  });
+  let response;
+
+  if (productId) {
+    response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(productId),
+    });
+  } else {
+    response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }
+
   const result = await response.json();
 
   return result;

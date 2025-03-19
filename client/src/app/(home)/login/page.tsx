@@ -7,10 +7,11 @@ import { TUser } from '@/Interface';
 import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 const LoginPage = () => {
   const { data: session } = useSession();
-  const { setGlobalMessage, user, base_url, setUser, setCart } = useUser();
+  const { user, base_url, setUser, setCart } = useUser();
   const router = useRouter();
 
   useEffect(() => {
@@ -38,9 +39,16 @@ const LoginPage = () => {
       const data = await manageUserData(url, userData);
       const { success, message, data: userInfo } = data;
       if (success) {
-        setGlobalMessage(message);
-        // router.push('/login/details');
-        router.push('/profile');
+        toast.success(message);
+
+        const localUrl = localStorage.getItem('url')!;
+
+        if (localUrl) {
+          router.push(`/${localUrl}`);
+          localStorage.removeItem('url');
+        } else {
+          router.push('/profile');
+        }
 
         localStorage.setItem('user', JSON.stringify(userInfo));
         const storedUser = JSON.parse(localStorage.getItem('user')!);

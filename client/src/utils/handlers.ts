@@ -4,7 +4,7 @@ import {
   postToDB,
   updateDataIntoDB,
 } from '@/api';
-import { TCartItem, TCartItemInCart } from '@/Interface';
+import { TAddress, TCartItem, TCartItemInCart } from '@/Interface';
 import { toast } from 'sonner';
 
 export const handleAddToCart = async (
@@ -125,5 +125,23 @@ export const handleDeleteItem = async (
   } catch (error) {
     console.error('Error deleting item:', error);
     if (setLoading) setLoading(false);
+  }
+};
+
+export const fetchAddresses = async (
+  url: string,
+  setLoading: (loading: boolean) => void,
+  setAddresses: (address: TAddress[]) => void,
+) => {
+  try {
+    setLoading(true);
+    const result = await getDataFromDB(url);
+    if (result.success) {
+      setAddresses(result.data);
+    }
+  } catch (error) {
+    console.error('Error fetching addresses:', error);
+  } finally {
+    setLoading(false);
   }
 };

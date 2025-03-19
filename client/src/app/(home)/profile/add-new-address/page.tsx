@@ -2,12 +2,13 @@
 import { postToDB, updateDataIntoDB } from '@/api';
 import { useUser } from '@/ContextProvider/Provider';
 import { TAddressFormValues } from '@/Interface';
-import { useState } from 'react';
+import { fetchAddresses } from '@/utils/handlers';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 const AddressPage = () => {
-  const { user, base_url } = useUser();
+  const { user, base_url, addresses, setAddresses } = useUser();
   const [loading, setLoading] = useState(false);
   const {
     register,
@@ -26,7 +27,21 @@ const AddressPage = () => {
     },
   });
 
+  useEffect(() => {
+    if (user)
+      fetchAddresses(
+        `${base_url}/address/${user?._id}`,
+        setLoading,
+        setAddresses,
+      );
+  }, [base_url, user, setAddresses]);
+
   const onSubmit = async (data: TAddressFormValues) => {
+    if (addresses.length === 4) {
+      toast.info('Maximum address limit exceeded!');
+      return;
+    }
+
     try {
       setLoading(true);
 
@@ -77,7 +92,7 @@ const AddressPage = () => {
   };
 
   return (
-    <div className='h-screen bg-white p-6 shadow-lg rounded-md mt-5'>
+    <div className='min-h-screen bg-white p-6 shadow-lg rounded-md mt-5'>
       <h2 className='text-2xl font-semibold mb-4'>Add New Address</h2>
       <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
         <div className='grid md:grid-cols-2 gap-2'>

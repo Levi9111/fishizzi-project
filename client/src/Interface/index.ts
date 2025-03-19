@@ -67,3 +67,16 @@ export interface TCartItem {
   userId: string;
   itemsInCart: TCartItemInCart[];
 }
+
+export interface TAddress {
+  _id: string;
+  userId: string;
+  fullName: string;
+  phoneNumber: string;
+  landmark: string;
+  division: string;
+  city: string;
+  policeStation: string;
+  address: string;
+  default: boolean;
+}

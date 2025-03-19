@@ -1,6 +1,6 @@
 'use client';
 
-import { TCartItem, TUser } from '@/Interface';
+import { TAddress, TCartItem, TUser } from '@/Interface';
 import {
   createContext,
   useContext,
@@ -16,8 +16,8 @@ interface UserContextType {
   setCart: (cart: TCartItem | null) => void;
   base_url: string;
   admin_email: string;
-  globalMessage: string;
-  setGlobalMessage: (message: string) => void;
+  addresses: TAddress[];
+  setAddresses: (addresses: TAddress[]) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -25,11 +25,9 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const Provider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<TUser | null>(null);
   const [cart, setCart] = useState<TCartItem | null>(null);
-  const [globalMessage, setGlobalMessage] = useState('');
+  const [addresses, setAddresses] = useState<TAddress[]>([]);
   const base_url = process.env.NEXT_PUBLIC_BASE_URL!;
   const admin_email = process.env.NEXT_PUBLIC_ADMIN_EMAIL!;
-
-  console.log('Cart', cart);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -48,8 +46,8 @@ export const Provider = ({ children }: { children: ReactNode }) => {
         setCart,
         base_url,
         admin_email,
-        globalMessage,
-        setGlobalMessage,
+        addresses,
+        setAddresses,
       }}
     >
       {children}

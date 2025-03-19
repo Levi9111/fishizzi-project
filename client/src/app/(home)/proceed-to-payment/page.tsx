@@ -9,13 +9,16 @@ import bkash from '../../../../public/images/payment-images/bkash.png';
 import nagad from '../../../../public/images/payment-images/nagad.png';
 import cod from '../../../../public/images/payment-images/cod.png';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useUser } from '@/ContextProvider/Provider';
 
 const ProceedToPayment = () => {
+  const { addresses } = useUser();
   const [selectedPayment, setSelectedPayment] = useState('');
-  const [deliveryAddress, setDeliveryAddress] = useState(null); // Replace with user’s real address
   const [location, setLocation] = useState<'Inside Dhaka' | 'Outside Dhaka'>(
     'Inside Dhaka',
   );
+  console.log(addresses);
 
   // Example: Total Price (Replace with actual cart total)
   const totalPrice = 2500;
@@ -38,8 +41,8 @@ const ProceedToPayment = () => {
   ];
 
   return (
-    <div className='min-h-screen bg-gray-100 md:p-32  '>
-      <div className=' flex flex-col md:flex-row items-start gap-6 p-4 md:p-8 '>
+    <div className='min-h-screen bg-gray-100 py-3'>
+      <div className=' flex flex-col md:flex-row items-start gap-6 p-4 md:p-8 w-[90%] mx-auto'>
         {/* Left Sidebar - Payment Options */}
         <div className='w-full md:w-2/3 bg-white shadow-lg p-6 rounded-2xl'>
           <h2 className='text-xl font-semibold mb-4'>Choose Payment Method</h2>
@@ -85,18 +88,64 @@ const ProceedToPayment = () => {
             <h2 className='text-xl font-semibold mb-4'>
               Choose Your Delivery Address
             </h2>
-            {deliveryAddress ? (
-              <div className='border p-4 rounded-lg flex items-center gap-3'>
-                <Home size={20} className='text-gray-700' />
-                <p className='text-gray-700'>{deliveryAddress}</p>
-              </div>
+            {addresses.length > 0 ? (
+              // Find the default address
+              addresses.some((address) => address.default) ? (
+                addresses
+                  .filter((address) => address.default)
+                  .map((defaultAddress) => (
+                    <div
+                      key={defaultAddress._id}
+                      className='border p-4 rounded-lg bg-gray-100 flex flex-col gap-3'
+                    >
+                      <div className='flex items-center gap-3'>
+                        <Home size={20} className='text-gray-700' />
+                        <div>
+                          <p className='text-gray-700 font-semibold'>
+                            {defaultAddress.fullName}
+                          </p>
+                          <p className='text-gray-600 text-sm'>
+                            {defaultAddress.address}, {defaultAddress.city},{' '}
+                            {defaultAddress.division}
+                          </p>
+                          <p className='text-gray-500 text-xs'>
+                            {defaultAddress.phoneNumber}
+                          </p>
+                        </div>
+                      </div>
+                      <Button className='w-full'>
+                        <Link
+                          href='/profile/manage-address'
+                          className='flex items-center justify-center gap-2 w-full'
+                        >
+                          <PlusCircle size={18} />
+                          Manage Default Address
+                        </Link>
+                      </Button>
+                    </div>
+                  ))
+              ) : (
+                // No default address found
+                <Button className='w-full'>
+                  <Link
+                    href='/profile/manage-address'
+                    className='flex items-center justify-center gap-2 w-full'
+                  >
+                    <PlusCircle size={18} />
+                    Manage Default Address
+                  </Link>
+                </Button>
+              )
             ) : (
-              <Button
-                className='flex items-center gap-2 w-full'
-                onClick={() => alert('Add Address Modal')}
-              >
-                <PlusCircle size={18} />
-                Add Delivery Address
+              // No addresses at all
+              <Button className='w-full'>
+                <Link
+                  href='/profile/add-new-address'
+                  className='flex items-center justify-center gap-2 w-full'
+                >
+                  <PlusCircle size={18} />
+                  Add Delivery Address
+                </Link>
               </Button>
             )}
           </div>

@@ -18,7 +18,12 @@ const ShopPage = () => {
   const router = useRouter();
 
   useEffect(() => {
+    localStorage.removeItem('url');
+  }, []);
+
+  useEffect(() => {
     if (user === null) {
+      localStorage.setItem('url', 'shop');
       router.push('/login');
       return;
     }

@@ -30,10 +30,10 @@ const UserDetailsPage = () => {
         <div className='bg-white rounded-lg shadow-lg p-6 flex flex-col'>
           <h3 className='text-2xl font-medium mb-4'>Address Book</h3>
           <Link
-            href='/profile/add-new-address'
+            href='/profile/manage-address'
             className='bg-gray-700 text-white py-2 px-4 rounded-md text-lg font-semibold hover:bg-gray-900 transition duration-300'
           >
-            Add New Address
+            Mange Addresses
           </Link>
         </div>
       </div>
