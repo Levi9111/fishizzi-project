@@ -4,30 +4,52 @@ import Modal from '../Modal';
 import ManageProductInfo from './ManageProductInfo';
 import ManageUserInfo from './ManageUserInfo';
 
-const AdminContorlPage = () => {
+const AdminControlPage = () => {
   const { user } = useUser();
 
   return (
-    <div className='min-h-screen bg-white rounded-md p-6'>
-      <h3 className='text-4xl font-semibold text-gray-800 mb-4'>
-        Welcome {user?.name}
+    <div className='min-h-screen bg-gray-100 rounded-md p-8  mt-5'>
+      <h3 className='text-4xl font-bold text-gray-900 mb-6'>
+        Welcome, {user?.name} 👋
       </h3>
 
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-        <Modal title='Add new product' className='w-full'>
-          <AddProductsForm />
-        </Modal>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+        <AdminCard title='Add New Product'>
+          <Modal title='Add New Product'>
+            <AddProductsForm />
+          </Modal>
+        </AdminCard>
 
-        <Modal title='Manage Product Info' className='w-full'>
-          <ManageProductInfo />
-        </Modal>
+        <AdminCard title='Manage Product Info'>
+          <Modal title='Manage Product Info'>
+            <ManageProductInfo />
+          </Modal>
+        </AdminCard>
 
-        <Modal title='Manage User Info' className='w-full'>
-          <ManageUserInfo />
-        </Modal>
+        <AdminCard title='Manage User Info'>
+          <Modal title='Manage User Info'>
+            <ManageUserInfo />
+          </Modal>
+        </AdminCard>
       </div>
     </div>
   );
 };
 
-export default AdminContorlPage;
+// Reusable card component for better UI
+const AdminCard = ({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) => {
+  return (
+    <div className='p-6 bg-white shadow-lg rounded-lg flex flex-col items-center justify-center text-center'>
+      <h4 className='text-xl font-semibold text-gray-800 mb-3'>{title}</h4>
+      {children}
+    </div>
+  );
+};
+
+export default AdminControlPage;

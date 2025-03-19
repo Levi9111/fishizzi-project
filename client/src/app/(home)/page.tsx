@@ -4,7 +4,7 @@ import FeaturedProducts from '@/components/FeaturedProducts';
 
 const HomePage = () => {
   return (
-    <section className='pt-36'>
+    <section className='pt-8'>
       <Categories />
       <Banner />
       <FeaturedProducts />

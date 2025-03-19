@@ -46,7 +46,7 @@ const CartPage = () => {
   if (loading || user === null) return <Loader />;
   if (!cart || cart.itemsInCart?.length === 0)
     return (
-      <div className='h-screen pt-32 flex items-center justify-center'>
+      <div className='h-screen   flex items-center justify-center'>
         <div className='text-center px-6'>
           <div className='mb-6'>
             <ShoppingCart className='mx-auto text-gray-600 text-[500px]' />
@@ -73,7 +73,7 @@ const CartPage = () => {
     );
 
   return (
-    <div className='p-6 min-h-screen bg-gray-100 pt-32'>
+    <div className='p-6 min-h-screen bg-gray-100  '>
       <h1 className='text-3xl font-bold text-center mb-6'>My Cart</h1>
       <div className='max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-lg'>
         {cart?.itemsInCart?.map((item) => (
@@ -93,8 +93,8 @@ const CartPage = () => {
               0,
             )}
           </h2>
-          <Button className='bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg w-full sm:w-auto'>
-            Proceed to Payment
+          <Button className=' text-white px-6 py-2 rounded-lg w-full sm:w-auto'>
+            <Link href='/proceed-to-payment'>Proceed to Payment</Link>
           </Button>
         </div>
       </div>

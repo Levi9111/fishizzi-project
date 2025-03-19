@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang='en' cz-shortcut-listen='true'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-200 `}
       >
         <Provider>{children}</Provider>
         <Toaster />

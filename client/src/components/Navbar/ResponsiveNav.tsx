@@ -1,8 +1,6 @@
 import Image from 'next/image';
 import logo from '../../../public/logo/logo.png';
-import { AlignLeft, Search, ShoppingCart, User, X } from 'lucide-react';
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
+import { AlignLeft, ShoppingCart, User, X } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
@@ -18,101 +16,80 @@ const ResponsiveNav = ({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className='nav-md:hidden grid grid-cols-[70px_1fr] gap-2 p-2 relative '>
-      <div className='flex items-center justify-center'>
-        <Image src={logo} alt='logo' width={70} height={60} />
-      </div>
+    <div className='nav-md:hidden flex items-center justify-between p-4 bg-gray-900 text-white relative'>
+      {/* Logo */}
+      <Link href='/'>
+        <Image
+          src={logo}
+          alt='logo'
+          width={60}
+          height={50}
+          className='cursor-pointer'
+        />
+      </Link>
 
-      <div className=''>
-        <div className='w-full flex items-center justify-between mb-2'>
-          <button onClick={() => setIsOpen(true)}>
-            <AlignLeft className='text-white' />
-          </button>
-          <div className='flex items-center justify-center gap-3 text-overlay-white'>
-            <button className='relative'>
-              <Link href='/my-cart'>
-                <ShoppingCart />
-              </Link>
-              <span className='absolute -top-1 left-4 rounded-full h-4 w-4  bg-red-500 flex items-center justify-center text-xs'>
-                {totalItemsInCart}
-              </span>
-            </button>
+      {/* Right Icons */}
+      <div className='flex items-center gap-4'>
+        <button className='relative'>
+          <Link href='/my-cart'>
+            <ShoppingCart className='w-6 h-6' />
+          </Link>
+          {totalItemsInCart > 0 && (
+            <span className='absolute -top-2 -right-2 rounded-full h-5 w-5 bg-red-500 flex items-center justify-center text-xs font-bold'>
+              {totalItemsInCart}
+            </span>
+          )}
+        </button>
 
-            <span className='block w-[2px] h-4 rounded-xl bg-overlay-white'></span>
-
-            <button>
-              <Link href='/login'>
-                {user ? (
-                  <Image
-                    src={user.image}
-                    alt={user.name}
-                    width={40}
-                    height={40}
-                    className='rounded-full'
-                    title={user.name}
-                  />
-                ) : (
-                  <User />
-                )}
-              </Link>
-            </button>
-          </div>
-        </div>
-        {/* searchbar for mobile view*/}
-        <div className='w-full '>
-          <form
-            action=''
-            className='flex items-center relative w-full focus:outline-none'
-          >
-            <Input
-              type='text'
-              placeholder='Search yout products'
-              className='pr-10 border-0 bg-overlay-white'
+        <Link href={user ? '/profile' : '/login'}>
+          {user ? (
+            <Image
+              src={user.image}
+              alt={user.name}
+              width={35}
+              height={35}
+              className='rounded-full'
             />
-            <Button
-              type='submit'
-              className='absolute top-0 right-0 bg-yellow-400 hover:bg-yellow-400 text-white after:absolute after:top-0 after:bottom-0 after:right-0 after:left-0 after:bg-brand-accent after:rounded-md after:translate-y-10 after:hover:translate-y-0 after:transition-all after:duration-200 overflow-hidden'
-            >
-              <Search className='relative z-10' />
-            </Button>
-          </form>
-        </div>
+          ) : (
+            <User className='w-6 h-6' />
+          )}
+        </Link>
+
+        {/* Menu Toggle Button */}
+        <button onClick={() => setIsOpen(true)}>
+          <AlignLeft className='w-6 h-6' />
+        </button>
       </div>
 
-      {/* sidebar */}
+      {/* Sidebar */}
       <div
         className={cn(
-          'bg-black bg-opacity-30 w-full h-screen absolute top-0 left-0 z-50 shadow-spread transition-all duration-300 ease-out',
-          isOpen ? '' : '-translate-x-[1000px]',
+          'fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm transition-transform duration-300 z-50',
+          isOpen ? 'translate-x-0' : 'translate-x-full',
         )}
       >
-        <ul className='relative flex flex-col gap-3 bg-white sm:w-1/3 w-1/2 h-screen'>
-          <li className='absolute top-2 right-2'>
-            <button onClick={() => setIsOpen(false)}>
-              <X />
-            </button>
-          </li>
-          <li className='hover:text-brand-accent transition-all after:block after:content-[""] after:border-solid after:border-2 after:border-brand-accent after:scale-x-0 after:origin-left after:duration-200 duration-200 after:ease-in-out hover:after:scale-x-100 mt-3'>
-            <Link href='/' className='ml-3 '>
+        <div className='w-64 h-full bg-gray-800 text-white flex flex-col p-5 shadow-lg'>
+          {/* Close Button */}
+          <button className='self-end mb-5' onClick={() => setIsOpen(false)}>
+            <X className='w-6 h-6' />
+          </button>
+
+          {/* Navigation Links */}
+          <nav className='flex flex-col gap-4 text-lg'>
+            <Link href='/' className='hover:text-yellow-400 transition'>
               Home
             </Link>
-          </li>
-          <li className='hover:text-brand-accent transition-all after:block after:content-[""] after:border-solid after:border-2 after:border-brand-accent after:scale-x-0 after:origin-left after:duration-200 duration-200 after:ease-in-out hover:after:scale-x-100'>
-            <Link href='/shop' className='ml-3'>
+            <Link href='/shop' className='hover:text-yellow-400 transition'>
               Shop
             </Link>
-          </li>
-          <li className='hover:text-brand-accent transition-all after:block after:content-[""] after:border-solid after:border-2 after:border-brand-accent after:scale-x-0 after:origin-left after:duration-200 duration-200 after:ease-in-out hover:after:scale-x-100'>
-            <Link href='/blog' className='ml-3'>
+            <Link href='/blog' className='hover:text-yellow-400 transition'>
               Blog
             </Link>
-          </li>
-          <li className='hover:text-brand-accent transition-all after:block after:content-[""] after:border-solid after:border-2 after:border-brand-accent after:scale-x-0 after:origin-left after:duration-200 duration-200 after:ease-in-out hover:after:scale-x-100'>
-            <Link href='/blog' className='ml-3'>
+            <Link href='/about' className='hover:text-yellow-400 transition'>
               About
             </Link>
-          </li>
-        </ul>
+          </nav>
+        </div>
       </div>
     </div>
   );

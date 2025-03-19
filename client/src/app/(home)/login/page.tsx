@@ -39,7 +39,8 @@ const LoginPage = () => {
       const { success, message, data: userInfo } = data;
       if (success) {
         setGlobalMessage(message);
-        router.push('/login/details');
+        // router.push('/login/details');
+        router.push('/profile');
 
         localStorage.setItem('user', JSON.stringify(userInfo));
         const storedUser = JSON.parse(localStorage.getItem('user')!);

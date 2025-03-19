@@ -15,7 +15,7 @@ const Modal = ({
     <div className={className}>
       <button
         onClick={() => setIsOpen(true)}
-        className='px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition'
+        className='px-4 py-2 bg-gray-700 hover:bg-gray-900 text-white rounded-lg shadow  transition'
       >
         {title}
       </button>

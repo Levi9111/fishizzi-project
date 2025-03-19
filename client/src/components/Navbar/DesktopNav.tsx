@@ -1,3 +1,6 @@
+// TODO: Add HelpCircle functionality later for user support
+// import { HelpCircle } from 'lucide-react';
+
 import Image from 'next/image';
 import logo from '../../../public/logo/logo.png';
 import { Search, ShoppingCart, Truck, User } from 'lucide-react';
@@ -6,8 +9,6 @@ import { Button } from '../ui/button';
 import Link from 'next/link';
 import { TUser } from '@/Interface';
 
-// TODO: Add HelpCircle functionality later for user support
-// import { HelpCircle } from 'lucide-react';
 const DesktopNav = ({
   user,
   totalItemsInCart,
@@ -16,84 +17,92 @@ const DesktopNav = ({
   totalItemsInCart: number;
 }) => {
   return (
-    <div className='nav-md:flex hidden justify-between items-center w-fixedScreen md:max-w-full max-w-[95%] mx-auto py-2'>
-      <div className='bg-white h-[60px] flex items-center'>
-        <Image src={logo} alt='logo' width={70} height={60} />
-      </div>
+    <div className='hidden md:flex justify-between items-center w-full py-3 px-6 bg-gray-900 text-white rounded-lg shadow-lg'>
+      {/* Logo */}
+      <Link href='/'>
+        <Image
+          src={logo}
+          alt='logo'
+          width={70}
+          height={60}
+          className='cursor-pointer'
+        />
+      </Link>
 
-      <div className=''>
-        <ul className='md:flex hidden items-center justify-center gap-5 text-overlay-white font-semibold '>
-          <li className='hover:text-brand-accent transition-all after:block after:content-[""] after:border-solid after:border-2 after:border-brand-accent after:scale-x-0 after:origin-left after:duration-200 duration-200 after:ease-in-out hover:after:scale-x-100'>
+      {/* Navigation Links */}
+      <nav>
+        <ul className='flex items-center gap-6 text-lg font-medium'>
+          <li className='hover:text-yellow-400 transition'>
             <Link href='/'>Home</Link>
           </li>
-          <li className='hover:text-brand-accent transition-all after:block after:content-[""] after:border-solid after:border-2 after:border-brand-accent after:scale-x-0 after:origin-left after:duration-200 duration-200 after:ease-in-out hover:after:scale-x-100'>
+          <li className='hover:text-yellow-400 transition'>
             <Link href='/shop'>Shop</Link>
           </li>
-          <li className='hover:text-brand-accent transition-all after:block after:content-[""] after:border-solid after:border-2 after:border-brand-accent after:scale-x-0 after:origin-left after:duration-200 duration-200 after:ease-in-out hover:after:scale-x-100'>
+          <li className='hover:text-yellow-400 transition'>
             <Link href='/blog'>Blog</Link>
           </li>
-          <li className='hover:text-brand-accent transition-all after:block after:content-[""] after:border-solid after:border-2 after:border-brand-accent after:scale-x-0 after:origin-left after:duration-200 duration-200 after:ease-in-out hover:after:scale-x-100'>
-            <Link href='/blog'>About</Link>
+          <li className='hover:text-yellow-400 transition'>
+            <Link href='/about'>About</Link>
           </li>
         </ul>
-      </div>
+      </nav>
 
-      {/* searchbar */}
-      <div className='xl:w-[400px]'>
-        <form
-          action=''
-          className='flex items-center relative w-full focus:outline-none'
-        >
+      {/* Search Bar */}
+      <div className='relative w-80'>
+        <form className='flex items-center relative w-full'>
           <Input
             type='text'
-            placeholder='Search yout products'
-            className='pr-10 border-0 bg-overlay-white'
+            placeholder='Search products'
+            className='pr-12 border-0 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-yellow-400'
           />
           <Button
             type='submit'
-            className='absolute top-0 right-0 bg-yellow-400 hover:bg-yellow-400 text-white after:absolute after:top-0 after:bottom-0 after:right-0 after:left-0 after:bg-brand-accent after:rounded-md after:translate-y-10 after:hover:translate-y-0 after:transition-all after:duration-200 overflow-hidden'
+            className='absolute top-1/2  transform -translate-y-1/2 bg-yellow-400 hover:bg-yellow-500 text-white p-2 rounded-md right-0 w-9'
           >
-            <Search className='relative z-10' />
+            <Search className='w-5 h-5' />
           </Button>
         </form>
       </div>
-      <div className='flex items-center justify-between gap-2 text-overlay-white border border-overlay-white rounded-md px-2 py-1 cursor-pointer'>
-        <Truck />
-        <p className='nav-xl:block hidden'>Select your delivery address</p>
+
+      {/* Delivery Address */}
+      <div className='flex items-center gap-2 bg-gray-800 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-700 transition'>
+        <Truck className='w-5 h-5' />
+        <p className='hidden xl:block text-sm'>Select your delivery address</p>
       </div>
 
-      {/* users info */}
-      <div className='flex items-center justify-center gap-4 w-[200px] text-overlay-white'>
-        <div className='flex items-center justify-between gap-2 text-overlay-white border border-overlay-white rounded-md px-3 py-[2px] cursor-pointer hover:bg-blue-50 hover:bg-opacity-40 transition-all duration-300'>
-          <p className='text-xl'>বাংলা</p>
+      {/* User Info */}
+      <div className='flex items-center gap-4'>
+        {/* Language Selector */}
+        <div className='flex items-center gap-2 bg-gray-800 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-700 transition'>
+          <p className='text-lg'>বাংলা</p>
         </div>
-        <button>
-          <Link href='/login'>
-            {user ? (
-              <Image
-                src={user.image}
-                alt={user.name}
-                width={40}
-                height={40}
-                className='rounded-full'
-                title={user.name}
-              />
-            ) : (
-              <User />
-            )}
-          </Link>
-        </button>
-        {/* <button>
-          <HelpCircle />
-        </button> */}
-        <button className='relative'>
+
+        {/* User Icon */}
+        <Link href={user ? '/profile' : '/login'}>
+          {user ? (
+            <Image
+              src={user.image}
+              alt={user.name}
+              width={40}
+              height={40}
+              className='rounded-full border border-gray-600'
+            />
+          ) : (
+            <User className='w-6 h-6' />
+          )}
+        </Link>
+
+        {/* Shopping Cart */}
+        <div className='relative cursor-pointer'>
           <Link href='/my-cart'>
-            <ShoppingCart />
+            <ShoppingCart className='w-6 h-6' />
           </Link>
-          <span className='absolute -top-1 left-4 rounded-full h-4 w-4  bg-red-500 flex items-center justify-center text-xs'>
-            {totalItemsInCart}
-          </span>
-        </button>
+          {totalItemsInCart > 0 && (
+            <span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full'>
+              {totalItemsInCart}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );

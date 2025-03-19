@@ -52,9 +52,14 @@ const AddressPage = () => {
             newAddressId,
           },
         );
-        // TODO: fix sooner
-        const { message } = await updatedResult;
-        toast('message');
+
+        console.log(updatedResult);
+
+        if (updatedResult.success) {
+          toast.success(updatedResult.message);
+        } else {
+          toast.warning(updatedResult.message);
+        }
         reset({
           fullName: '',
           phoneNumber: '',
@@ -72,7 +77,7 @@ const AddressPage = () => {
   };
 
   return (
-    <div className='h-full bg-white p-6 shadow-lg rounded-md '>
+    <div className='h-screen bg-white p-6 shadow-lg rounded-md mt-5'>
       <h2 className='text-2xl font-semibold mb-4'>Add New Address</h2>
       <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
         <div className='grid md:grid-cols-2 gap-2'>
@@ -173,7 +178,7 @@ const AddressPage = () => {
         {/* Submit Button */}
         <button
           type='submit'
-          className='w-full bg-blue-500 text-white py-2 rounded-md'
+          className='w-full bg-gray-700 hover:bg-gray-900 transition text-white py-2 rounded-md'
           disabled={loading}
         >
           {loading ? 'Loading...' : 'Save Address'}

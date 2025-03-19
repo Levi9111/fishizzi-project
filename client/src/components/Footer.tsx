@@ -7,7 +7,7 @@ import { Button } from './ui/button';
 
 const Footer = () => {
   return (
-    <footer className='bg-brand-primary'>
+    <footer className='bg-gray-900'>
       <div className='md:max-w-full max-w-[95%] w-fixedScreen mx-auto md:grid md:grid-cols-3 md:gap-10 md:py-10 text-overlay-white md:my-0 my-3 flex flex-col gap-4'>
         <div className=''>
           <Image src={logo} alt='logo' width={120} height={120} />

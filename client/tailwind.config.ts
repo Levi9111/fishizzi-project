@@ -12,7 +12,6 @@ export default {
     extend: {
       colors: {
         brand: {
-          primary: '#0D47A1',
           secondary: '#488ECB',
           accent: '#8BC53F',
           yellow: '#FFD814',

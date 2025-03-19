@@ -51,7 +51,7 @@ const FeaturedProducts = () => {
               className='w-full'
             />
             <div
-              className='w-full bg-brand-primary flex items-center justify-center bg-opacity-90 py-2 absolute  
+              className='w-full bg-gray-900 flex items-center justify-center bg-opacity-90 py-2 absolute  
              transition-all duration-300 group-hover:-translate-y-8 z-10'
             >
               <Link
