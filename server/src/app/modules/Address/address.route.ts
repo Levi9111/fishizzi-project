@@ -17,6 +17,10 @@ router.patch(
   AddressController.updateAddress,
 );
 
+router.patch('/default-address/:id', AddressController.defaultAddress);
+
 router.delete('/:id', AddressController.deleteAddress);
+
+router.get('/:id', AddressController.getUserAddress);
 
 export const AddressRoutes = router;

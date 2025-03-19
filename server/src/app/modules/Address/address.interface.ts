@@ -9,4 +9,5 @@ export type TAddress = {
   city: string;
   policeStation: string;
   address: string;
+  default: boolean;
 };

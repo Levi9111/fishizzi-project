@@ -18,6 +18,7 @@ const addressSchema = new Schema<TAddress>(
     city: { type: String, required: true },
     policeStation: { type: String, required: true },
     address: { type: String, required: true, minlength: 5 },
+    default: { type: Boolean, default: false },
   },
   { timestamps: true },
 );

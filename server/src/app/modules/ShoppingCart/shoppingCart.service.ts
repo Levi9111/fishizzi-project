@@ -10,7 +10,6 @@ const createCartItemsIntoDB = async (payload: TShoppingCart) => {
   const { userId, itemsInCart } = payload;
 
   const user = await User.findOne({ _id: userId });
-  console.log(user);
   if (!user) {
     throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
   }

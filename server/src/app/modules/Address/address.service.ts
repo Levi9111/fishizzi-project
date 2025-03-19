@@ -6,6 +6,15 @@ import { TAddress } from './address.interface';
 import { Address } from './address.model';
 
 const createAddressIntoDB = async (payload: TAddress) => {
+  const totalAddresses = await Address.find({ userId: payload.userId });
+
+  if (totalAddresses.length >= 4) {
+    throw new AppError(
+      StatusCodes.BAD_REQUEST,
+      'Maximum number of addresses crossed!',
+    );
+  }
+
   const result = (await Address.create(payload)).populate('userId');
 
   return result;
@@ -27,6 +36,11 @@ const updateAddressIntoDB = async (id: string, payload: Partial<TAddress>) => {
   return result;
 };
 
+const getUserAddressFromDB = async (userId: string) => {
+  const result = await Address.find({ userId });
+  return result;
+};
+
 const deleteAddressFromDB = async (id: string) => {
   const address = await Address.findByIdAndDelete(id);
 
@@ -37,8 +51,27 @@ const deleteAddressFromDB = async (id: string) => {
   return address;
 };
 
+const makeDefaultAddressIntoDB = async (id: string) => {
+  await Address.updateMany({ default: true }, { $set: { default: false } });
+
+  const result = await Address.findByIdAndUpdate(
+    id,
+    {
+      default: true,
+    },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+
+  return result;
+};
+
 export const AddressServices = {
   createAddressIntoDB,
   updateAddressIntoDB,
+  getUserAddressFromDB,
   deleteAddressFromDB,
+  makeDefaultAddressIntoDB,
 };

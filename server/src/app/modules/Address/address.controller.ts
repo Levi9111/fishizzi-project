@@ -28,6 +28,16 @@ const updateAddress = catchAsync(async (req, res) => {
   });
 });
 
+const getUserAddress = catchAsync(async (req, res) => {
+  const result = await AddressServices.getUserAddressFromDB(req.params.id);
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    data: result,
+  });
+});
+
 const deleteAddress = catchAsync(async (req, res) => {
   const result = await AddressServices.deleteAddressFromDB(req.params.id);
 
@@ -39,8 +49,21 @@ const deleteAddress = catchAsync(async (req, res) => {
   });
 });
 
+const defaultAddress = catchAsync(async (req, res) => {
+  const result = await AddressServices.makeDefaultAddressIntoDB(req.params.id);
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Address changed to default',
+    data: result,
+  });
+});
+
 export const AddressController = {
   createAddress,
   updateAddress,
+  getUserAddress,
   deleteAddress,
+  defaultAddress,
 };
