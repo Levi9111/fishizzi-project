@@ -1,7 +1,6 @@
 'use client';
-import * as React from 'react';
-
-import { Card, CardContent } from '@/components/ui/card';
+import React, { useRef } from 'react';
+import Autoplay from 'embla-carousel-autoplay';
 import {
   Carousel,
   CarouselContent,
@@ -9,7 +8,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-import Autoplay from 'embla-carousel-autoplay';
+import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
 
 import image2 from '../../public/images/shutki-images/2.jpg';
@@ -28,27 +27,35 @@ import image13 from '../../public/images/shutki-images/13.jpg';
 import image14 from '../../public/images/shutki-images/14.jpeg';
 import image15 from '../../public/images/shutki-images/15.jpeg';
 
-export function CarouselProducts() {
-  const plugin = React.useRef(
-    Autoplay({ delay: 1500, stopOnInteraction: true }),
+interface CarouselProductsProps {
+  titles?: string[];
+  autoplayDelay?: number;
+}
+
+const images = [
+  image2,
+  image3,
+  image4,
+  image5,
+  image6,
+  image7,
+  image8,
+  image9,
+  image10,
+  image11,
+  image12,
+  image13,
+  image14,
+  image15,
+];
+const CarouselProducts: React.FC<CarouselProductsProps> = ({
+  titles = [],
+  autoplayDelay = 1500,
+}) => {
+  const plugin = useRef(
+    Autoplay({ delay: autoplayDelay, stopOnInteraction: true }),
   );
 
-  const imgArrr = [
-    image2,
-    image3,
-    image4,
-    image5,
-    image6,
-    image7,
-    image8,
-    image9,
-    image10,
-    image11,
-    image12,
-    image13,
-    image14,
-    image15,
-  ];
   return (
     <Carousel
       plugins={[plugin.current]}
@@ -56,34 +63,48 @@ export function CarouselProducts() {
       onMouseLeave={plugin.current.reset}
       opts={{
         align: 'start',
+        loop: true,
       }}
-      className='w-full'
+      className='w-full max-w-full'
     >
-      <CarouselContent className='py-3'>
-        {imgArrr.map((img, index) => (
-          <CarouselItem key={index} className='md:basis-1/2 lg:basis-1/5'>
-            <Card className=''>
-              <CardContent className='flex !aspect-auto items-center justify-center !p-0 relative '>
-                <div className='w-full aspect-square'>
+      <CarouselContent className='py-4'>
+        {images.map((img, index) => (
+          <CarouselItem
+            key={index}
+            className='xs:basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 p-2'
+          >
+            <Card className='overflow-hidden border rounded-xl h-full'>
+              <CardContent className='flex items-center justify-center p-0 relative h-full'>
+                <div className='w-full aspect-square overflow-hidden'>
                   <Image
                     src={img}
-                    alt='Shutki'
-                    width={600}
-                    height={200}
-                    className='h-[180px] w-full rounded-xl'
+                    alt={titles[index] || `Product ${index + 1}`}
+                    width={1200}
+                    height={800}
+                    className='h-full w-full object-cover transition-transform duration-300 hover:scale-105'
                   />
                 </div>
 
-                <span className='absolute -bottom-2 block w-24 p-1 rounded-xl bg-brand-yellow text-center capitalize text-sm font-semibold'>
-                  title
-                </span>
+                {titles && titles[index] && (
+                  <span
+                    className='absolute -bottom-2 block w-auto min-w-24 max-w-full px-3 py-1 mx-auto left-0 right-0 
+                    text-center rounded-xl bg-primary text-primary-foreground 
+                    text-sm font-medium truncate shadow-md'
+                  >
+                    {titles[index] || `Product ${index + 1}`}
+                  </span>
+                )}
               </CardContent>
             </Card>
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+      <div className='hidden sm:block'>
+        <CarouselPrevious className='absolute left-0 top-1/2 -translate-y-1/2' />
+        <CarouselNext className='absolute right-0 top-1/2 -translate-y-1/2' />
+      </div>
     </Carousel>
   );
-}
+};
+
+export default CarouselProducts;

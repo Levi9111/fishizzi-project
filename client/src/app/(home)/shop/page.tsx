@@ -45,7 +45,7 @@ const ShopPage = () => {
   if (loading) return <Loader />;
 
   return (
-    <div className='p-4 bg-gray-100   '>
+    <div className='p-4 md:max-w-full max-w-[95%] w-fixedScreen mx-auto'>
       <h1 className='text-3xl font-bold text-center mb-6'>Shop Our Products</h1>
       <div className='min-h-screen'>
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>

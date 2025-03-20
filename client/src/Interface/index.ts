@@ -80,3 +80,12 @@ export interface TAddress {
   address: string;
   default: boolean;
 }
+
+export interface TBlog {
+  _id: string;
+  title: string;
+  blogImgUrl: string;
+  content: string[];
+  createdAt: string;
+  updatedAt: string;
+}

@@ -30,7 +30,7 @@ const products = [
 const FeaturedProducts = () => {
   return (
     <div className='md:max-w-full max-w-[95%] w-fixedScreen mx-auto pb-10'>
-      <div className='flex flex-col items-center justify-center rounded-md shadow-close mt-14 mb-4 max-w-96 w-full py-6 mx-auto'>
+      <div className='flex flex-col items-center justify-center rounded-md shadow-close mt-14 mb-4 max-w-96 w-full py-6 mx-auto bg-white'>
         <h3 className='text-center text-3xl  uppercase'>Products</h3>
         <p className='text-center text-xl uppercase '>
           Find your preferred shutki

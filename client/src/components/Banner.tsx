@@ -25,21 +25,14 @@ const informations = [
 
 const Banner = () => {
   return (
-    <div className='md:max-w-full max-w-[95%] w-fixedScreen mx-auto grid md:grid-cols-4 md:gap-5 gap-2'>
+    <div className='md:max-w-full max-w-[95%] w-fixedScreen mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4'>
       {informations.map((info) => (
         <div
-          className='flex items-center justify-start gap-2 rounded-md shadow-close transition-all duration-300 p-3'
+          className='flex items-center gap-3 rounded-md shadow-md p-4 bg-white'
           key={info.title}
         >
-          <Image
-            src={info.icon}
-            alt={info.title}
-            width={30}
-            height={30}
-            className=''
-          />
-
-          <p className='text-center text-xl'>{info.title}</p>
+          <Image src={info.icon} alt={info.title} width={35} height={35} />
+          <p className='text-center text-lg font-medium'>{info.title}</p>
         </div>
       ))}
     </div>

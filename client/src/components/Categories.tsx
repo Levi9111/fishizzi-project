@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
-import { CarouselImage } from './Carouselmage';
-import { CarouselProducts } from './CarouselProducts';
+import CarouselProducts from './CarouselProducts';
+import CarouselImages from './Carouselmage';
 
 const Categories = () => {
   const categories = [
@@ -32,8 +32,12 @@ const Categories = () => {
         ))}
       </div>
       <div className=''>
-        <CarouselImage />
-        <CarouselProducts />
+        <CarouselImages />
+
+        {/* TODO: Manage the responsive layout this component  later*/}
+        <div className='hidden sm:block'>
+          <CarouselProducts />
+        </div>
       </div>
     </section>
   );
