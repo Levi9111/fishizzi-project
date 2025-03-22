@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { Gender } from '../Admin/admin.constant';
 
 const createUserNameValidationSchema = z.object({
   firstName: z.string().min(1).max(20),
@@ -13,7 +12,7 @@ export const createCustomerValidationSchema = z.object({
       designation: z.string(),
       name: createUserNameValidationSchema,
       dateOfBirth: z.string().optional(),
-      gender: z.enum([...Gender] as [string, ...string[]]),
+      gender: z.enum(['male', 'female', 'others'] as [string, ...string[]]),
       email: z.string().email(),
       contactNo: z.string(),
       profileImg: z.string(),
