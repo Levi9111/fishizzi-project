@@ -19,6 +19,10 @@ const globalErrorHandler = (
   res: Response,
   next: NextFunction,
 ): void => {
+  if (res.headersSent) {
+    return next(err);
+  }
+
   //setting default values
   let statusCode = 500;
   let message = 'Something went wrong!';
