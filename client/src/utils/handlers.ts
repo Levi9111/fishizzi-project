@@ -78,9 +78,9 @@ export const handleUpdateQuantity = async (
     toast.warning('You can order a maximum of 8 units per product.');
     return;
   }
-  const { _id: productId } = item.productId;
-
   try {
+    const { _id: productId } = item.productId;
+
     if (setLoading) setLoading(true);
 
     // Update cart on the server
