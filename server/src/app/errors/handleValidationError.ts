@@ -4,7 +4,7 @@ import { TErrorSources, TGenericErrorResponse } from '../interface/error';
 const handleValidationError = (
   err: Error.ValidationError,
 ): TGenericErrorResponse => {
-  const errorSources: TErrorSources[] = Object.values(err.errors).map(
+  const errorSources: TErrorSources = Object.values(err.errors).map(
     (val: Error.ValidatorError | Error.CastError) => {
       return {
         path: val?.path,

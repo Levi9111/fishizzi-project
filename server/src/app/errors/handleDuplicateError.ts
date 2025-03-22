@@ -1,12 +1,13 @@
 import { TErrorSources, TGenericErrorResponse } from '../interface/error';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const handleDuplicateError = (err: any): TGenericErrorResponse => {
+const handleDuplicateError = (err: {
+  message: string;
+}): TGenericErrorResponse => {
   const match = err.message.match(/"([^"]*)"/);
 
   const extractedMessage = match && match[1];
 
-  const errorSources: TErrorSources[] = [
+  const errorSources: TErrorSources = [
     {
       path: '',
       message: `${extractedMessage} already exists`,
