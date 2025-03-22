@@ -17,7 +17,6 @@ export const handleAddToCart = async (
   // 1. check the quantity of the product in the cart
   const result = await getDataFromDB(`${base_url}/my-cart/${userId}`);
 
-  console.log(result);
   const existingProduct = result?.data?.itemsInCart.find(
     (item: TCartItemInCart) => item.productId._id === productId,
   );

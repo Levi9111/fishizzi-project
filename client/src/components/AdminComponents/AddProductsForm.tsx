@@ -55,9 +55,7 @@ const AddProductsForm = () => {
         `${base_url}/products/create-product`,
         formData,
       );
-
-      const data = await response.json();
-      toast(data.message);
+      toast(response.message);
       setLoading(false);
     } catch (error) {
       console.error('Error uploading:', error);

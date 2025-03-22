@@ -3,6 +3,7 @@ import { useUser } from '@/ContextProvider/Provider';
 import Modal from '../Modal';
 import ManageProductInfo from './ManageProductInfo';
 import ManageUserInfo from './ManageUserInfo';
+import ManageBlogs from './ManageBlogs';
 
 const AdminControlPage = () => {
   const { user } = useUser();
@@ -31,6 +32,12 @@ const AdminControlPage = () => {
             <ManageUserInfo />
           </Modal>
         </AdminCard>
+
+        <AdminCard title='Mange Blogs'>
+          <Modal title='Mange Blogs'>
+            <ManageBlogs />
+          </Modal>
+        </AdminCard>
       </div>
     </div>
   );
@@ -45,7 +52,7 @@ const AdminCard = ({
   children: React.ReactNode;
 }) => {
   return (
-    <div className='p-6 bg-white shadow-lg rounded-lg flex flex-col items-center justify-center text-center'>
+    <div className='p-6 bg-white shadow-lg rounded-lg flex flex-col items-center justify-center '>
       <h4 className='text-xl font-semibold text-gray-800 mb-3'>{title}</h4>
       {children}
     </div>

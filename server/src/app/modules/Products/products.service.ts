@@ -47,29 +47,24 @@ const getAllProductsFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getProductByIdFromDB = async (id: string) => {
-  const product = await Products.findById(id);
-
-  if (!product) {
+  const result = await Products.findById(id);
+  if (!result) {
     throw new AppError(StatusCodes.NOT_FOUND, 'Product not found');
   }
-
-  const result = await Products.findById(id);
 
   return result;
 };
 
 const deleteProductFromDB = async (id: string) => {
-  const product = await Products.findById(id);
-
-  if (!product) {
-    throw new AppError(StatusCodes.NOT_FOUND, 'Product not found');
-  }
-
   const result = await Products.findByIdAndUpdate(
     id,
     { isDeleted: true },
     { new: true, runValidators: true },
   );
+
+  if (!result) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'Product not found');
+  }
 
   return result;
 };

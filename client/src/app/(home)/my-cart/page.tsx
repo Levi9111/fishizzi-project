@@ -25,7 +25,6 @@ const CartPage = () => {
 
     const fetchCart = async () => {
       try {
-        console.log(cart);
         const response = await getDataFromDB(
           `${base_url}/my-cart/${user?._id}`,
         );

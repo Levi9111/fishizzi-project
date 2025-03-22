@@ -46,12 +46,11 @@ const ManageAddresses = () => {
         `${base_url}/address/default-address/${id}`,
       );
       toast.info(result.message);
-      console.log(result);
     } catch (error) {
       console.error('Error setting default address:', error);
+      toast.error('Failed to set default address');
     }
   };
-  console.log(addresses);
 
   if (loading) return <Loader />;
 

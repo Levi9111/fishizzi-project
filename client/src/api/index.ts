@@ -16,7 +16,6 @@ export const manageUserData = async (
 };
 
 export const getDataFromDB = async (url: string) => {
-  console.log(url);
   const res = await fetch(url, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
@@ -32,10 +31,11 @@ export const postToDB = async (
 ) => {
   const response = await fetch(url, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
+    body: payload instanceof FormData ? payload : JSON.stringify(payload),
+    headers:
+      payload instanceof FormData
+        ? undefined // Let the browser set Content-Type automatically
+        : { 'Content-Type': 'application/json' },
   });
 
   const result = await response.json();

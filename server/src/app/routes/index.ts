@@ -3,6 +3,7 @@ import { ProuductRoutes } from '../modules/Products/products.route';
 import { UserRoutes } from '../modules/User/user.route';
 import { AddressRoutes } from '../modules/Address/address.route';
 import { ShoppingCartRoutes } from '../modules/ShoppingCart/shoppingCart.route';
+import { BlogRoutes } from '../modules/Blog/blog.route';
 
 const router = Router();
 
@@ -18,6 +19,10 @@ const moduleRoutes = [
   {
     path: '/address',
     route: AddressRoutes,
+  },
+  {
+    path: '/blogs',
+    route: BlogRoutes,
   },
   {
     path: '/my-cart',

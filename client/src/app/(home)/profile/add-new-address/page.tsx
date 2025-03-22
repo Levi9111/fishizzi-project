@@ -68,8 +68,6 @@ const AddressPage = () => {
           },
         );
 
-        console.log(updatedResult);
-
         if (updatedResult.success) {
           toast.success(updatedResult.message);
         } else {

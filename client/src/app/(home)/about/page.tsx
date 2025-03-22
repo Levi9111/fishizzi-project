@@ -1,7 +1,5 @@
 'use client';
 
-import video from '../../../../public/video/shutki.mp4';
-
 const AboutUsPage = () => {
   return (
     <div className='md:max-w-full w-fixedScreen max-w-[95%] mx-auto min-h-screen  flex flex-col items-center justify-center py-12'>
@@ -12,7 +10,7 @@ const AboutUsPage = () => {
           controls
           playsInline
         >
-          <source src='/videos/fishizzy-welcome.mp4' type='video/mp4' />
+          <source src='/video/shutki.mp4' type='video/mp4' />
           Your browser does not support the video tag.
         </video>
       </div>
