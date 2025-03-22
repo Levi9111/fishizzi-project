@@ -35,7 +35,7 @@ export const Provider = ({ children }: { children: ReactNode }) => {
 
     if (storedUser) setUser(JSON.parse(storedUser));
     if (storedCart && cart === null) setCart(JSON.parse(storedCart));
-  }, []);
+  }, [cart]);
 
   return (
     <UserContext.Provider

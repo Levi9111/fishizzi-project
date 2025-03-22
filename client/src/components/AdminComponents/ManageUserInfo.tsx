@@ -3,7 +3,7 @@ import { useUser } from '@/ContextProvider/Provider';
 import { useEffect, useState } from 'react';
 
 const ManageUserInfo = () => {
-  const [userInfo, setUserInfo] = useState([]);
+  // const [userInfo, setUserInfo] = useState([]);
   const { base_url } = useUser();
 
   //   TODO: create manage user info functionality
