@@ -13,9 +13,9 @@ import {
 import banner1 from '../../public/images/banner-image/banner-img-1.jpeg';
 import banner2 from '../../public/images/banner-image/banner-img-2.jpeg';
 import banner3 from '../../public/images/banner-image/banner-img-3.png';
-import banner4 from '../../public/images/banner-image/banner-img-4.jpeg';
+import banner4 from '../../public/images/banner-image/banner-img-4.jpg';
 import banner5 from '../../public/images/banner-image/banner-img-5.jpeg';
-import banner6 from '../../public/images/banner-image/banner-img-6.jpeg';
+import banner6 from '../../public/images/banner-image/banner-img-6.jpg';
 import Image from 'next/image';
 import { useRef } from 'react';
 
@@ -47,8 +47,8 @@ const CarouselImages = ({ titles = [], autoplayDelay = 1500 }) => {
                     <Image
                       src={img}
                       alt={titles[index] || `Banner ${index + 1}`}
-                      width={1700}
-                      height={1200}
+                      width={1900}
+                      height={1600}
                       className='w-full h-full '
                     />
                   </div>
