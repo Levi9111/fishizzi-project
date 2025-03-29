@@ -6,6 +6,5 @@ export interface TOrder {
   location: 'Inside Dhaka' | 'Outside Dhaka';
   products: Types.ObjectId[];
   totalPrice: number;
-  deliveryCharge: number;
   status: 'pending' | 'confirmed' | 'cancelled' | 'delivered';
 }

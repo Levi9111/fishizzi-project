@@ -5,8 +5,26 @@ import AppError from '../../errors/AppError';
 import { TOrder } from './orders.interface';
 import { Orders } from './orders.model';
 import QueryBuilder from '../../builder/Querybuilder';
+import { User } from '../User/user.model';
+import { Address } from '../Address/address.model';
+import { Products } from '../Products/products.model';
 
 const createOrderIntoDB = async (payload: TOrder) => {
+  const { userId, products, address } = payload;
+
+  const userData = await User.find({ _id: userId });
+  if (!userData) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
+  }
+  const addressData = await Address.find({ _id: address });
+  if (!addressData) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'Address not found');
+  }
+  const productsData = await Products.find({ _id: { $in: products } });
+  if (!productsData || productsData.length === 0) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'Products not found');
+  }
+
   const result = await Orders.create(payload);
 
   return result;
@@ -26,7 +44,21 @@ const getMyOrdersFromDB = async (userId: string) => {
 
 const getAllOrdersFromDB = async (query: Record<string, unknown>) => {
   const ordersQuery = new QueryBuilder(
-    Orders.find().populate('userId address products'),
+    Orders.find()
+      .populate({
+        path: 'userId',
+        select: '_id name image status',
+      })
+      .populate({
+        path: 'address',
+        select: 'fullName phoneNumber',
+      })
+      .populate({
+        path: 'products',
+        select: '_id name price productImgUrl',
+      })
+      .select('location products totalPrice status')
+      .lean(),
     query,
   )
     .search(['email'])
@@ -40,9 +72,21 @@ const getAllOrdersFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getSingleOrderFromDB = async (orderId: string) => {
-  const result = await Orders.findById(orderId).populate(
-    'userId address products',
-  );
+  const result = await Orders.findById(orderId)
+    .populate({
+      path: 'userId',
+      select: '_id name image status',
+    })
+    .populate({
+      path: 'address',
+      select: 'fullName phoneNumber',
+    })
+    .populate({
+      path: 'products',
+      select: '_id name price productImgUrl',
+    })
+    .select('location totalPrice status')
+    .lean();
   if (!result) {
     throw new AppError(StatusCodes.NOT_FOUND, 'Order not found');
   }

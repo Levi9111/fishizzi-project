@@ -5,3 +5,4 @@
 5. create a paginaiton for searching orders according to status
 6. Orders can be searched by the email if the admin wants that
 7. While searching by email there will be a dropdown at the top right corner. The dropdown will contain     emails of all the users.
+8. After an order is confirmed i.e. the status of the order is confirmed, the number of products ordered will be substrcted to the number of stocks of that product

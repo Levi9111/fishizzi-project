@@ -29,10 +29,7 @@ const OrderSchema = new Schema<TOrder>(
       type: Number,
       required: true,
     },
-    deliveryCharge: {
-      type: Number,
-      required: true,
-    },
+
     status: {
       type: String,
       enum: ['pending', 'confirmed', 'cancelled', 'delivered'],

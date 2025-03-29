@@ -11,11 +11,11 @@ router.post(
   OrderController.createOrder,
 );
 
-router.get('/all-orders/', OrderController.getAllOrders);
+router.get('/all-orders', OrderController.getAllOrders);
 
 router.get('/my-orders/:userId', OrderController.getMyOrders);
 
-router.get('/single-order/:orderId', OrderController.getSingleOrder);
+router.get('/order/:orderId', OrderController.getSingleOrder);
 
 router.patch(
   '/update-order-status/:orderId',
