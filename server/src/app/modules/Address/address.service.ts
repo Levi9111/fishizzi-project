@@ -38,6 +38,10 @@ const updateAddressIntoDB = async (id: string, payload: Partial<TAddress>) => {
 
 const getUserAddressFromDB = async (userId: string) => {
   const result = await Address.find({ userId });
+
+  if (!result) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'Address not found');
+  }
   return result;
 };
 

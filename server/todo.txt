@@ -1,0 +1,7 @@
+1. create all orders page for all orders for admin
+2. create all orders page for user with only user's orders
+3. create single order page for both user and admin
+4. create a status changing functionality for every order for admin
+5. create a paginaiton for searching orders according to status
+6. Orders can be searched by the email if the admin wants that
+7. While searching by email there will be a dropdown at the top right corner. The dropdown will contain     emails of all the users.
