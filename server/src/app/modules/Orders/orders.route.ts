@@ -11,7 +11,7 @@ router.post(
   OrderController.createOrder,
 );
 
-router.get('/all-orders', OrderController.getAllOrders);
+router.get('/', OrderController.getAllOrders);
 
 router.get('/my-orders/:userId', OrderController.getMyOrders);
 
