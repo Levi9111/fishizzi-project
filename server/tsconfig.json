@@ -4,7 +4,13 @@
   "compilerOptions": {
     "target": "es2020",
     "module": "commonjs",
-    "lib": ["es2020", "esnext.asynciterable", "es2017.object"],
+    "lib": [
+      "es2020",
+      "esnext.asynciterable",
+      "es2017.object",
+      "DOM",
+      "DOM.AsyncIterable"
+    ],
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
