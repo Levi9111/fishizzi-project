@@ -38,6 +38,9 @@ const updateAddressIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, f
 });
 const getUserAddressFromDB = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield address_model_1.Address.find({ userId });
+    if (!result) {
+        throw new AppError_1.default(http_status_codes_1.StatusCodes.NOT_FOUND, 'Address not found');
+    }
     return result;
 });
 const deleteAddressFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
