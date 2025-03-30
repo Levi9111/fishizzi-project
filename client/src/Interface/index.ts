@@ -106,9 +106,11 @@ export interface TBlog {
 // -------------------------------
 
 export interface TOrderData {
+  _id: string;
   userId: {
     name: string;
     email: string;
+    image: string;
   };
   address: {
     fullName: string;
@@ -120,16 +122,23 @@ export interface TOrderData {
   };
   products: {
     _id: string;
-    name: string;
-    description: string;
-    price: string;
-    stock: string;
-    category: string;
-    productImgUrl: string;
+    productId: {
+      _id: string;
+      name: string;
+      description: string;
+      price: string;
+      stock: string;
+      category: string;
+      productImgUrl: string;
+    };
+    quantity: number;
   }[];
+  location: string;
   totalPrice: number;
   trackingNumber: number;
   status: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // -------------------------------

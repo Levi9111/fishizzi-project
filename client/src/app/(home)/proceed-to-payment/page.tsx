@@ -272,6 +272,7 @@ import { useUser } from '@/ContextProvider/Provider';
 import { getDataFromDB, postToDB, updateDataIntoDB } from '@/api';
 import { TAddress, TProduct } from '@/Interface';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 const ProceedToPayment = () => {
   const router = useRouter();
@@ -304,13 +305,24 @@ const ProceedToPayment = () => {
   const handleConfirmOrder = async () => {
     try {
       setLoading(true);
+
+      const address = addresses.find((address) => address.default)?._id;
+
+      if (!address) {
+        toast.error('Please select a default address to proceed');
+        return;
+      }
+
       const confirmOrderData = {
         order: {
           userId: user?._id,
-          products: cart!.itemsInCart.map((item) => item.productId._id),
+          products: cart!.itemsInCart.map((item) => ({
+            productId: item.productId._id,
+            quantity: item.quantity,
+          })),
           totalPrice: finalTotal,
           location,
-          address: addresses.find((address) => address.default)?._id,
+          address,
         },
       };
 
@@ -318,9 +330,7 @@ const ProceedToPayment = () => {
         `${base_url}/orders/create-order`,
         confirmOrderData,
       );
-
-      console.log(result.data);
-
+      console.log(result);
       if (result.success) {
         if (typeof window !== 'undefined') {
           localStorage.setItem('order', JSON.stringify(result.data));
@@ -337,7 +347,7 @@ const ProceedToPayment = () => {
         setLoading(false);
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
       setLoading(false);
     }
   };

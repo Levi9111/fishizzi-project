@@ -21,7 +21,9 @@ const createOrderIntoDB = async (payload: TOrder) => {
   if (!addressData) {
     throw new AppError(StatusCodes.NOT_FOUND, 'Address not found');
   }
-  const productsData = await Products.find({ _id: { $in: products } });
+  const productsData = await Products.find({
+    _id: { $in: products.map((p) => p.productId) },
+  });
   if (!productsData || productsData.length === 0) {
     throw new AppError(StatusCodes.NOT_FOUND, 'Products not found');
   }
@@ -31,7 +33,9 @@ const createOrderIntoDB = async (payload: TOrder) => {
   payload.trackingNumber = +trackingNumber;
 
   const createdOrder = await Orders.create(payload);
-  const result = await createdOrder.populate('userId address products');
+  const result = await createdOrder.populate(
+    'userId address products.productId',
+  );
 
   return result;
 };
@@ -60,10 +64,10 @@ const getAllOrdersFromDB = async (query: Record<string, unknown>) => {
         select: 'fullName phoneNumber',
       })
       .populate({
-        path: 'products',
+        path: 'products.productId',
         select: '_id name price productImgUrl',
       })
-      .select('location products totalPrice status')
+      .select('location products totalPrice status trackingNumber')
       .lean(),
     query,
   )
@@ -85,13 +89,12 @@ const getSingleOrderFromDB = async (orderId: string) => {
     })
     .populate({
       path: 'address',
-      select: 'fullName phoneNumber',
     })
     .populate({
-      path: 'products',
-      select: '_id name price productImgUrl',
+      path: 'products.productId',
+      select: '_id name price productImgUrl quantity',
     })
-    .select('location totalPrice status')
+    .select('location totalPrice status trackingNumber')
     .lean();
   if (!result) {
     throw new AppError(StatusCodes.NOT_FOUND, 'Order not found');

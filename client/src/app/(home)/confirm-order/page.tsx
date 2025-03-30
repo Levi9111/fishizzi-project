@@ -4,17 +4,21 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { TOrderData } from '@/Interface';
+import Loader from '@/components/Loader';
 
 const OrderConfirmation = () => {
   const [order, setOrder] = useState<TOrderData | null>(null);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const orderData = localStorage.getItem('order');
+    const orderData = JSON.parse(localStorage.getItem('order')!);
+    console.log('Order data', orderData.products[0].productId);
     if (orderData) {
-      setOrder(JSON.parse(orderData));
-      localStorage.removeItem('order');
+      setOrder(orderData);
+      // localStorage.removeItem('order');
+      setLoading(false);
     } else {
       console.log('No order found in localStorage.');
+      setLoading(false);
     }
   }, []);
 
@@ -28,6 +32,8 @@ const OrderConfirmation = () => {
       </div>
     );
   }
+
+  if (loading || !order.products) return <Loader />;
 
   return (
     <div className='p-6 max-w-fixedScreen w-full mx-auto'>
@@ -89,25 +95,25 @@ const OrderConfirmation = () => {
           </h3>
           {order.products.map((product) => (
             <div
-              key={product._id}
+              key={product.productId._id}
               className='flex items-center gap-4 border-b py-3 last:border-b-0'
             >
               <Image
-                src={product.productImgUrl}
-                alt={product.name}
+                src={product.productId.productImgUrl}
+                alt={product.productId.name}
                 width={80}
                 height={80}
                 className='w-20 h-20 object-cover rounded-md'
               />
               <div className='flex flex-col'>
                 <h4 className='text-md font-semibold text-gray-800'>
-                  {product.name}
+                  {product.productId.name}
                 </h4>
                 <p className='text-sm text-gray-600'>
-                  {product.description.substring(0, 50)}...
+                  {product.productId.description.substring(0, 50)}...
                 </p>
                 <p>
-                  <strong>Price:</strong> ৳{product.price}
+                  <strong>Price:</strong> ৳{product.productId.price}
                 </p>
               </div>
             </div>
@@ -119,6 +125,20 @@ const OrderConfirmation = () => {
           <p className='text-lg font-semibold text-gray-800'>
             Total: ৳{order.totalPrice}
           </p>
+          <p className='text-lg font-semibold text-gray-800'>
+            Placed On:{' '}
+            {new Date(order.createdAt).toLocaleString('en-US', {
+              month: 'long',
+              day: 'numeric',
+              year: 'numeric',
+              timeZone: 'Asia/Dhaka',
+              hour: 'numeric',
+              minute: 'numeric',
+            })}
+          </p>
+          <p className='text-md font-semibold text-gray-800'>
+            <strong>Tracking Number:</strong> {order.trackingNumber}
+          </p>
           <p
             className={`text-md font-semibold ${
               order.status === 'pending' ? 'text-yellow-500' : 'text-green-500'
@@ -126,15 +146,12 @@ const OrderConfirmation = () => {
           >
             Status: {order.status}
           </p>
-          <p className='text-md font-semibold text-gray-800'>
-            <strong>Tracking Number:</strong> {order.trackingNumber}
-          </p>
         </div>
 
         {/* Continue Shopping Button */}
         <div className='col-span-full text-center'>
           <Button className='w-full'>
-            <Link href='/'>Continue Shopping</Link>
+            <Link href='/shop'>Continue Shopping</Link>
           </Button>
         </div>
       </div>

@@ -7,7 +7,12 @@ const orderValidationSchema = z.object({
       address: z.string().min(1, 'Address ID is required'),
       location: z.enum(['Inside Dhaka', 'Outside Dhaka']),
       totalPrice: z.number(),
-      products: z.array(z.string().min(1, 'Product ID is required')),
+      products: z.array(
+        z.object({
+          productId: z.string().min(1, 'Product ID is required'),
+          quantity: z.number().min(1, 'Quantity must be at least 1'),
+        }),
+      ),
       status: z
         .enum(['pending', 'confirmed', 'cancelled', 'delivered'])
         .default('pending')

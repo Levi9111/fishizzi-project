@@ -4,6 +4,7 @@ import Modal from '../Modal';
 import ManageProductInfo from './ManageProductInfo';
 import ManageUserInfo from './ManageUserInfo';
 import ManageBlogs from './ManageBlogs';
+import Link from 'next/link';
 
 const AdminControlPage = () => {
   const { user } = useUser();
@@ -37,6 +38,12 @@ const AdminControlPage = () => {
           <Modal title='Mange Blogs'>
             <ManageBlogs />
           </Modal>
+        </AdminCard>
+
+        <AdminCard title='Manage Orders'>
+          <button className='px-4 py-2 bg-gray-700 hover:bg-gray-900 text-white rounded-lg shadow transition'>
+            <Link href='/manage-orders'>Manage Orders</Link>
+          </button>
         </AdminCard>
       </div>
     </div>

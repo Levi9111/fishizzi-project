@@ -6,3 +6,11 @@
 6. Orders can be searched by the email if the admin wants that
 7. While searching by email there will be a dropdown at the top right corner. The dropdown will contain     emails of all the users.
 8. After an order is confirmed i.e. the status of the order is confirmed, the number of products ordered will be substrcted to the number of stocks of that product
+
+
+
+For all orders page.
+
+1. the most frequent orders will be shown first.
+2.there will be a dropdown btn at the top right corner to select orders to show based on status.
+3. the total number of orders shown at a time will be 10. Further orders will be paginated to the next page.

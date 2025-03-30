@@ -1,12 +1,13 @@
+import { useEffect, useState } from 'react';
 import { getDataFromDB, updateDataIntoDB } from '@/api';
 import { useUser } from '@/ContextProvider/Provider';
+import { TOrderData } from '@/Interface';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import Slider from 'react-slick'; // Import Slider for the carousel
+import Slider from 'react-slick';
 
 const UserDetailsPage = () => {
   const { user, base_url } = useUser();
-  const [previousOrders, setPreviousOrders] = useState<any[]>([]);
+  const [previousOrders, setPreviousOrders] = useState<TOrderData[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -49,7 +50,7 @@ const UserDetailsPage = () => {
   const sliderSettings = {
     infinite: true,
     dots: true,
-    speed: 500,
+    speed: 250,
     slidesToShow: 1,
     slidesToScroll: 1,
     responsive: [
