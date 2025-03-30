@@ -9,7 +9,7 @@ const router = Router();
 router.post(
   '/create-product',
   fileUploader.upload.single('file'),
-  (req: Request, res: Response, next: NextFunction) => {
+  (req: Request, _res: Response, next: NextFunction) => {
     req.body = JSON.parse(req.body.data);
     next();
   },

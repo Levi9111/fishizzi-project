@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { JwtPayload } from 'jsonwebtoken';
 
 declare global {
@@ -5,5 +6,12 @@ declare global {
     interface Request {
       user: JwtPayload;
     }
+  }
+
+  interface ErrorConstructor {
+    captureStackTrace(
+      targetObject: object,
+      constructorOpt?: (this: void, ...args: any[]) => any,
+    ): void;
   }
 }

@@ -10,7 +10,7 @@ const products_validation_1 = require("./products.validation");
 const fileUploader_1 = require("../../utils/fileUploader");
 const products_controller_1 = require("./products.controller");
 const router = (0, express_1.Router)();
-router.post('/create-product', fileUploader_1.fileUploader.upload.single('file'), (req, res, next) => {
+router.post('/create-product', fileUploader_1.fileUploader.upload.single('file'), (req, _res, next) => {
     req.body = JSON.parse(req.body.data);
     next();
 }, (0, validateRequest_1.default)(products_validation_1.ProductValidations.createProductValidationSchema), products_controller_1.ProductsControllers.createProduct);

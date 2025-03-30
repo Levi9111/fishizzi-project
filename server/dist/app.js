@@ -17,7 +17,7 @@ app.use((0, cookie_parser_1.default)());
 // application routes
 app.use('/api/v1', routes_1.default);
 const test = (req, res) => {
-    const message = 'Fishizzy Web server';
+    const message = `Fishizzy Web server ${req.url}`;
     res.send(message);
 };
 app.get('/', test);

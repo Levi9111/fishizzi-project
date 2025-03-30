@@ -1,9 +1,6 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { ErrorRequestHandler, Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { TErrorSources } from '../interface/error';
 import { ZodError } from 'zod';
 import handleZodError from '../errors/handleZodError';
@@ -15,7 +12,7 @@ import config from '../config';
 
 const globalErrorHandler = (
   err: any,
-  req: Request,
+  _req: Request,
   res: Response,
   next: NextFunction,
 ): void => {

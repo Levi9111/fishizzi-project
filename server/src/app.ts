@@ -16,7 +16,7 @@ app.use(cookieParser());
 app.use('/api/v1', router);
 
 const test = (req: Request, res: Response) => {
-  const message = 'Fishizzy Web server';
+  const message = `Fishizzy Web server ${req.url}`;
   res.send(message);
 };
 

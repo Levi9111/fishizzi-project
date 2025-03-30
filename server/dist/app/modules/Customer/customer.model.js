@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Customer = void 0;
 const mongoose_1 = require("mongoose");
@@ -72,8 +63,7 @@ const customerSchema = new mongoose_1.Schema({
 });
 // generating full name
 customerSchema.virtual('fullName').get(function () {
-    var _a, _b;
-    return ((_a = this === null || this === void 0 ? void 0 : this.name) === null || _a === void 0 ? void 0 : _a.firstName) + '' + ((_b = this === null || this === void 0 ? void 0 : this.name) === null || _b === void 0 ? void 0 : _b.lastName);
+    return this?.name?.firstName + '' + this?.name?.lastName;
 });
 // filter out deleted documents
 customerSchema.pre('find', function (next) {
@@ -85,10 +75,8 @@ customerSchema.pre('findOne', function (next) {
     next();
 });
 //checking if user is already exist!
-customerSchema.statics.isUserExists = function (id) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const existingUser = yield exports.Customer.findOne({ id });
-        return existingUser;
-    });
+customerSchema.statics.isUserExists = async function (id) {
+    const existingUser = await exports.Customer.findOne({ id });
+    return existingUser;
 };
 exports.Customer = (0, mongoose_1.model)('Customer', customerSchema);

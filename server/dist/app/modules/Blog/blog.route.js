@@ -10,7 +10,7 @@ const fileUploader_1 = require("../../utils/fileUploader");
 const blog_validation_1 = require("./blog.validation");
 const blog_controller_1 = require("./blog.controller");
 const router = (0, express_1.Router)();
-router.post('/create-blog', fileUploader_1.fileUploader.upload.single('file'), (req, res, next) => {
+router.post('/create-blog', fileUploader_1.fileUploader.upload.single('file'), (req, _res, next) => {
     req.body = JSON.parse(req.body.data);
     next();
 }, (0, validateRequest_1.default)(blog_validation_1.BlogValidations.createBlogValidationSchema), blog_controller_1.BlogControllers.createBlog);

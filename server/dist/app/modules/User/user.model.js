@@ -11,5 +11,4 @@ const userSchema = new mongoose_1.Schema({
     phoneNumber: { type: String, required: false },
     address: { type: [String], default: [] },
 }, { timestamps: true });
-userSchema.index({ email: 1 }, { unique: true });
 exports.User = (0, mongoose_1.model)('User', userSchema);
