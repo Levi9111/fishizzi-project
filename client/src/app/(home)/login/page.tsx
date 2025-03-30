@@ -51,8 +51,7 @@ const LoginPage = () => {
             `${base_url}/my-cart/${storedUser?._id}`,
           );
           localStorage.setItem('cart', JSON.stringify(cartInfo.data));
-          const storedCartInfo = JSON.parse(localStorage.getItem('cart')!);
-          setCart(storedCartInfo);
+          setCart(cartInfo.data);
         }
       } catch (error) {
         console.error('Error storing user:', error);

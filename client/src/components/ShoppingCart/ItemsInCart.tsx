@@ -1,4 +1,3 @@
-import { getDataFromDB } from '@/api';
 import { useUser } from '@/ContextProvider/Provider';
 import { TCartItemInCart, Product } from '@/Interface';
 import { Minus, Plus, Trash2 } from 'lucide-react';
@@ -7,33 +6,53 @@ import { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import { handleDeleteItem, handleUpdateQuantity } from '@/utils/handlers';
+import { getDataFromDB } from '@/api';
 
-const ItemsInCart = ({
-  item,
-  loading,
-  setLoading,
-}: {
-  loading: boolean;
-  setLoading: (loading: boolean) => void;
-  item: TCartItemInCart;
-}) => {
-  const { user, base_url, setCart } = useUser();
+// TODO: Too many bugs. Fix for now
+const ItemsInCart = ({ item }: { item: TCartItemInCart }) => {
+  const { user, base_url, setCart, setLoading } = useUser();
   const [product, setProduct] = useState<Product | null>(null);
+
+  const { _id: productId } = item.productId;
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const { _id: productId } = item.productId;
-      const res = await getDataFromDB(`${base_url}/products/${productId}`);
-      setProduct(res.data);
+      try {
+        // setLoading(true);
+        const res = await getDataFromDB(`${base_url}/products/${productId}`);
+        if (res.data) {
+          setProduct(res.data);
+        }
+      } catch (error) {
+        console.error('Error fetching product:', error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchProduct();
-  }, [item.productId, base_url]);
+  }, [productId, base_url, setLoading]);
 
-  if (loading || user === null)
-    return (
-      <div className='w-24 h-24 border-8 border-gray-200 border-t-blue-600 rounded-full animate-spin' />
+  if (!user) {
+    setLoading(false);
+    return;
+  }
+
+  const updateQuantity = async (newQty: number) => {
+    if (!product || !product.stock) {
+      setLoading(true);
+    }
+
+    await handleUpdateQuantity(
+      Number(product?.stock),
+      item,
+      newQty,
+      user._id,
+      base_url,
+      setCart,
+      setLoading,
     );
+  };
 
   return (
     <div
@@ -46,11 +65,11 @@ const ItemsInCart = ({
           alt={item.productId.name}
           width={80}
           height={80}
-          className='rounded-md max-h-[80px] '
+          className='rounded-md max-h-[80px]'
         />
         <div>
           <Link href={`/shop/${item.productId._id}`}>
-            <h3 className='text-lg font-semibold'>{item.productId.name} </h3>
+            <h3 className='text-lg font-semibold'>{item.productId.name}</h3>
           </Link>
           <p className='text-gray-600'>Price: BDT {item.productId.price}</p>
           <p
@@ -62,38 +81,16 @@ const ItemsInCart = ({
           </p>
         </div>
       </div>
+
       <div className='flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end mt-4 sm:mt-0'>
-        {/* product id is being fetched as whole product because of  mongoose populate */}
         <Button
           variant='outline'
-          onClick={() =>
-            handleUpdateQuantity(
-              +product!.stock,
-              item,
-              +item.quantity - 1,
-              user._id,
-              base_url,
-              setCart,
-              setLoading,
-            )
-          }
+          onClick={() => updateQuantity(+item.quantity - 1)}
         >
           <Minus size={16} />
         </Button>
         <span className='text-lg'>{item.quantity}</span>
-        <Button
-          onClick={() =>
-            handleUpdateQuantity(
-              +product!.stock,
-              item,
-              +item.quantity + 1,
-              user._id,
-              base_url,
-              setCart,
-              setLoading,
-            )
-          }
-        >
+        <Button onClick={() => updateQuantity(+item.quantity + 1)}>
           <Plus size={16} />
         </Button>
         <Button

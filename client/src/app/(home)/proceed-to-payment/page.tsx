@@ -1,6 +1,6 @@
 'use client';
-
-import { useState } from 'react';
+/*
+import { useEffect, useState } from 'react';
 import { RadioGroup } from '@headlessui/react';
 import { Button } from '@/components/ui/button';
 import { Home, PlusCircle, Truck } from 'lucide-react';
@@ -11,14 +11,28 @@ import cod from '../../../../public/images/payment-images/cod.png';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useUser } from '@/ContextProvider/Provider';
+import { getDataFromDB } from '@/api';
+import Loader from '@/components/Loader';
+import { TAddress } from '@/Interface';
 
 const ProceedToPayment = () => {
-  const { addresses } = useUser();
+  const { base_url, user } = useUser();
+  const [loading, setLoading] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState('');
+  const [addresses, setAddresses] = useState<TAddress[]>([]);
   const [location, setLocation] = useState<'Inside Dhaka' | 'Outside Dhaka'>(
     'Inside Dhaka',
   );
-  console.log(addresses);
+
+  useEffect(() => {
+    setLoading(true);
+    const manageAddress = async () => {
+      const result = await getDataFromDB(`${base_url}/address/${user?._id}`);
+      setAddresses(result.data);
+    };
+    manageAddress();
+    setLoading(false);
+  }, [base_url, user?._id, setLoading]);
 
   // Example: Total Price (Replace with actual cart total)
   const totalPrice = 2500;
@@ -40,11 +54,18 @@ const ProceedToPayment = () => {
     },
   ];
 
+  console.log(addresses);
+
+  if (loading) return <Loader />;
+
   return (
     <div className='min-h-screen bg-gray-100 '>
       <div className=' md:max-w-full max-w-[95%] w-fixedScreen mx-auto py-3 '>
         <div className=' flex flex-col md:flex-row items-start gap-6 p-4 md:p-8 w-[90%] mx-auto'>
-          {/* Left Sidebar - Payment Options */}
+
+
+          // Left Sidebar - Payment Options 
+
           <div className='w-full md:w-2/3 bg-white shadow-lg p-6 rounded-2xl'>
             <h2 className='text-xl font-semibold mb-4'>
               Choose Payment Method
@@ -88,14 +109,17 @@ const ProceedToPayment = () => {
             </RadioGroup>
           </div>
 
-          {/* Right Sidebar - Delivery Address & Order Summary */}
+          // Right Sidebar - Delivery Address & Order Summary 
+          
           <div className='w-full md:w-1/3 space-y-6'>
-            {/* Delivery Address Section */}
+
+            // Delivery Address Section 
+
             <div className='bg-white shadow-lg p-6 rounded-2xl'>
               <h2 className='text-xl font-semibold mb-4'>
                 Choose Your Delivery Address
               </h2>
-              {addresses.length > 0 ? (
+              {addresses?.length > 0 ? (
                 // Find the default address
                 addresses.some((address) => address.default) ? (
                   addresses
@@ -157,17 +181,20 @@ const ProceedToPayment = () => {
               )}
             </div>
 
-            {/* Order Summary Section */}
+            // Order Summary Section 
+
             <div className='bg-white shadow-lg p-6 rounded-2xl'>
               <h2 className='text-xl font-semibold mb-4'>Order Summary</h2>
 
-              {/* Total Price */}
+              // Total Price 
+
               <div className='flex justify-between text-lg font-medium'>
                 <span>Total Price:</span>
                 <span>৳ {totalPrice}</span>
               </div>
 
-              {/* Delivery Charge Section */}
+               // Delivery Charge Section 
+
               <div className='mt-4'>
                 <h3 className='text-md font-medium mb-2'>Delivery Charge</h3>
                 <RadioGroup
@@ -209,21 +236,247 @@ const ProceedToPayment = () => {
                 </RadioGroup>
               </div>
 
-              {/* Divider Line */}
+              // Divider Line 
+
               <hr className='my-4 border-gray-300' />
 
-              {/* Final Total */}
+              // Final Total 
+
               <div className='flex justify-between text-lg font-semibold'>
                 <span>Total:</span>
                 <span>৳ {finalTotal}</span>
               </div>
 
-              {/* Proceed Button */}
+              // Proceed Button 
+
               <Button className='mt-4 w-full'>Confirm Order</Button>
             </div>
           </div>
         </div>
       </div>{' '}
+    </div>
+  );
+};
+
+export default ProceedToPayment;
+*/
+
+import { useEffect, useState } from 'react';
+import { RadioGroup } from '@headlessui/react';
+import { Button } from '@/components/ui/button';
+import { Home, Truck } from 'lucide-react';
+import cod from '../../../../public/images/payment-images/cod.png';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useUser } from '@/ContextProvider/Provider';
+import { getDataFromDB, postToDB, updateDataIntoDB } from '@/api';
+import { TAddress, TProduct } from '@/Interface';
+import { useRouter } from 'next/navigation';
+
+const ProceedToPayment = () => {
+  const router = useRouter();
+  const { base_url, user, cart } = useUser();
+  const [loading, setLoading] = useState(false);
+  const [addresses, setAddresses] = useState<TAddress[]>([]);
+  const [location, setLocation] = useState<'Inside Dhaka' | 'Outside Dhaka'>(
+    'Inside Dhaka',
+  );
+  const [totalPrice, setTotalPrice] = useState<number>(0);
+
+  const deliveryCharge = location === 'Inside Dhaka' ? 60 : 120;
+  const finalTotal = totalPrice + deliveryCharge;
+
+  useEffect(() => {
+    setLoading(true);
+    const manageAddress = async () => {
+      const result = await getDataFromDB(`${base_url}/address/${user?._id}`);
+      setAddresses(result.data);
+    };
+
+    const storedPrice = localStorage.getItem('totalPrice');
+    if (storedPrice) {
+      setTotalPrice(Number(storedPrice));
+    }
+    manageAddress();
+    setLoading(false);
+  }, [base_url, user?._id, setLoading]);
+
+  const handleConfirmOrder = async () => {
+    try {
+      setLoading(true);
+      const confirmOrderData = {
+        order: {
+          userId: user?._id,
+          products: cart!.itemsInCart.map((item) => item.productId._id),
+          totalPrice: finalTotal,
+          location,
+          address: addresses.find((address) => address.default)?._id,
+        },
+      };
+
+      const result = await postToDB(
+        `${base_url}/orders/create-order`,
+        confirmOrderData,
+      );
+
+      console.log(result.data);
+
+      if (result.success) {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('order', JSON.stringify(result.data));
+        }
+        await updateDataIntoDB(
+          `${base_url}/my-cart/remove-items-from-cart/${user?._id}`,
+          {
+            products: result.data.products.map(
+              (product: TProduct) => product._id,
+            ),
+          },
+        );
+        router.push('/confirm-order');
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className='min-h-screen bg-gray-100 flex justify-center items-center p-6'>
+      <div className='w-full max-w-5xl bg-white shadow-lg rounded-2xl flex flex-col md:flex-row p-6 gap-6'>
+        {/* Left - Order Summary */}
+        <div className='w-full md:w-1/2 space-y-6'>
+          <div className='bg-gray-100 p-6 rounded-lg'>
+            <h2 className='text-xl font-semibold mb-4'>Delivery Address</h2>
+            {addresses?.length > 0 ? (
+              addresses.some((address) => address.default) ? (
+                addresses
+                  .filter((address) => address.default)
+                  .map((defaultAddress) => (
+                    <div
+                      key={defaultAddress._id}
+                      className='border p-4 rounded-lg bg-white flex flex-col gap-3'
+                    >
+                      <div className='flex items-center gap-3'>
+                        <Home size={20} className='text-gray-700' />
+                        <div>
+                          <p className='text-gray-700 font-semibold'>
+                            {defaultAddress.fullName}
+                          </p>
+                          <p className='text-gray-600 text-sm'>
+                            {defaultAddress.address}, {defaultAddress.city},{' '}
+                            {defaultAddress.division}
+                          </p>
+                          <p className='text-gray-500 text-xs'>
+                            {defaultAddress.phoneNumber}
+                          </p>
+                        </div>
+                      </div>
+                      <Button className='w-full'>
+                        <Link
+                          href='/profile/manage-address'
+                          className='flex items-center justify-center gap-2 w-full'
+                        >
+                          Manage Default Address
+                        </Link>
+                      </Button>
+                    </div>
+                  ))
+              ) : (
+                <Button className='w-full'>
+                  <Link
+                    href='/profile/manage-address'
+                    className='flex items-center justify-center gap-2 w-full'
+                  >
+                    Manage Default Address
+                  </Link>
+                </Button>
+              )
+            ) : (
+              <Button className='w-full'>
+                <Link
+                  href='/profile/add-new-address'
+                  className='flex items-center justify-center gap-2 w-full'
+                >
+                  Add Delivery Address
+                </Link>
+              </Button>
+            )}
+          </div>
+        </div>
+
+        {/* Right - Payment & Order Summary */}
+        <div className='w-full md:w-1/2 space-y-6'>
+          <div className='bg-gray-100 p-6 rounded-lg'>
+            <h2 className='text-xl font-semibold mb-4'>Payment Method</h2>
+            <div className='flex items-center gap-4 border p-4 rounded-lg bg-white'>
+              <Image src={cod} alt='Cash on Delivery' width={50} height={50} />
+              <span className='text-lg font-medium'>Cash on Delivery</span>
+            </div>
+          </div>
+
+          <div className='bg-gray-100 p-6 rounded-lg'>
+            <h2 className='text-xl font-semibold mb-4'>Order Summary</h2>
+            <div className='flex justify-between text-lg font-medium'>
+              <span>Total Price:</span>
+              <span>৳ {totalPrice}</span>
+            </div>
+            <div className='mt-4'>
+              <h3 className='text-md font-medium mb-2'>Delivery Charge</h3>
+              <RadioGroup
+                value={location}
+                onChange={setLocation}
+                className='space-y-3'
+              >
+                {[
+                  { name: 'Inside Dhaka', price: 60 },
+                  { name: 'Outside Dhaka', price: 120 },
+                ].map((option) => (
+                  <RadioGroup.Option key={option.name} value={option.name}>
+                    {({ checked }) => (
+                      <div
+                        className={`flex justify-between px-4 py-2 border rounded-lg cursor-pointer transition ${
+                          checked
+                            ? 'border-blue-500 bg-blue-50'
+                            : 'border-gray-300'
+                        }`}
+                      >
+                        <div className='flex items-center gap-3'>
+                          <Truck size={20} className='text-gray-600' />
+                          <span className='text-md'>{option.name}</span>
+                        </div>
+                        <div className='flex items-center gap-2'>
+                          <span className='text-gray-700'>
+                            ৳ {option.price}
+                          </span>
+                          {checked && (
+                            <span className='text-blue-500 font-semibold'>
+                              ✔
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </RadioGroup.Option>
+                ))}
+              </RadioGroup>
+            </div>
+            <hr className='my-4 border-gray-300' />
+            <div className='flex justify-between text-lg font-semibold'>
+              <span>Total:</span>
+              <span>৳ {finalTotal}</span>
+            </div>
+            <Button
+              className='mt-4 w-full'
+              onClick={handleConfirmOrder}
+              disabled={loading}
+            >
+              {loading ? 'Processing...' : 'Confirm Order'}
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

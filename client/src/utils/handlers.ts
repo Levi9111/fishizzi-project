@@ -1,11 +1,17 @@
-import {
-  deleteDataFromDB,
-  getDataFromDB,
-  postToDB,
-  updateDataIntoDB,
-} from '@/api';
+import { getDataFromDB, postToDB, updateDataIntoDB } from '@/api';
 import { TAddress, TCartItem, TCartItemInCart } from '@/Interface';
 import { toast } from 'sonner';
+
+const manageTotalItemsInCartFromLocalStorage = () => {
+  const cart = JSON.parse(localStorage.getItem('cart')!);
+  const totalItemsInCart =
+    cart?.itemsInCart?.reduce(
+      (accu: number, item: TCartItemInCart) => accu + item.quantity,
+      0,
+    ) || 0;
+
+  localStorage.setItem('totalItemsInCart', totalItemsInCart.toString());
+};
 
 export const handleAddToCart = async (
   userId: string,
@@ -44,6 +50,11 @@ export const handleAddToCart = async (
 
       if (result.success) {
         toast.success(result.message);
+        const updatedCart = await getDataFromDB(
+          `${base_url}/my-cart/${userId}`,
+        );
+        localStorage.setItem('cart', JSON.stringify(updatedCart.data));
+        manageTotalItemsInCartFromLocalStorage();
       } else {
         toast.warning(result.message);
       }
@@ -54,7 +65,6 @@ export const handleAddToCart = async (
     }
   }
 };
-
 export const handleUpdateQuantity = async (
   stock: number,
   item: TCartItemInCart,
@@ -62,8 +72,10 @@ export const handleUpdateQuantity = async (
   userId: string,
   base_url: string,
   setCart: (cart: TCartItem) => void,
-  setLoading?: (loading: boolean) => void,
+  setLoading: (loading: boolean) => void,
 ) => {
+  // Early return if quantity is invalid
+  setLoading(false);
   if (quantity > stock) {
     toast.warning('Sorry, we do not have enough stock for your order.');
     return;
@@ -78,28 +90,30 @@ export const handleUpdateQuantity = async (
     toast.warning('You can order a maximum of 8 units per product.');
     return;
   }
+
   try {
+    setLoading(true);
     const { _id: productId } = item.productId;
 
-    if (setLoading) setLoading(true);
-
     // Update cart on the server
-    const updatedCart = await updateDataIntoDB(
-      `${base_url}/my-cart/update-my-cart/${userId}`,
-      {
-        cart: { productId, quantity },
-      },
-    );
+    await updateDataIntoDB(`${base_url}/my-cart/update-my-cart/${userId}`, {
+      cart: { productId, quantity },
+    });
 
-    setCart(updatedCart);
-
+    // Refetch updated cart
     const refetchedCart = await getDataFromDB(`${base_url}/my-cart/${userId}`);
-    setCart(refetchedCart.data);
+    localStorage.setItem('cart', JSON.stringify(refetchedCart.data));
 
-    if (setLoading) setLoading(false);
+    if (refetchedCart.success) {
+      setCart(refetchedCart.data);
+    } else {
+      toast.error('Failed to update cart.');
+    }
   } catch (error) {
     console.error('Error updating cart:', error);
-    if (setLoading) setLoading(false);
+    toast.error('Error updating cart.');
+  } finally {
+    setLoading(false);
   }
 };
 
@@ -108,22 +122,26 @@ export const handleDeleteItem = async (
   productId: string,
   base_url: string,
   setCart: (cart: TCartItem) => void,
-  setLoading?: (loading: boolean) => void,
+  setLoading: (loading: boolean) => void,
 ) => {
   try {
-    if (setLoading) setLoading(true);
-    const updatedCart = await deleteDataFromDB(
+    setLoading(true);
+    const updatedCart = await updateDataIntoDB(
       `${base_url}/my-cart/remove-items-from-cart/${userId}`,
       {
-        productId,
+        products: [productId],
       },
     );
-    setCart(updatedCart.data);
-    if (setLoading) setLoading(false);
-    toast.success(updatedCart.message);
+    if (updatedCart.success) {
+      localStorage.setItem('cart', JSON.stringify(updatedCart.data));
+      setCart(updatedCart.data);
+      setLoading(false);
+      toast.success(updatedCart.message);
+    }
+    toast.error(updatedCart.message);
   } catch (error) {
     console.error('Error deleting item:', error);
-    if (setLoading) setLoading(false);
+    setLoading(false);
   }
 };
 
@@ -143,4 +161,8 @@ export const fetchAddresses = async (
   } finally {
     setLoading(false);
   }
+};
+
+export const handlers = {
+  manageTotalItemsInCartFromLocalStorage,
 };

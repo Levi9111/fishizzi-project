@@ -1,3 +1,7 @@
+// -------------------------------
+// 1. Product Related Interfaces
+// -------------------------------
+
 export interface Product {
   name: string;
   description: string;
@@ -20,31 +24,9 @@ export interface UpdateProductInfoProps {
   setProducts: (products: TProduct[]) => void;
 }
 
-export interface InputChangeEvent
-  extends React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> {
-  target: HTMLInputElement | (HTMLTextAreaElement & EventTarget);
-}
-
-export interface TUser {
-  _id: string;
-  name: string;
-  email: string;
-  image: string;
-  provider: string;
-  address?: string[] | null;
-  status: 'active' | 'blocked';
-  phoneNumber?: string;
-}
-
-export interface TAddressFormValues {
-  fullName: string;
-  phoneNumber: string;
-  landmark?: string;
-  division: string;
-  city: string;
-  policeStation: string;
-  address: string;
-}
+// -------------------------------
+// 2. Cart Related Interfaces
+// -------------------------------
 
 export interface TCartItemProduct {
   _id: string;
@@ -68,6 +50,31 @@ export interface TCartItem {
   itemsInCart: TCartItemInCart[];
 }
 
+// -------------------------------
+// 3. User & Address Related Interfaces
+// -------------------------------
+
+export interface TUser {
+  _id: string;
+  name: string;
+  email: string;
+  image: string;
+  provider: string;
+  address?: string[] | null;
+  status: 'active' | 'blocked';
+  phoneNumber?: string;
+}
+
+export interface TAddressFormValues {
+  fullName: string;
+  phoneNumber: string;
+  landmark?: string;
+  division: string;
+  city: string;
+  policeStation: string;
+  address: string;
+}
+
 export interface TAddress {
   _id: string;
   userId: string;
@@ -81,6 +88,10 @@ export interface TAddress {
   default: boolean;
 }
 
+// -------------------------------
+// 4. Blog Related Interfaces
+// -------------------------------
+
 export interface TBlog {
   _id: string;
   title: string;
@@ -88,4 +99,44 @@ export interface TBlog {
   content: string[];
   createdAt: string;
   updatedAt: string;
+}
+
+// -------------------------------
+// 5. Order Related Interfaces
+// -------------------------------
+
+export interface TOrderData {
+  userId: {
+    name: string;
+    email: string;
+  };
+  address: {
+    fullName: string;
+    phoneNumber: string;
+    division: string;
+    city: string;
+    policeStation: string;
+    address: string;
+  };
+  products: {
+    _id: string;
+    name: string;
+    description: string;
+    price: string;
+    stock: string;
+    category: string;
+    productImgUrl: string;
+  }[];
+  totalPrice: number;
+  trackingNumber: number;
+  status: string;
+}
+
+// -------------------------------
+// 6. Event Interfaces
+// -------------------------------
+
+export interface InputChangeEvent
+  extends React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> {
+  target: HTMLInputElement | (HTMLTextAreaElement & EventTarget);
 }

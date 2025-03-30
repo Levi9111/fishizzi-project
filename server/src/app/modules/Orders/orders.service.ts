@@ -8,6 +8,7 @@ import QueryBuilder from '../../builder/Querybuilder';
 import { User } from '../User/user.model';
 import { Address } from '../Address/address.model';
 import { Products } from '../Products/products.model';
+import { generateTrackingNumber } from '../../utils/orderTrackingNumber';
 
 const createOrderIntoDB = async (payload: TOrder) => {
   const { userId, products, address } = payload;
@@ -25,7 +26,12 @@ const createOrderIntoDB = async (payload: TOrder) => {
     throw new AppError(StatusCodes.NOT_FOUND, 'Products not found');
   }
 
-  const result = await Orders.create(payload);
+  const trackingNumber = await generateTrackingNumber();
+
+  payload.trackingNumber = +trackingNumber;
+
+  const createdOrder = await Orders.create(payload);
+  const result = await createdOrder.populate('userId address products');
 
   return result;
 };

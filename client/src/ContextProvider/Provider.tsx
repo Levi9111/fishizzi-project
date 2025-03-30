@@ -7,6 +7,7 @@ import {
   useState,
   ReactNode,
   useEffect,
+  useCallback,
 } from 'react';
 
 interface UserContextType {
@@ -15,6 +16,8 @@ interface UserContextType {
   cart: TCartItem | null;
   setCart: (cart: TCartItem | null) => void;
   base_url: string;
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
   admin_email: string;
   addresses: TAddress[];
   setAddresses: (addresses: TAddress[]) => void;
@@ -26,15 +29,35 @@ export const Provider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<TUser | null>(null);
   const [cart, setCart] = useState<TCartItem | null>(null);
   const [addresses, setAddresses] = useState<TAddress[]>([]);
+  const [loading, setLoading] = useState(true);
   const base_url = process.env.NEXT_PUBLIC_BASE_URL!;
   const admin_email = process.env.NEXT_PUBLIC_ADMIN_EMAIL!;
+
+  const memoizedSetCart = useCallback((newCart: TCartItem | null) => {
+    setCart(newCart);
+  }, []);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     const storedCart = localStorage.getItem('cart');
 
-    if (storedUser) setUser(JSON.parse(storedUser));
-    if (storedCart && cart === null) setCart(JSON.parse(storedCart));
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        console.error('Error parsing storedUser:', e);
+      }
+    }
+
+    if (storedCart) {
+      try {
+        if (cart === null) {
+          setCart(JSON.parse(storedCart));
+        }
+      } catch (e) {
+        console.error('Error parsing storedCart:', e);
+      }
+    }
   }, [cart]);
 
   return (
@@ -43,7 +66,9 @@ export const Provider = ({ children }: { children: ReactNode }) => {
         user,
         setUser,
         cart,
-        setCart,
+        setCart: memoizedSetCart,
+        loading,
+        setLoading,
         base_url,
         admin_email,
         addresses,

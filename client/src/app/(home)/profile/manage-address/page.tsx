@@ -41,6 +41,7 @@ const ManageAddresses = () => {
         default: addr._id === id,
       }));
       // TODO: ^^^^ Use this update local state functionality to update the cart
+      console.log(updatedAddresses);
       setAddresses(updatedAddresses);
       const result = await updateDataIntoDB(
         `${base_url}/address/default-address/${id}`,

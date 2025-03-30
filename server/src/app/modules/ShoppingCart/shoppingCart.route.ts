@@ -15,7 +15,7 @@ router.post(
 
 router.patch('/update-my-cart/:id', ShoppingCartControllers.updateCartItems);
 
-router.delete(
+router.patch(
   '/remove-items-from-cart/:id',
   ShoppingCartControllers.deleteCartItems,
 );
