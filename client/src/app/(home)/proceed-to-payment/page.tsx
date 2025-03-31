@@ -318,8 +318,6 @@ const ProceedToPayment = () => {
         quantity: item.quantity,
       }));
 
-      console.log('Cart products', products);
-
       const confirmOrderData = {
         order: {
           userId: user?._id,
@@ -355,7 +353,7 @@ const ProceedToPayment = () => {
         setLoading(false);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setLoading(false);
     }
   };

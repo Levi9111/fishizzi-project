@@ -27,7 +27,7 @@ const uploadToCloudinary = async (
         fs.unlinkSync(file.path);
       })
       .catch((error: UploadApiErrorResponse) => {
-        console.log('Cloudinary Upload Error :', error);
+        console.error('Cloudinary Upload Error :', error);
         reject(error);
       });
   });

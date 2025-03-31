@@ -41,7 +41,7 @@ const ResponsiveNav = ({
           )}
         </button>
 
-        <Link href={user ? '/profile' : '/login'}>
+        <Link href={user ? '/profile' : '/login'} title={user ? user.name : ''}>
           {user ? (
             <Image
               src={user.image}

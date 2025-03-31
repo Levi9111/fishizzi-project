@@ -10,8 +10,7 @@ const ManageUserInfo = () => {
 
   useEffect(() => {
     const getUserInfo = async () => {
-      const res = await getDataFromDB(`${base_url}/users`);
-      console.log(res);
+      // const res = await getDataFromDB(`${base_url}/users`);
     };
 
     getUserInfo();

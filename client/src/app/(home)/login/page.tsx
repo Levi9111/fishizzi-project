@@ -55,7 +55,6 @@ const LoginPage = () => {
         }
       } catch (error) {
         console.error('Error storing user:', error);
-        console.log(error);
       }
     };
 

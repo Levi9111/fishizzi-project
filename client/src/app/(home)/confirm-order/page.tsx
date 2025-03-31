@@ -11,13 +11,12 @@ const OrderConfirmation = () => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const orderData = JSON.parse(localStorage.getItem('order')!);
-    console.log('Order data', orderData.products[0].productId);
     if (orderData) {
       setOrder(orderData);
       // localStorage.removeItem('order');
       setLoading(false);
     } else {
-      console.log('No order found in localStorage.');
+      console.error('No order found in localStorage.');
       setLoading(false);
     }
   }, []);

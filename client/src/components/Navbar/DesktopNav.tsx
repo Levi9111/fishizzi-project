@@ -65,10 +65,14 @@ const DesktopNav = ({
       </div>
 
       {/* Delivery Address */}
-      <div className='flex items-center gap-2 bg-gray-800 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-700 transition'>
+      <Link
+        href='/profile/manage-address'
+        className='flex items-center gap-2 bg-gray-800 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-700 transition'
+        title='Select your delivery address'
+      >
         <Truck className='w-5 h-5' />
         <p className='hidden xl:block text-sm'>Select your delivery address</p>
-      </div>
+      </Link>
 
       {/* User Info */}
       <div className='flex items-center gap-4'>
@@ -78,7 +82,7 @@ const DesktopNav = ({
         </div>
 
         {/* User Icon */}
-        <Link href={user ? '/profile' : '/login'}>
+        <Link href={user ? '/profile' : '/login'} title={user ? user.name : ''}>
           {user ? (
             <Image
               src={user.image}

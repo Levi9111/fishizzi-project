@@ -76,8 +76,6 @@ const SingleOrder = () => {
             },
           );
 
-          console.log(updateProductQty);
-
           if (!updateProductQty.success) {
             toast.error(`Failed to update stock for ${product.productId.name}`);
             return null;

@@ -4,6 +4,7 @@ import { useUser } from '@/ContextProvider/Provider';
 import { TOrderData } from '@/Interface';
 import Link from 'next/link';
 import Slider from 'react-slick';
+import { toast } from 'sonner';
 
 const UserDetailsPage = () => {
   const { user, base_url } = useUser();
@@ -39,7 +40,7 @@ const UserDetailsPage = () => {
         setPreviousOrders(result.data);
         setLoading(false);
       } else {
-        console.log('Failed to cancel order');
+        toast.error('Failed to cancel order');
       }
     } catch (error) {
       console.error('Error canceling order:', error);
