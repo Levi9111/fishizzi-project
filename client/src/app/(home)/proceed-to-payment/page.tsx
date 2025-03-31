@@ -313,13 +313,17 @@ const ProceedToPayment = () => {
         return;
       }
 
+      const products = cart!.itemsInCart.map((item) => ({
+        productId: item.productId._id,
+        quantity: item.quantity,
+      }));
+
+      console.log('Cart products', products);
+
       const confirmOrderData = {
         order: {
           userId: user?._id,
-          products: cart!.itemsInCart.map((item) => ({
-            productId: item.productId._id,
-            quantity: item.quantity,
-          })),
+          products,
           totalPrice: finalTotal,
           location,
           address,
@@ -330,19 +334,23 @@ const ProceedToPayment = () => {
         `${base_url}/orders/create-order`,
         confirmOrderData,
       );
-      console.log(result);
-      if (result.success) {
+      if (result.success && window !== undefined) {
         if (typeof window !== 'undefined') {
           localStorage.setItem('order', JSON.stringify(result.data));
         }
+
+        const orderedProducts = result.data.products.map(
+          (product: TProduct) => product.productId._id,
+        );
+
+        // Remove ordered products from cart after confirminig order
         await updateDataIntoDB(
           `${base_url}/my-cart/remove-items-from-cart/${user?._id}`,
           {
-            products: result.data.products.map(
-              (product: TProduct) => product._id,
-            ),
+            products: orderedProducts,
           },
         );
+        localStorage.removeItem('cart');
         router.push('/confirm-order');
         setLoading(false);
       }

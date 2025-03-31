@@ -82,10 +82,10 @@ const updateCartItemsIntoDB = async (userId, payload) => {
     }
     await cart.save();
     // If cart is empty after update, delete it
-    if (cart.itemsInCart.length === 0) {
-        await shoppingCart_model_1.Cart.findOneAndDelete({ userId });
-        message = 'Cart is now empty and has been deleted.';
-    }
+    // if (cart.itemsInCart.length === 0) {
+    //   await Cart.findOneAndDelete({ userId });
+    //   message = 'Cart is now empty and has been deleted.';
+    // }
     return { cart, message };
 };
 // Get all cart items for a user
@@ -99,16 +99,18 @@ const getAllCartItemsFromDB = async (userId) => {
     return result;
 };
 // Delete all cart items (empty the cart)
-const deleteAllCartItemsFromDB = async (userId, productId) => {
+const deleteAllCartItemsFromDB = async (userId, products) => {
     const cart = await shoppingCart_model_1.Cart.findOne({ userId });
     if (!cart) {
         throw new AppError_1.default(http_status_codes_1.StatusCodes.NOT_FOUND, 'Cart not found');
     }
-    const itemIndex = cart.itemsInCart.findIndex((item) => item.productId.toString() === productId);
-    if (itemIndex === -1) {
-        throw new AppError_1.default(http_status_codes_1.StatusCodes.NOT_FOUND, 'Product not found in cart');
+    for (const productId of products) {
+        const itemIndex = cart.itemsInCart.findIndex((item) => item.productId.toString() === productId);
+        if (itemIndex === -1) {
+            throw new AppError_1.default(http_status_codes_1.StatusCodes.NOT_FOUND, 'Product not found in cart');
+        }
+        cart.itemsInCart.splice(itemIndex, 1);
     }
-    cart.itemsInCart.splice(itemIndex, 1);
     await cart.save();
     const result = await shoppingCart_model_1.Cart.findOne({ userId })
         .populate({

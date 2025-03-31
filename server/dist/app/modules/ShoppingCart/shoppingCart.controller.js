@@ -35,7 +35,7 @@ const getAllCartItems = (0, catchAsync_1.catchAsync)(async (req, res) => {
     });
 });
 const deleteCartItems = (0, catchAsync_1.catchAsync)(async (req, res) => {
-    const result = await shoppingCart_service_1.ShoppingCartServices.deleteAllCartItemsFromDB(req.params.id, req.body.productId);
+    const result = await shoppingCart_service_1.ShoppingCartServices.deleteAllCartItemsFromDB(req.params.id, req.body.products);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_codes_1.StatusCodes.OK,
         success: true,

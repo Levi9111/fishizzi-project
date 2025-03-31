@@ -36,6 +36,7 @@ const OrderSchema = new Schema<TOrder>(
       type: Number,
       required: true,
     },
+    userEmail: { type: String, required: true, unique: true },
     status: {
       type: String,
       enum: ['pending', 'confirmed', 'cancelled', 'delivered'],

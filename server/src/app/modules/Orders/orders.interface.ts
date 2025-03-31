@@ -10,5 +10,6 @@ export interface TOrder {
   }[];
   totalPrice: number;
   trackingNumber: number;
+  userEmail: string;
   status: 'pending' | 'confirmed' | 'cancelled' | 'delivered';
 }

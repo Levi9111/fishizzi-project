@@ -14,6 +14,10 @@ export interface TProduct extends Product {
   _id: string;
   productImgUrl: string;
   isDeleted: boolean;
+  productId: {
+    _id: string;
+    quantity: number;
+  };
 }
 
 export interface UpdateProductInfoProps {
@@ -136,6 +140,7 @@ export interface TOrderData {
   location: string;
   totalPrice: number;
   trackingNumber: number;
+  userEmail: string;
   status: string;
   createdAt: string;
   updatedAt: string;

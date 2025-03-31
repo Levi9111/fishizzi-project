@@ -127,14 +127,17 @@ const getAllCartItemsFromDB = async (userId: string) => {
   return result;
 };
 
-// Delete all cart items (empty the cart)
+// Remove all cart items (empty the cart)
 const deleteAllCartItemsFromDB = async (userId: string, products: string[]) => {
   const cart = await Cart.findOne({ userId });
   if (!cart) {
     throw new AppError(StatusCodes.NOT_FOUND, 'Cart not found');
   }
 
+  console.log(products);
+
   for (const productId of products) {
+    console.log(productId);
     const itemIndex = cart.itemsInCart.findIndex(
       (item) => item.productId.toString() === productId,
     );

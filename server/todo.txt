@@ -1,10 +1,8 @@
-1. create all orders page for all orders for admin
-2. create all orders page for user with only user's orders
-3. create single order page for both user and admin
-4. create a status changing functionality for every order for admin
-5. create a paginaiton for searching orders according to status
-6. Orders can be searched by the email if the admin wants that
-7. While searching by email there will be a dropdown at the top right corner. The dropdown will contain     emails of all the users.
+1. create all orders page for all orders for admin.✔
+2. create all orders page for user with only user's orders.✔
+3. create single order page for admin.✔
+4. create a status changing functionality for every order for admin.✔
+5. create a paginaiton for searching orders according to status.✔
 8. After an order is confirmed i.e. the status of the order is confirmed, the number of products ordered will be substrcted to the number of stocks of that product
 
 
@@ -12,5 +10,5 @@
 For all orders page.
 
 1. the most frequent orders will be shown first.
-2.there will be a dropdown btn at the top right corner to select orders to show based on status.
+2.there will be a dropdown btn at the top right corner to select orders to show based on status.✔
 3. the total number of orders shown at a time will be 10. Further orders will be paginated to the next page.

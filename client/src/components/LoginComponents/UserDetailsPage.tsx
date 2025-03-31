@@ -116,56 +116,54 @@ const UserDetailsPage = () => {
             <div className='flex items-center justify-center h-24 w-full'>
               <div className='w-12 h-12 border-2 border-gray-200 border-t-blue-900 rounded-full animate-spin' />
             </div>
+          ) : !previousOrders ? (
+            <div className='flex items-center justify-center h-24 w-full'>
+              <p className='text-lg text-gray-600'>No orders found.</p>
+            </div>
           ) : (
             <Slider {...sliderSettings}>
-              {previousOrders.length > 0 ? (
-                previousOrders.map((order) => (
-                  <div
-                    key={order._id}
-                    className='border-b p-4 shadow-[inset_0_1px_4px_0_rgb(0_0_0_/_0.1)] '
-                  >
-                    <h4 className='text-xl font-semibold'>{`Order #${order._id}`}</h4>
-                    <p className='text-md text-gray-600'>
-                      Total Price: ৳{order.totalPrice}
-                    </p>
-                    <p className='text-md text-gray-600'>
-                      Tracking Number: {order.trackingNumber}
-                    </p>
+              {previousOrders.map((order) => (
+                <div
+                  key={order._id}
+                  className='border-b p-4 shadow-[inset_0_1px_4px_0_rgb(0_0_0_/_0.1)] '
+                >
+                  <h4 className='text-xl font-semibold'>{`Order #${order._id}`}</h4>
+                  <p className='text-md text-gray-600'>
+                    Total Price: ৳{order.totalPrice}
+                  </p>
+                  <p className='text-md text-gray-600'>
+                    Tracking Number: {order.trackingNumber}
+                  </p>
 
-                    {/* Order status with colors */}
-                    <p className={`text-md font-semibold mt-2 capitalize`}>
-                      Status:{' '}
-                      <span
-                        className={
-                          order.status === 'pending'
-                            ? 'text-yellow-500'
-                            : order.status === 'confirmed'
-                            ? 'text-blue-500'
-                            : order.status === 'cancelled'
-                            ? 'text-red-500'
-                            : 'text-green-500'
-                        }
-                      >
-                        {order.status}.
-                      </span>
-                    </p>
+                  {/* Order status with colors */}
+                  <p className={`text-md font-semibold mt-2 capitalize`}>
+                    Status:{' '}
+                    <span
+                      className={
+                        order.status === 'pending'
+                          ? 'text-yellow-500'
+                          : order.status === 'confirmed'
+                          ? 'text-blue-500'
+                          : order.status === 'cancelled'
+                          ? 'text-red-500'
+                          : 'text-green-500'
+                      }
+                    >
+                      {order.status}.
+                    </span>
+                  </p>
 
-                    {/* Cancel button if the order is pending */}
-                    {order.status === 'pending' && (
-                      <button
-                        onClick={() => handleCancelOrder(order._id)}
-                        className='text-red-500 mt-2 underline'
-                      >
-                        Cancel Order
-                      </button>
-                    )}
-                  </div>
-                ))
-              ) : (
-                <p className='text-lg text-gray-500'>
-                  No previous orders found.
-                </p>
-              )}
+                  {/* Cancel button if the order is pending */}
+                  {order.status === 'pending' && (
+                    <button
+                      onClick={() => handleCancelOrder(order._id)}
+                      className='text-red-500 mt-2 underline'
+                    >
+                      Cancel Order
+                    </button>
+                  )}
+                </div>
+              ))}
             </Slider>
           )}
         </div>

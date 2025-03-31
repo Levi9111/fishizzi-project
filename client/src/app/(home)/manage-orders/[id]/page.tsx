@@ -2,7 +2,7 @@
 
 import { getDataFromDB, updateDataIntoDB } from '@/api';
 import { useUser } from '@/ContextProvider/Provider';
-import { TOrderData } from '@/Interface';
+import { TOrderData, TProduct } from '@/Interface';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
@@ -14,37 +14,98 @@ const SingleOrder = () => {
   const params = useParams();
   const [singleOrder, setSingleOrder] = useState<TOrderData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [allProducts, setAllProducts] = useState<{ [key: string]: number }>({});
 
   useEffect(() => {
     const fetchSingleOrder = async () => {
-      const response = await getDataFromDB(`${base_url}/orders/${params.id}`);
-      setSingleOrder(response.data);
-      console.log(response.data);
-      setLoading(false);
+      try {
+        const response = await getDataFromDB(`${base_url}/orders/${params.id}`);
+        setSingleOrder(response.data);
+        setLoading(false);
+
+        // Fetch all products
+        const allProductsData = await getDataFromDB(`${base_url}/products`);
+        // Store product stocks in a state as an object { productId: stock }
+        const stockMap = allProductsData.data.reduce(
+          (acc: Record<string, unknown>, product: TProduct) => {
+            acc[product._id] = Number(product.stock);
+            return acc;
+          },
+          {} as { [key: string]: number },
+        );
+
+        setAllProducts(stockMap);
+      } catch (error) {
+        console.error('Error fetching order or products:', error);
+      }
     };
+
     fetchSingleOrder();
   }, [base_url, params.id]);
 
   if (loading || singleOrder === null) return <Loader />;
-
   const handleUpdateStatus = async (status: string) => {
     try {
-      // TODO: on confirm order update the total stock of the ordered product
       const result = await updateDataIntoDB(
         `${base_url}/orders/update-order-status/${singleOrder._id}`,
         { status },
       );
 
-      if (status === 'confirmed') {
+      if (!result.success) {
+        toast.error('Failed to update order status. Please try again.');
+        return;
       }
 
-      if (result.success) {
-        setSingleOrder({ ...singleOrder, status });
-        toast.success('Status updated successfully');
+      // Update product stock only if order is confirmed
+      if (status === 'confirmed') {
+        const stockUpdates = singleOrder.products.map(async (product) => {
+          const productId = product.productId._id;
+          const currentStock = allProducts[productId];
+
+          if (currentStock < product.quantity) {
+            toast.error(`Not enough stock for ${product.productId.name}`);
+            return null;
+          }
+
+          const updateProductQty = await updateDataIntoDB(
+            `${base_url}/products/update-product/${productId}`,
+            {
+              product: {
+                stock: (currentStock - Number(product.quantity)).toString(),
+              }, // Deduct the correct quantity
+            },
+          );
+
+          console.log(updateProductQty);
+
+          if (!updateProductQty.success) {
+            toast.error(`Failed to update stock for ${product.productId.name}`);
+            return null;
+          }
+
+          return { productId, newStock: currentStock - product.quantity };
+        });
+
+        // Wait for all stock updates to complete
+        const updatedStocks = await Promise.all(stockUpdates);
+
+        // Update state for successful stock updates
+        const updatedStockState = updatedStocks.reduce(
+          (acc, item) => {
+            if (item) acc[item.productId] = item.newStock;
+            return acc;
+          },
+          { ...allProducts },
+        );
+
+        setAllProducts(updatedStockState);
       }
+
+      setSingleOrder((prev) => (prev ? { ...prev, status } : prev));
+      toast.success(`Order status updated to ${status}`);
     } catch (error) {
       console.error(error);
-      toast.error('Error updating order status');
+      toast.error('Error updating order status. Please try again.');
     }
   };
 
@@ -84,6 +145,7 @@ const SingleOrder = () => {
           />
           <div>
             <h3 className='text-lg font-semibold'>{singleOrder.userId.name}</h3>
+
             <p className='text-gray-600'>
               Phone: {singleOrder.address.phoneNumber}
             </p>

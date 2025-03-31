@@ -13,7 +13,7 @@ import { generateTrackingNumber } from '../../utils/orderTrackingNumber';
 const createOrderIntoDB = async (payload: TOrder) => {
   const { userId, products, address } = payload;
 
-  const userData = await User.find({ _id: userId });
+  const userData = await User.findOne({ _id: userId });
   if (!userData) {
     throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
   }
@@ -31,6 +31,7 @@ const createOrderIntoDB = async (payload: TOrder) => {
   const trackingNumber = await generateTrackingNumber();
 
   payload.trackingNumber = +trackingNumber;
+  payload.userEmail = userData.email;
 
   const createdOrder = await Orders.create(payload);
   const result = await createdOrder.populate(
@@ -57,7 +58,7 @@ const getAllOrdersFromDB = async (query: Record<string, unknown>) => {
     Orders.find()
       .populate({
         path: 'userId',
-        select: '_id name image status',
+        select: '_id name image status email',
       })
       .populate({
         path: 'address',
@@ -67,7 +68,7 @@ const getAllOrdersFromDB = async (query: Record<string, unknown>) => {
         path: 'products.productId',
         select: '_id name price productImgUrl',
       })
-      .select('location products totalPrice status trackingNumber')
+      .select('location products totalPrice userEmail status trackingNumber')
       .lean(),
     query,
   )
@@ -94,7 +95,7 @@ const getSingleOrderFromDB = async (orderId: string) => {
       path: 'products.productId',
       select: '_id name price productImgUrl quantity',
     })
-    .select('location totalPrice status trackingNumber')
+    .select('location totalPrice status userEmail trackingNumber products')
     .lean();
   if (!result) {
     throw new AppError(StatusCodes.NOT_FOUND, 'Order not found');
