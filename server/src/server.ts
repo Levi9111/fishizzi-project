@@ -7,14 +7,14 @@ async function main() {
   try {
     const connection = await mongoose.connect(config.database_url!);
     if (connection) {
-      console.log('Database connection established');
+      console.info('Database connection established');
     } else {
       console.error('DB connection failed');
     }
     seedSuperAdmin();
 
     app.listen(config.port, () => {
-      console.log(`app listening on port ${config.port}`);
+      console.info(`app listening on port ${config.port}`);
     });
   } catch (error) {
     console.error(error);

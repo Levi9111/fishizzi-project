@@ -1,4 +1,3 @@
-import { getDataFromDB } from '@/api';
 import { useUser } from '@/ContextProvider/Provider';
 import { useEffect } from 'react';
 

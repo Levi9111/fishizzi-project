@@ -54,7 +54,7 @@ const ProceedToPayment = () => {
     },
   ];
 
-  console.log(addresses);
+  
 
   if (loading) return <Loader />;
 
