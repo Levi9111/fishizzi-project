@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 
 const LoginDetails = () => {
   const router = useRouter();
-  const { admin_email, user } = useUser();
+  const { admin_email, developer_email, user } = useUser();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const LoginDetails = () => {
   if (isLoading) {
     return null;
   } else {
-    return user?.email === admin_email ? (
+    return user?.email === admin_email || user?.email === developer_email ? (
       <AdminContorlPage />
     ) : (
       <UserDetailsPage />

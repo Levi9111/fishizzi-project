@@ -19,6 +19,7 @@ interface UserContextType {
   loading: boolean;
   setLoading: (loading: boolean) => void;
   admin_email: string;
+  developer_email: string;
   addresses: TAddress[];
   setAddresses: (addresses: TAddress[]) => void;
 }
@@ -32,6 +33,7 @@ export const Provider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const base_url = process.env.NEXT_PUBLIC_BASE_URL!;
   const admin_email = process.env.NEXT_PUBLIC_ADMIN_EMAIL!;
+  const developer_email = process.env.NEXT_PUBLIC_DEVELOPER_EMAIL!;
 
   const memoizedSetCart = useCallback((newCart: TCartItem | null) => {
     setCart(newCart);
@@ -71,6 +73,7 @@ export const Provider = ({ children }: { children: ReactNode }) => {
         setLoading,
         base_url,
         admin_email,
+        developer_email,
         addresses,
         setAddresses,
       }}

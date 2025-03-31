@@ -98,13 +98,15 @@ const getAllCartItemsFromDB = async (userId) => {
         .exec();
     return result;
 };
-// Delete all cart items (empty the cart)
+// Remove all cart items (empty the cart)
 const deleteAllCartItemsFromDB = async (userId, products) => {
     const cart = await shoppingCart_model_1.Cart.findOne({ userId });
     if (!cart) {
         throw new AppError_1.default(http_status_codes_1.StatusCodes.NOT_FOUND, 'Cart not found');
     }
+    console.log(products);
     for (const productId of products) {
+        console.log(productId);
         const itemIndex = cart.itemsInCart.findIndex((item) => item.productId.toString() === productId);
         if (itemIndex === -1) {
             throw new AppError_1.default(http_status_codes_1.StatusCodes.NOT_FOUND, 'Product not found in cart');
