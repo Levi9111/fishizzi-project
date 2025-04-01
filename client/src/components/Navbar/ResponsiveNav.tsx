@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import logo from '../../../public/logo/logo.png';
-import { AlignLeft, ShoppingCart, User, X, Search } from 'lucide-react';
+import { AlignLeft, ShoppingCart, User, X, Search, MoreVertical } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
@@ -16,8 +16,11 @@ const ResponsiveNav = ({
   totalItemsInCart: number;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const closeSidebar = () => setIsOpen(false);
+  const toggleModal = () => setIsModalOpen(!isModalOpen);
+  const closeModal = () => setIsModalOpen(false);
 
   return (
     <div className='nav-md:hidden flex items-center justify-between p-4 bg-gray-900 text-white relative'>
@@ -50,36 +53,45 @@ const ResponsiveNav = ({
       </div>
 
       {/* Right Icons */}
-      <div className='flex items-center gap-4'>
-        <button className='relative'>
-          <Link href='/my-cart'>
-            <ShoppingCart className='w-6 h-6' />
-          </Link>
-          {totalItemsInCart > 0 && (
-            <span className='absolute -top-2 -right-2 rounded-full h-5 w-5 bg-red-500 flex items-center justify-center text-xs font-bold'>
-              {totalItemsInCart}
-            </span>
-          )}
+      <div className='relative'>
+        <button onClick={toggleModal}>
+          <MoreVertical className='w-6 h-6' />
         </button>
-
-        <Link href={user ? '/profile' : '/login'} title={user ? user.name : ''}>
-          {user ? (
-            <Image
-              src={user.image}
-              alt={user.name}
-              width={35}
-              height={35}
-              className='rounded-full'
-            />
-          ) : (
-            <User className='w-6 h-6' />
-          )}
-        </Link>
-
-        {/* Menu Toggle Button */}
-        <button onClick={() => setIsOpen(true)}>
-          <AlignLeft className='w-6 h-6' />
-        </button>
+        {isModalOpen && (
+          <div className='absolute right-0 mt-2 w-48 bg-gray-800 text-white rounded-lg shadow-lg py-2'>
+            <button className='block w-full text-left px-4 py-2 hover:bg-gray-700' onClick={closeModal}>
+              <Link href='/my-cart'>
+                <ShoppingCart className='w-6 h-6 inline-block mr-2' />
+                Cart
+              </Link>
+            </button>
+            <button className='block w-full text-left px-4 py-2 hover:bg-gray-700' onClick={closeModal}>
+              <Link href={user ? '/profile' : '/login'} title={user ? user.name : ''}>
+                {user ? (
+                  <>
+                    <Image
+                      src={user.image}
+                      alt={user.name}
+                      width={20}
+                      height={20}
+                      className='rounded-full inline-block mr-2'
+                    />
+                    {user.name}
+                  </>
+                ) : (
+                  <>
+                    <User className='w-6 h-6 inline-block mr-2' />
+                    Login
+                  </>
+                )}
+              </Link>
+            </button>
+            <button className='block w-full text-left px-4 py-2 hover:bg-gray-700' onClick={closeModal}>
+              <AlignLeft className='w-6 h-6 inline-block mr-2' />
+              Menu
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Sidebar */}
