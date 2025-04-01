@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import logo from '../../../public/logo/logo.png';
-import { AlignLeft, ShoppingCart, User, X, Search,EllipsisVertical as MoreVertical } from 'lucide-react';
+import { AlignLeft, ShoppingCart, User, X, Search, MoreVertical } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
@@ -63,6 +63,11 @@ const ResponsiveNav = ({
               <Link href='/my-cart'>
                 <ShoppingCart className='w-6 h-6 inline-block mr-2' />
                 Cart
+                {totalItemsInCart > 0 && (
+                  <span className='ml-2 rounded-full h-5 w-5 bg-red-500 flex items-center justify-center text-xs font-bold'>
+                    {totalItemsInCart}
+                  </span>
+                )}
               </Link>
             </button>
             <button className='block w-full text-left px-4 py-2 hover:bg-gray-700' onClick={closeModal}>
@@ -86,7 +91,7 @@ const ResponsiveNav = ({
                 )}
               </Link>
             </button>
-            <button className='block w-full text-left px-4 py-2 hover:bg-gray-700' onClick={closeModal}>
+            <button className='block w-full text-left px-4 py-2 hover:bg-gray-700' onClick={() => { closeModal(); setIsOpen(true); }}>
               <AlignLeft className='w-6 h-6 inline-block mr-2' />
               Menu
             </button>
