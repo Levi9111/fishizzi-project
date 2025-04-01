@@ -32,6 +32,23 @@ const ResponsiveNav = ({
         />
       </Link>
 
+      {/* Search Bar */}
+      <div className='relative flex-1 mx-4'>
+        <form className='flex items-center relative w-full'>
+          <Input
+            type='text'
+            placeholder='Search products'
+            className='pr-12 border-0 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-400 w-full'
+          />
+          <Button
+            type='submit'
+            className='absolute top-1/2 transform -translate-y-1/2 bg-yellow-400 hover:bg-yellow-500 text-white p-2 rounded-md right-0 w-9'
+          >
+            <Search className='w-5 h-5' />
+          </Button>
+        </form>
+      </div>
+
       {/* Right Icons */}
       <div className='flex items-center gap-4'>
         <button className='relative'>
@@ -74,26 +91,9 @@ const ResponsiveNav = ({
       >
         <div className='w-64 h-full bg-gray-800 text-white flex flex-col p-5 shadow-lg'>
           {/* Close Button */}
-          <button className='self-end mb-5' onClick={() => setIsOpen(false)}>
+          <button className='self-end mb-5' onClick={closeSidebar}>
             <X className='w-6 h-6' />
           </button>
-
-          {/* Search Bar */}
-          <div className='relative w-full mb-5'>
-            <form className='flex items-center relative w-full'>
-              <Input
-                type='text'
-                placeholder='Search products'
-                className='pr-12 border-0 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-400'
-              />
-              <Button
-                type='submit'
-                className='absolute top-1/2 transform -translate-y-1/2 bg-yellow-400 hover:bg-yellow-500 text-white p-2 rounded-md right-0 w-9'
-              >
-                <Search className='w-5 h-5' />
-              </Button>
-            </form>
-          </div>
 
           {/* Navigation Links */}
           <nav className='flex flex-col gap-4 text-lg'>
