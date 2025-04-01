@@ -1,10 +1,12 @@
 import Image from 'next/image';
 import logo from '../../../public/logo/logo.png';
-import { AlignLeft, ShoppingCart, User, X } from 'lucide-react';
+import { AlignLeft, ShoppingCart, User, X, Search } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { TUser } from '@/Interface';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
 
 const ResponsiveNav = ({
   user,
@@ -14,6 +16,8 @@ const ResponsiveNav = ({
   totalItemsInCart: number;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const closeSidebar = () => setIsOpen(false);
 
   return (
     <div className='nav-md:hidden flex items-center justify-between p-4 bg-gray-900 text-white relative'>
@@ -74,18 +78,35 @@ const ResponsiveNav = ({
             <X className='w-6 h-6' />
           </button>
 
+          {/* Search Bar */}
+          <div className='relative w-full mb-5'>
+            <form className='flex items-center relative w-full'>
+              <Input
+                type='text'
+                placeholder='Search products'
+                className='pr-12 border-0 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-400'
+              />
+              <Button
+                type='submit'
+                className='absolute top-1/2 transform -translate-y-1/2 bg-yellow-400 hover:bg-yellow-500 text-white p-2 rounded-md right-0 w-9'
+              >
+                <Search className='w-5 h-5' />
+              </Button>
+            </form>
+          </div>
+
           {/* Navigation Links */}
           <nav className='flex flex-col gap-4 text-lg'>
-            <Link href='/' className='hover:text-yellow-400 transition'>
+            <Link href='/' className='hover:text-yellow-400 transition' onClick={closeSidebar}>
               Home
             </Link>
-            <Link href='/shop' className='hover:text-yellow-400 transition'>
+            <Link href='/shop' className='hover:text-yellow-400 transition' onClick={closeSidebar}>
               Shop
             </Link>
-            <Link href='/blog' className='hover:text-yellow-400 transition'>
+            <Link href='/blog' className='hover:text-yellow-400 transition' onClick={closeSidebar}>
               Blog
             </Link>
-            <Link href='/about' className='hover:text-yellow-400 transition'>
+            <Link href='/about' className='hover:text-yellow-400 transition' onClick={closeSidebar}>
               About
             </Link>
           </nav>
