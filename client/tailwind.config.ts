@@ -81,8 +81,20 @@ export default {
           transform: 'scaleX(1)',
         },
       },
+      keyframes: {
+        scaleText: {
+          '0%': { transform: 'scale(1)' },
+          '10%': { transform: 'scale(1.7)' },
+          '20%': { transform: 'scale(1)' },
+          '30%': { transform: 'scale(1.7)' },
+          '40%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.7)' },
+          '60%': { transform: 'scale(1)' },
+        },
+      },
       animation: {
         scaleX: 'scaleX 200ms ease-in-out',
+        scaleText: 'scaleText 3s ease-in-out ',
       },
       screens: {
         'nav-xl': '1050px',

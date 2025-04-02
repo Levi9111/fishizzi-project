@@ -1,6 +1,13 @@
 import Image from 'next/image';
 import logo from '../../../public/logo/logo.png';
-import { AlignLeft, ShoppingCart, User, X, Search, MoreVertical } from 'lucide-react';
+import {
+  AlignLeft,
+  ShoppingCart,
+  User,
+  X,
+  Search,
+  MoreVertical,
+} from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
@@ -55,23 +62,32 @@ const ResponsiveNav = ({
       {/* Right Icons */}
       <div className='relative'>
         <button onClick={toggleModal}>
-          <MoreVertical className='w-6 h-6' />
+          <MoreVertical className='w-6 h-6 inline-block animate-scaleText text-6xl' />
         </button>
         {isModalOpen && (
-          <div className='absolute right-0 mt-2 w-48 bg-gray-800 text-white rounded-lg shadow-lg py-2'>
-            <button className='block w-full text-left px-4 py-2 hover:bg-gray-700' onClick={closeModal}>
+          <div className='absolute right-0 mt-2 w-48 bg-gray-800 text-white rounded-lg shadow-lg py-2relative z-20'>
+            <button
+              className='block w-full text-left px-4 py-2 hover:bg-gray-700'
+              onClick={closeModal}
+            >
               <Link href='/my-cart'>
-                <ShoppingCart className='w-6 h-6 inline-block mr-2' />
+                <ShoppingCart className='w-6 h-6 inline-block mr-2 relative' />
                 Cart
                 {totalItemsInCart > 0 && (
-                  <span className='ml-2 rounded-full h-5 w-5 bg-red-500 flex items-center justify-center text-xs font-bold'>
+                  <span className='ml-2 rounded-full h-4 w-4 bg-red-500 flex items-center justify-center text-[10px] font-bold absolute top-1 left-1'>
                     {totalItemsInCart}
                   </span>
                 )}
               </Link>
             </button>
-            <button className='block w-full text-left px-4 py-2 hover:bg-gray-700' onClick={closeModal}>
-              <Link href={user ? '/profile' : '/login'} title={user ? user.name : ''}>
+            <button
+              className='block w-full text-left px-4 py-2 hover:bg-gray-700'
+              onClick={closeModal}
+            >
+              <Link
+                href={user ? '/profile' : '/login'}
+                title={user ? user.name : ''}
+              >
                 {user ? (
                   <>
                     <Image
@@ -91,7 +107,13 @@ const ResponsiveNav = ({
                 )}
               </Link>
             </button>
-            <button className='block w-full text-left px-4 py-2 hover:bg-gray-700' onClick={() => { closeModal(); setIsOpen(true); }}>
+            <button
+              className='block w-full text-left px-4 py-2 hover:bg-gray-700'
+              onClick={() => {
+                closeModal();
+                setIsOpen(true);
+              }}
+            >
               <AlignLeft className='w-6 h-6 inline-block mr-2' />
               Menu
             </button>
@@ -114,16 +136,32 @@ const ResponsiveNav = ({
 
           {/* Navigation Links */}
           <nav className='flex flex-col gap-4 text-lg'>
-            <Link href='/' className='hover:text-yellow-400 transition' onClick={closeSidebar}>
+            <Link
+              href='/'
+              className='hover:text-yellow-400 transition'
+              onClick={closeSidebar}
+            >
               Home
             </Link>
-            <Link href='/shop' className='hover:text-yellow-400 transition' onClick={closeSidebar}>
+            <Link
+              href='/shop'
+              className='hover:text-yellow-400 transition'
+              onClick={closeSidebar}
+            >
               Shop
             </Link>
-            <Link href='/blog' className='hover:text-yellow-400 transition' onClick={closeSidebar}>
+            <Link
+              href='/blog'
+              className='hover:text-yellow-400 transition'
+              onClick={closeSidebar}
+            >
               Blog
             </Link>
-            <Link href='/about' className='hover:text-yellow-400 transition' onClick={closeSidebar}>
+            <Link
+              href='/about'
+              className='hover:text-yellow-400 transition'
+              onClick={closeSidebar}
+            >
               About
             </Link>
           </nav>
