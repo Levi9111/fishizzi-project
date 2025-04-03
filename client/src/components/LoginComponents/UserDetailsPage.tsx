@@ -128,8 +128,8 @@ const UserDetailsPage = () => {
                   key={order._id}
                   className='border-b p-4 shadow-[inset_0_1px_4px_0_rgb(0_0_0_/_0.1)] '
                 >
-                  <h4 className='text-lg md:text-xl font-semibold'>{`Order #${order._id}`}</h4>
-                  <p className='text-sm md:text-md text-gray-600'>
+                  <h4 className='text-xs md:text-xl font-semibold'>{`Order ID: #{order._id}`}</h4>
+                  <p className='text-sm md:text-md md:pt-0 pt-3 text-gray-600'>
                     Total Price: ৳{order.totalPrice}
                   </p>
                   <p className='text-sm md:text-md text-gray-600'>
