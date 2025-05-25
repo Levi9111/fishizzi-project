@@ -11,18 +11,18 @@ async function main() {
     try {
         const connection = await mongoose_1.default.connect(config_1.default.database_url);
         if (connection) {
-            console.log('Database connection established');
+            console.info('Database connection established');
         }
         else {
-            console.log('DB connection failed');
+            console.error('DB connection failed');
         }
         (0, DB_1.default)();
         app_1.default.listen(config_1.default.port, () => {
-            console.log(`app listening on port ${config_1.default.port}`);
+            console.info(`app listening on port ${config_1.default.port}`);
         });
     }
     catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 main();
