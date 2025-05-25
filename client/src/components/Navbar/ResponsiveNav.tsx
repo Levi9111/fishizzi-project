@@ -1,3 +1,4 @@
+'use client';
 import Image from 'next/image';
 import logo from '../../../public/logo/logo.png';
 import {
@@ -11,17 +12,13 @@ import {
 import Link from 'next/link';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { TUser } from '@/Interface';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+import { useUser } from '@/ContextProvider/Provider';
 
-const ResponsiveNav = ({
-  user,
-  totalItemsInCart,
-}: {
-  user: TUser | null;
-  totalItemsInCart: number;
-}) => {
+const ResponsiveNav = () => {
+  const { user, totalItemsInCart } = useUser();
+
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 

@@ -27,7 +27,6 @@ const ManageAddresses = () => {
     try {
       await deleteDataFromDB(`${base_url}/address/${id}`);
       setAddresses(addresses.filter((addr) => addr._id !== id));
-      // TODO ^^^^^ Try out this filter logic on every delete
     } catch (error) {
       console.error('Error deleting address:', error);
     }
@@ -40,7 +39,6 @@ const ManageAddresses = () => {
         ...addr,
         default: addr._id === id,
       }));
-      // TODO: ^^^^ Use this update local state functionality to update the cart
       setAddresses(updatedAddresses);
       const result = await updateDataIntoDB(
         `${base_url}/address/default-address/${id}`,

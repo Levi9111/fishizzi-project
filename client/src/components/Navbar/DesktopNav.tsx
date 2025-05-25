@@ -1,21 +1,14 @@
-// TODO: Add HelpCircle functionality later for user support
-// import { HelpCircle } from 'lucide-react';
-
+'use client';
 import Image from 'next/image';
 import logo from '../../../public/logo/logo.png';
 import { Search, ShoppingCart, Truck, User } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import Link from 'next/link';
-import { TUser } from '@/Interface';
+import { useUser } from '@/ContextProvider/Provider';
 
-const DesktopNav = ({
-  user,
-  totalItemsInCart,
-}: {
-  user: TUser | null;
-  totalItemsInCart: number;
-}) => {
+const DesktopNav = () => {
+  const { user, totalItemsInCart } = useUser();
   return (
     <div className='hidden md:flex justify-between items-center w-full py-3 px-6 bg-gray-900 text-white rounded-lg shadow-lg'>
       {/* Logo */}

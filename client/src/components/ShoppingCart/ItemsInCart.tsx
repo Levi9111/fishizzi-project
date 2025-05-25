@@ -10,7 +10,8 @@ import { getDataFromDB } from '@/api';
 
 // TODO: Too many bugs. Fix for now
 const ItemsInCart = ({ item }: { item: TCartItemInCart }) => {
-  const { user, base_url, setCart, setLoading } = useUser();
+  const { user, base_url, setCart, setLoading, setTotalItemsInCart } =
+    useUser();
   const [product, setProduct] = useState<Product | null>(null);
 
   const { _id: productId } = item.productId;
@@ -43,7 +44,7 @@ const ItemsInCart = ({ item }: { item: TCartItemInCart }) => {
       setLoading(true);
     }
 
-    await handleUpdateQuantity(
+    const result = await handleUpdateQuantity(
       Number(product?.stock),
       item,
       newQty,
@@ -52,6 +53,11 @@ const ItemsInCart = ({ item }: { item: TCartItemInCart }) => {
       setCart,
       setLoading,
     );
+    const totalQuantity = result.data.itemsInCart.reduce(
+      (acc: number, item: TCartItemInCart) => acc + item.quantity,
+      0,
+    );
+    setTotalItemsInCart(totalQuantity);
   };
 
   return (
@@ -95,15 +101,21 @@ const ItemsInCart = ({ item }: { item: TCartItemInCart }) => {
         </Button>
         <Button
           variant='destructive'
-          onClick={() =>
-            handleDeleteItem(
+          onClick={async () => {
+            const result = await handleDeleteItem(
               user._id,
               item.productId._id,
               base_url,
               setCart,
               setLoading,
-            )
-          }
+            );
+
+            const totalQuantity = result.data.itemsInCart.reduce(
+              (acc: number, item: TCartItemInCart) => acc + item.quantity,
+              0,
+            );
+            setTotalItemsInCart(totalQuantity);
+          }}
         >
           <Trash2 size={16} />
         </Button>

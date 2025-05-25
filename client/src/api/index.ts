@@ -38,6 +38,11 @@ export const postToDB = async (
         : { 'Content-Type': 'application/json' },
   });
 
+  if (!response.ok) {
+    const errotext = response.text();
+    console.log(errotext);
+  }
+
   const result = await response.json();
 
   return result;

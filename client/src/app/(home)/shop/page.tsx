@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { getDataFromDB } from '@/api';
 import { useUser } from '@/ContextProvider/Provider';
-import { TProduct } from '@/Interface';
+import { TCartItemInCart, TProduct } from '@/Interface';
 import Image from 'next/image';
 import Loader from '@/components/Loader';
 import { AlertCircle, CheckCircle } from 'lucide-react';
@@ -10,10 +10,9 @@ import Link from 'next/link';
 import { handleAddToCart } from '@/utils/handlers';
 import { useRouter } from 'next/navigation';
 
-// TODO: bug: cart is not being updated properly
 const ShopPage = () => {
   const [products, setProducts] = useState<TProduct[]>([]);
-  const { user, base_url } = useUser();
+  const { user, base_url, setTotalItemsInCart } = useUser();
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -96,15 +95,21 @@ const ShopPage = () => {
 
                 {/* Add to Cart Button */}
                 <button
-                  onClick={() =>
-                    handleAddToCart(
+                  onClick={async () => {
+                    const result = await handleAddToCart(
                       user?._id as string,
                       product._id,
                       base_url,
                       +product.stock,
                       setLoading,
-                    )
-                  }
+                    );
+                    const totalQuantity = result.data.itemsInCart.reduce(
+                      (acc: number, item: TCartItemInCart) =>
+                        acc + item.quantity,
+                      0,
+                    );
+                    setTotalItemsInCart(totalQuantity);
+                  }}
                   className='mt-4 w-full py-2 px-4 bg-gray-700 hover:bg-gray-900 text-white font-semibold rounded-lg  transition duration-200 active:scale-95'
                 >
                   Add to Cart

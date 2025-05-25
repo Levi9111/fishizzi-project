@@ -3,14 +3,16 @@ import { TAddress, TCartItem, TCartItemInCart } from '@/Interface';
 import { toast } from 'sonner';
 
 const manageTotalItemsInCartFromLocalStorage = () => {
-  const cart = JSON.parse(localStorage.getItem('cart')!);
-  const totalItemsInCart =
+  const cart = JSON.parse(localStorage.getItem('cart') || '{}');
+  const total =
     cart?.itemsInCart?.reduce(
-      (accu: number, item: TCartItemInCart) => accu + item.quantity,
+      (acc: number, item: TCartItemInCart) => acc + item.quantity,
       0,
     ) || 0;
+  localStorage.setItem('totalItemsInCart', JSON.stringify(total));
 
-  localStorage.setItem('totalItemsInCart', totalItemsInCart.toString());
+  // Emit custom event
+  window.dispatchEvent(new Event('cart-updated'));
 };
 
 export const handleAddToCart = async (
@@ -59,6 +61,7 @@ export const handleAddToCart = async (
         toast.warning(result.message);
       }
       if (setLoading) setLoading(false);
+      return result;
     } catch (error) {
       console.error(error);
       if (setLoading) setLoading(false);
@@ -96,9 +99,12 @@ export const handleUpdateQuantity = async (
     const { _id: productId } = item.productId;
 
     // Update cart on the server
-    await updateDataIntoDB(`${base_url}/my-cart/update-my-cart/${userId}`, {
-      cart: { productId, quantity },
-    });
+    const updatedData = await updateDataIntoDB(
+      `${base_url}/my-cart/update-my-cart/${userId}`,
+      {
+        cart: { productId, quantity },
+      },
+    );
 
     // Refetch updated cart
     const refetchedCart = await getDataFromDB(`${base_url}/my-cart/${userId}`);
@@ -109,6 +115,8 @@ export const handleUpdateQuantity = async (
     } else {
       toast.error('Failed to update cart.');
     }
+
+    return updatedData;
   } catch (error) {
     console.error('Error updating cart:', error);
     toast.error('Error updating cart.');
@@ -139,6 +147,7 @@ export const handleDeleteItem = async (
       toast.success(updatedCart.message);
     }
     toast.error(updatedCart.message);
+    return updatedCart;
   } catch (error) {
     console.error('Error deleting item:', error);
     setLoading(false);
