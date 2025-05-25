@@ -1,5 +1,5 @@
 import { signIn } from 'next-auth/react';
-import { FaFacebook, FaGoogle } from 'react-icons/fa';
+import { FaGoogle } from 'react-icons/fa';
 
 const LoginRedirectPage = () => {
   return (
@@ -15,12 +15,12 @@ const LoginRedirectPage = () => {
         >
           <FaGoogle className='mr-2' /> Continue with Google
         </button>
-        <button
+        {/* <button
           onClick={() => signIn('facebook')}
           className='flex items-center justify-center w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition'
         >
           <FaFacebook className='mr-2' /> Continue with Facebook
-        </button>
+        </button> */}
       </div>
     </div>
   );
