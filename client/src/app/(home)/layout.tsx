@@ -12,15 +12,8 @@ export default function HomeLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const {
-    totalItemsInCart,
-    setTotalItemsInCart,
-    base_url,
-    user,
-    loading,
-    setLoading,
-  } = useUser();
-  console.log(totalItemsInCart);
+  const { setTotalItemsInCart, base_url, user, loading, setLoading } =
+    useUser();
 
   useEffect(() => {
     const fetchData = async () => {

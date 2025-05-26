@@ -1,9 +1,7 @@
 'use client';
 import Image from 'next/image';
 import logo from '../../../public/logo/logo.png';
-import { Search, ShoppingCart, Truck, User } from 'lucide-react';
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
+import { ShoppingCart, Truck, User } from 'lucide-react';
 import Link from 'next/link';
 import { useUser } from '@/ContextProvider/Provider';
 
@@ -23,8 +21,8 @@ const DesktopNav = () => {
       </Link>
 
       {/* Navigation Links */}
-      <nav>
-        <ul className='flex items-center gap-6 text-lg font-medium'>
+      <nav className='flex-1 ml-8'>
+        <ul className='flex items-center gap-8 text-lg font-medium'>
           <li className='hover:text-yellow-400 transition'>
             <Link href='/'>Home</Link>
           </li>
@@ -40,35 +38,20 @@ const DesktopNav = () => {
         </ul>
       </nav>
 
-      {/* Search Bar */}
-      <div className='relative w-80'>
-        <form className='flex items-center relative w-full'>
-          <Input
-            type='text'
-            placeholder='Search products'
-            className='pr-12 border-0 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-yellow-400'
-          />
-          <Button
-            type='submit'
-            className='absolute top-1/2  transform -translate-y-1/2 bg-yellow-400 hover:bg-yellow-500 text-white p-2 rounded-md right-0 w-9'
-          >
-            <Search className='w-5 h-5' />
-          </Button>
-        </form>
-      </div>
+      {/* Right Section */}
+      <div className='flex items-center gap-6'>
+        {/* Delivery Address */}
+        <Link
+          href='/profile/manage-address'
+          className='flex items-center gap-2 bg-gray-800 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-700 transition'
+          title='Select your delivery address'
+        >
+          <Truck className='w-5 h-5' />
+          <p className='hidden xl:block text-sm'>
+            Select your delivery address
+          </p>
+        </Link>
 
-      {/* Delivery Address */}
-      <Link
-        href='/profile/manage-address'
-        className='flex items-center gap-2 bg-gray-800 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-700 transition'
-        title='Select your delivery address'
-      >
-        <Truck className='w-5 h-5' />
-        <p className='hidden xl:block text-sm'>Select your delivery address</p>
-      </Link>
-
-      {/* User Info */}
-      <div className='flex items-center gap-4'>
         {/* Language Selector */}
         <div className='flex items-center gap-2 bg-gray-800 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-700 transition'>
           <p className='text-lg'>বাংলা</p>
