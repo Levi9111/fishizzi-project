@@ -62,7 +62,7 @@ const MobileNav = () => {
             <Search className='w-5 h-5' />
           </Button> */}
 
-          <Link href='/cart'>
+          <Link href='/my-cart'>
             <Button
               variant='ghost'
               size='sm'

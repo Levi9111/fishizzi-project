@@ -14,10 +14,16 @@ import { isEqual } from 'lodash';
 
 const CartPage = () => {
   const { user, base_url, cart, setCart, loading, setLoading } = useUser();
+
   const router = useRouter();
 
   useEffect(() => {
+    localStorage.removeItem('url');
+  }, []);
+
+  useEffect(() => {
     if (user === null) {
+      localStorage.setItem('url', 'shop');
       router.push('/login');
       return;
     }
