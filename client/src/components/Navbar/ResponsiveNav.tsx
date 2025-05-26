@@ -13,22 +13,16 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-
-// Mock user context - replace with your actual context
-const useUser = () => ({
-  user: null, // or your user object
-  totalItemsInCart: 3, // mock cart count
-});
+import { useUser } from '@/ContextProvider/Provider';
 
 const MobileNav = () => {
   const { user, totalItemsInCart } = useUser();
   const pathname = usePathname();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
 
   const closeSidebar = () => setIsOpen(false);
-  const toggleSearch = () => setShowSearch(!showSearch);
+  // const toggleSearch = () => setShowSearch(!showSearch);
 
   const navItems = [
     { href: '/', label: 'Home', icon: Home },
