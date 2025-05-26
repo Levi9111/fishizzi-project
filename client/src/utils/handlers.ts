@@ -75,10 +75,10 @@ export const handleUpdateQuantity = async (
   userId: string,
   base_url: string,
   setCart: (cart: TCartItem) => void,
-  setLoading: (loading: boolean) => void,
+  setLoading?: (loading: boolean) => void,
 ) => {
   // Early return if quantity is invalid
-  setLoading(false);
+  if (setLoading) setLoading(false);
   if (quantity > stock) {
     toast.warning('Sorry, we do not have enough stock for your order.');
     return;
@@ -95,7 +95,8 @@ export const handleUpdateQuantity = async (
   }
 
   try {
-    setLoading(true);
+    if (setLoading) setLoading(true);
+
     const { _id: productId } = item.productId;
 
     // Update cart on the server
@@ -121,7 +122,7 @@ export const handleUpdateQuantity = async (
     console.error('Error updating cart:', error);
     toast.error('Error updating cart.');
   } finally {
-    setLoading(false);
+    if (setLoading) setLoading(false);
   }
 };
 

@@ -7,7 +7,6 @@ import {
   useContext,
   useState,
   ReactNode,
-  useEffect,
   useCallback,
 } from 'react';
 
@@ -42,23 +41,6 @@ export const Provider = ({ children }: { children: ReactNode }) => {
   const memoizedSetCart = useCallback((newCart: TCartItem | null) => {
     setCart(newCart);
   }, []);
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    const storedCart = localStorage.getItem('cart');
-
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch (e) {
-        console.error('Error parsing storedUser:', e);
-      }
-    }
-
-    if (cart === null && storedCart) {
-      setCart(JSON.parse(storedCart));
-    }
-  }, [cart]);
 
   return (
     <UserContext.Provider

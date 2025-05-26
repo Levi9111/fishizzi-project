@@ -7,31 +7,34 @@ import { Button } from '../ui/button';
 import Link from 'next/link';
 import { handleDeleteItem, handleUpdateQuantity } from '@/utils/handlers';
 import { getDataFromDB } from '@/api';
+import Loader from '../Loader';
 
-// TODO: Too many bugs. Fix for now
 const ItemsInCart = ({ item }: { item: TCartItemInCart }) => {
-  const { user, base_url, setCart, setLoading, setTotalItemsInCart } =
+  const { user, base_url, setCart, loading, setLoading, setTotalItemsInCart } =
     useUser();
   const [product, setProduct] = useState<Product | null>(null);
-
+  const [itemLoading, setItemLoading] = useState(false);
   const { _id: productId } = item.productId;
 
   useEffect(() => {
     const fetchProduct = async () => {
+      setLoading(true);
       try {
-        // setLoading(true);
         const res = await getDataFromDB(`${base_url}/products/${productId}`);
         if (res.data) {
           setProduct(res.data);
+          setLoading(false);
         }
       } catch (error) {
         console.error('Error fetching product:', error);
+        setLoading(false);
       } finally {
         setLoading(false);
       }
     };
 
     fetchProduct();
+    setLoading(false);
   }, [productId, base_url, setLoading]);
 
   if (!user) {
@@ -39,11 +42,13 @@ const ItemsInCart = ({ item }: { item: TCartItemInCart }) => {
     return;
   }
 
+  if (loading) return <Loader />;
+
   const updateQuantity = async (newQty: number) => {
     if (!product || !product.stock) {
       setLoading(true);
     }
-
+    setItemLoading(true);
     const result = await handleUpdateQuantity(
       Number(product?.stock),
       item,
@@ -51,13 +56,14 @@ const ItemsInCart = ({ item }: { item: TCartItemInCart }) => {
       user._id,
       base_url,
       setCart,
-      setLoading,
+      setItemLoading,
     );
     const totalQuantity = result.data.itemsInCart.reduce(
       (acc: number, item: TCartItemInCart) => acc + item.quantity,
       0,
     );
     setTotalItemsInCart(totalQuantity);
+    setItemLoading(false);
   };
 
   return (
@@ -95,19 +101,28 @@ const ItemsInCart = ({ item }: { item: TCartItemInCart }) => {
         >
           <Minus size={16} />
         </Button>
-        <span className='text-lg'>{item.quantity}</span>
+        <div className='w-8 h-8 flex items-center justify-center'>
+          {itemLoading ? (
+            <span className='w-4 h-4 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin' />
+          ) : (
+            <span className='text-lg'>{item.quantity}</span>
+          )}
+        </div>
+
         <Button onClick={() => updateQuantity(+item.quantity + 1)}>
           <Plus size={16} />
         </Button>
         <Button
           variant='destructive'
           onClick={async () => {
+            setItemLoading(true);
+
             const result = await handleDeleteItem(
               user._id,
               item.productId._id,
               base_url,
               setCart,
-              setLoading,
+              setItemLoading,
             );
 
             const totalQuantity = result.data.itemsInCart.reduce(
@@ -115,6 +130,7 @@ const ItemsInCart = ({ item }: { item: TCartItemInCart }) => {
               0,
             );
             setTotalItemsInCart(totalQuantity);
+            setItemLoading(false);
           }}
         >
           <Trash2 size={16} />

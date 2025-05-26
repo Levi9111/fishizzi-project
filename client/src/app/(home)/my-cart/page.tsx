@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useUser } from '@/ContextProvider/Provider';
 import { getDataFromDB } from '@/api';
 import { Button } from '@/components/ui/button';
-import { ShoppingCart } from 'lucide-react';
+import { PlusCircle, ShoppingCart } from 'lucide-react';
 import Loader from '@/components/Loader';
 import Link from 'next/link';
 import { FaHeart } from 'react-icons/fa';
@@ -12,9 +12,6 @@ import { useRouter } from 'next/navigation';
 import ItemsInCart from '@/components/ShoppingCart/ItemsInCart';
 import { isEqual } from 'lodash';
 
-// TODO: update product loading time is too much. Must reduce it later
-
-// TODO Full of bugs.Surrender for now.
 const CartPage = () => {
   const { user, base_url, cart, setCart, loading, setLoading } = useUser();
   const router = useRouter();
@@ -24,6 +21,7 @@ const CartPage = () => {
       router.push('/login');
       return;
     }
+
     const fetchCart = async () => {
       try {
         const response = await getDataFromDB(
@@ -43,10 +41,9 @@ const CartPage = () => {
     if (user) {
       fetchCart();
     }
-  }, [user, base_url, router, setCart, cart, setLoading]);
+  }, [user, base_url, router, cart, setCart, setLoading]);
 
   if (loading) return <Loader />;
-
   if (!user) return null;
 
   if (!cart || cart.itemsInCart?.length === 0) {
@@ -90,9 +87,10 @@ const CartPage = () => {
     <div className='p-6 min-h-screen bg-gray-100'>
       <h1 className='text-3xl font-bold text-center mb-6'>My Cart</h1>
       <div className='max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-lg'>
-        {cart?.itemsInCart?.map((item) => (
+        {cart.itemsInCart?.map((item) => (
           <ItemsInCart item={item} key={item._id} />
         ))}
+
         <div className='flex justify-between items-center mt-6 flex-wrap'>
           <h2 className='text-xl font-bold w-full sm:w-auto'>
             Total: BDT {totalPrice}
@@ -104,8 +102,20 @@ const CartPage = () => {
             <Link href='/proceed-to-payment'>Proceed to Confirmation</Link>
           </Button>
         </div>
+
+        {/* ➕ Minimal "Add More Items" button */}
+        <div className='mt-4 text-center'>
+          <Link
+            href='/shop'
+            className='inline-block text-sm text-primary hover:text-primary/90 hover:underline  transition'
+          >
+            <PlusCircle className='w-4 h-4 inline-block mr-1' />
+            <span>Add more items</span>
+          </Link>
+        </div>
       </div>
     </div>
   );
 };
+
 export default CartPage;
